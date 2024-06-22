@@ -3,6 +3,9 @@ import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import './App.css'
 
+import P5Wrapper from './components/P5Wrapper'
+import {exampleSketch} from './p5/exampleSketch'
+
 function App() {
   const [count, setCount] = useState(0)
 
@@ -28,6 +31,7 @@ function App() {
       <p className="read-the-docs">
         Click on the Vite and React logos to learn more
       </p>
+      <P5Wrapper sketch={exampleSketch} />
     </>
   )
 }
