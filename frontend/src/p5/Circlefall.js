@@ -33,7 +33,6 @@ export const Circlefall = (p) => {
 
         for(let i = 0; i < circles.length; i++){
             circles[i].draw();
-            circles[i].update();
 
             if (circles[i].y > p.height + circles[i].radius){
                 circles.splice(i, 1);
