@@ -5,6 +5,7 @@ import './App.css'
 
 import P5Wrapper from './components/P5Wrapper'
 import {exampleSketch} from './p5/exampleSketch'
+import {Circlefall} from './p5/Circlefall'
 
 function App() {
   const [count, setCount] = useState(0)
@@ -31,7 +32,7 @@ function App() {
       <p className="read-the-docs">
         Click on the Vite and React logos to learn more
       </p>
-      <P5Wrapper sketch={exampleSketch} />
+      <P5Wrapper sketch={Circlefall} />
     </>
   )
 }

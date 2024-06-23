@@ -1,5 +1,3 @@
-import p5 from 'p5';
-
 export const exampleSketch = (p) => {
   let x = 100;
   let y = 100;
