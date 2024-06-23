@@ -9,9 +9,29 @@ import {Circlefall} from './p5/Circlefall'
 import {Gridshot} from './p5/Gridshot'
 
 function App() {
+  const [sketch, setSketch] = useState([Circlefall, "Circlefall"]);
+
+
+  const switchGamemodes = () => {
+    switch (sketch[1]) {
+      case "Circlefall":
+        setSketch([Gridshot, "Gridshot"]);
+        break;
+      case "Gridshot":
+        setSketch([Circlefall, "Circlefall"]);
+        break
+      default:
+        setSketch([Circlefall, "Circlefall"]);
+        break;
+    }
+
+  }
   return (
     <>
-      <P5Wrapper sketch={Gridshot} />
+      <button onClick={switchGamemodes}>Switch Gamemodes</button>
+      <br></br>
+      <br></br>
+      <P5Wrapper sketch={sketch[0]} />
     </>
   )
 }
