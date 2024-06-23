@@ -2,6 +2,7 @@ import { GridPoint } from "./GridPoint";
 
 class Grid {
     constructor(numRows, numCols, xMin, xMax, yMin, yMax){
+        // Initialize grid of GridPoint objects based on parameters
         this.grid = []
         for(let i = 0; i < numRows; i++){
             this.grid.push([]);
@@ -12,7 +13,8 @@ class Grid {
             }
         }
     }
-
+    
+    //------Utility------//
     isPointOccupied(row, col){
         return this.grid[row][col].occupied;
     }
@@ -23,7 +25,7 @@ class Grid {
     setPointNotOccupied(row, col){
         this.grid[row][col].occupied = false;
     }
-    
+
     getCoordinates(row, col){
         let point = this.grid[row][col];
         return [point.x, point.y];
