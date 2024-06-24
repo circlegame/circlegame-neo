@@ -6,11 +6,12 @@ import './App.css'
 import P5Wrapper from './components/P5Wrapper'
 import {exampleSketch} from './p5/exampleSketch'
 import {Circlefall} from './p5/Circlefall'
+import {Gridshot} from './p5/Gridshot'
 
 function App() {
   return (
     <>
-      <P5Wrapper sketch={Circlefall} />
+      <P5Wrapper sketch={Gridshot} />
     </>
   )
 }
