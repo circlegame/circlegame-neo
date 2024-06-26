@@ -1,17 +1,37 @@
 import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
 import './App.css'
 
 import P5Wrapper from './components/P5Wrapper'
-import {exampleSketch} from './p5/exampleSketch'
-import {Circlefall} from './p5/Circlefall'
-import {Gridshot} from './p5/Gridshot'
+
 
 function App() {
+  const [gamemodeType, setGamemodeType] = useState("Circlefall");
+  const [gamemodeDataFilePath, setGamemodeDataFilePath] = useState("Circlefall.json")
+
+
+  const switchGamemodes = () => {
+    switch (gamemodeType) {
+      case "Circlefall":
+        setGamemodeType("Gridshot");
+        setGamemodeDataFilePath("Gridshot.json")
+        break;
+      case "Gridshot":
+        setGamemodeType("Circlefall");
+        setGamemodeDataFilePath("Circlefall.json")
+        break
+      default:
+        setGamemodeType("Circlefall");
+        setGamemodeDataFilePath("Circlefall.json")
+        break;
+    }
+
+  }
   return (
     <>
-      <P5Wrapper sketch={Gridshot} />
+      <button onClick={switchGamemodes}>Switch Gamemodes</button>
+      <br></br>
+      <br></br>
+      <P5Wrapper gamemodeType={gamemodeType} gamemodeDataFilePath={gamemodeDataFilePath}/>
     </>
   )
 }
