@@ -1,10 +1,10 @@
 {
-    "numRows": 200,
-    "numCols": 200,
-    "xMin": 50,
-    "xMax": 750,
-    "yMin": 50,
-    "yMax": 550,
-    "numCircles": 50,
-    "circleRadius": 20
+    "numRows": 5,
+    "numCols": 5,
+    "xMin": 200,
+    "xMax": 600,
+    "yMin": 100,
+    "yMax": 500,
+    "numCircles": 5,
+    "circleRadius": 40
 }
