@@ -1,0 +1,48 @@
+/* Container styling */
+.gamemode-bar {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  padding: 5px;
+  background-color: #2b2b2b;
+  border-radius: 20px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+  margin: auto;
+}
+  
+/* Button styling */
+.gamemode-button {
+  background-color: #2b2b2b;
+  color: #666666;
+  border: none;
+  padding: 10px 20px;
+  margin: 0 5px;
+  border-radius: 5px;
+  cursor: pointer;
+  outline: none;
+  transition: color 0.3s, transform 0.3s;
+}
+
+.gamemode-button:hover {
+  color: rgb(221, 221, 221);
+  transform: translateY(-2px);
+}
+
+.gamemode-button:focus{
+  outline: none;
+}
+
+/* Active button styling */
+.gamemode-button.active {
+  color: rgb(255, 255, 255);
+  font-weight: bold;
+}
+
+.divider {
+  width: 3px;
+  height: 30px;
+  background-color: #3b3b3b;
+  margin: 0 10px;
+  border-radius: 30px;
+  align-self: center; 
+}

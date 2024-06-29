@@ -1,6 +1,6 @@
 import {Circle} from './p5components/Circle.js'
 
-export const Circlefall = (p, { gamemodeDataFilePath }) => {
+export const Circlefall = (p, gamemodeDataFilePath) => {
     // Sketch variables
     let circles;
 
@@ -24,7 +24,7 @@ export const Circlefall = (p, { gamemodeDataFilePath }) => {
 
         circleRadius = gamemodeData["circleRadius"];
         ySpeed = gamemodeData["ySpeed"];
-        circlesPerSecond = gamemodeData["circlesPerSecond"]
+        circlesPerSecond = gamemodeData["circlesPerSecond"];
     }
 
     //--------------Draw--------------//
