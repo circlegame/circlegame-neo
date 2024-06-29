@@ -1,5 +1,5 @@
 {
-    "circleRadius":40,
+    "circleRadius":35,
     "ySpeed": 3,
     "circlesPerSecond": 4
 }

@@ -3,31 +3,28 @@ import React, { createContext, useReducer } from 'react';
 // Reducer Function
 export const Reducer = (state, action) => {
     switch(action.type) {
-        case 'CHANGE_GAMEMODE':
-            switch (action.payload.gamemodeType) {
+        case 'SET_GAMEMODE':
+            switch (action.payload) {
                 case "Circlefall":
                     return {
                         ...state,
-                        gamemodeType: "Gridshot",
-                        gamemodeDataFilePath: "Gridshot.json"
+                        gamemodeType: "Circlefall",
+                        gamemodeDataFilePath: "CirclefallNormal.json"
                     };
                 case "Gridshot":
                     return {
                         ...state,
-                        gamemodeType: "Circlefall",
-                        gamemodeDataFilePath: "Circlefall.json"
+                        gamemodeType: "Gridshot",
+                        gamemodeDataFilePath: "GridshotClassic.json"
                     };
                 default:
                     return state;
             }
 
-        case 'UPDATE_GAMEMODE_DATA':
+        case 'SET_GAMEMODE_DATA':
             return{
                 ...state,
-                gamemodeData: {
-                    ...state.gamemodeData,
-                    [action.payload.key]: action.payload.value
-                }
+                gamemodeDataFilePath: action.payload
             };
             
         default:
@@ -38,7 +35,7 @@ export const Reducer = (state, action) => {
 // Initial State
 const initialState = {
     gamemodeType: "Circlefall",
-    gamemodeDataFilePath: "Circlefall.json"
+    gamemodeDataFilePath: "CirclefallNormal.json"
 };
 
 // Context Creation
