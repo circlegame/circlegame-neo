@@ -9,6 +9,10 @@ export const Gridshot = (p, { gamemodeDataFilePath}) => {
     let timer;
     let timerId;
 
+    // Stats Variables
+    let totalClicks;
+    let hits;
+
     // Gamemode Data Variables
     let numRows;
     let numCols;
@@ -46,6 +50,9 @@ export const Gridshot = (p, { gamemodeDataFilePath}) => {
         circles = [];
         gameState = "pregame";
 
+        totalClicks = 0;
+        hits = 0;
+
         p.textAlign(p.CENTER);
     }
     
@@ -81,8 +88,10 @@ export const Gridshot = (p, { gamemodeDataFilePath}) => {
 //
             case "ingame":
                 p.fill(0);
-                p.textSize(25);
-                p.text(timer, 50, 50)
+                p.textSize(15);
+                p.text(timer, 50, 50);
+                p.text("Hits: " + hits.toString(), 50, 75);
+                p.text("totalClicks: " + totalClicks.toString(), 50, 100)
 
                 for(let i = 0; i < circles.length; i++){
                     circles[i][0].draw();
@@ -137,11 +146,12 @@ export const Gridshot = (p, { gamemodeDataFilePath}) => {
                         // Add new circle to grid
                         addNewCircle();
                         grid.setPointNotOccupied(row, col)
+                        hits++;
                         break;
                     }
-                    // If here, must be a miss
-                    // TODO: missclick functionality
                 }
+                // If here, must be a miss
+                totalClicks++;
                 break;
         }
 

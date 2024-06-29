@@ -8,6 +8,11 @@ export const Circlefall = (p, { gamemodeDataFilePath }) => {
     let timerId;
     let totalCirclesSpawned;
 
+    // Stats variables
+    let hits;
+    let misses;
+    let totalClicks;
+
     // Gamemode Data Variables
     let circleRadius;
     let ySpeed;
@@ -31,6 +36,10 @@ export const Circlefall = (p, { gamemodeDataFilePath }) => {
         circleRadius = gamemodeData["circleRadius"];
         ySpeed = gamemodeData["ySpeed"];
         circlesPerSecond = gamemodeData["circlesPerSecond"]
+
+        hits = 0;
+        misses = 0;
+        totalClicks = 0;
 
         p.textAlign(p.CENTER);
     }
@@ -62,6 +71,11 @@ export const Circlefall = (p, { gamemodeDataFilePath }) => {
 //
 //
             case "ingame":
+                p.fill(0);
+                p.textSize(15);
+                p.text("Hits: " + hits.toString(), 50, 25);
+                p.text("totalClicks: " + totalClicks.toString(), 50, 50);
+                p.text("Missed: " + misses.toString(), 50, 75);
                 // Spawn new circles based on frames
                 if (p.frameCount % (60/circlesPerSecond) === 0 && totalCirclesSpawned < 100){
                     // Input variables to circle class
@@ -80,7 +94,7 @@ export const Circlefall = (p, { gamemodeDataFilePath }) => {
                     if (circles[i].y > p.height + circles[i].radius){
                         circles.splice(i, 1);
                         i--;
-                        // TODO: misses functionality
+                        misses++;
                     }
                 }
 
@@ -118,11 +132,12 @@ export const Circlefall = (p, { gamemodeDataFilePath }) => {
                 for(let i = circles.length-1; i >= 0; i--){
                     if (circles[i].isMouseHovering(p.mouseX, p.mouseY)){
                         circles.splice(i,1);
+                        hits++;
                         break;
                     }
                 }
-                // If here, must be a miss
-                // TODO: missclick functionality
+                // If here, is a misclick
+                totalClicks++;
                 break;
         }
 
