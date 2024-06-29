@@ -1,7 +1,7 @@
 import { Circle } from './p5components/Circle.js'
 import { Grid } from './p5components/Grid.js';
 
-export const Gridshot = (p, { gamemodeDataFilePath}) => {
+export const Gridshot = (p, gamemodeDataFilePath) => {
     // Sketch variables
     let circles;
     let grid;

@@ -1,6 +1,6 @@
 import {Circle} from './p5components/Circle.js'
 
-export const Circlefall = (p, { gamemodeDataFilePath }) => {
+export const Circlefall = (p, gamemodeDataFilePath) => {
     // Sketch variables
     let circles;
     let gameState; // "pregame", "countdown", "ingame", or "endgame"
