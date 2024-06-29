@@ -1,4 +1,4 @@
-import {Circle} from './p5components/Circle.js'
+import { Circle } from './p5components/Circle.js'
 import { Grid } from './p5components/Grid.js';
 
 export const Gridshot = (p, { gamemodeDataFilePath}) => {
