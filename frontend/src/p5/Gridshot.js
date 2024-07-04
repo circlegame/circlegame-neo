@@ -1,7 +1,7 @@
 import { Circle } from './p5components/Circle.js'
 import { Grid } from './p5components/Grid.js';
 
-export const Gridshot = (p, gamemodeDataFilePath) => {
+export const Gridshot = (p, gamemodeDataFilePath, setTimer, dispatch) => {
     // Sketch variables
     let circles;
     let grid;
@@ -49,6 +49,7 @@ export const Gridshot = (p, gamemodeDataFilePath) => {
         grid = new Grid(numRows, numCols, xMin, xMax, yMin, yMax);
         circles = [];
         gameState = "pregame";
+        dispatch({ type: 'SET_GAMESTATE', payload: gameState }); // Initialize game state in context
 
         totalClicks = 0;
         hits = 0;
@@ -58,13 +59,10 @@ export const Gridshot = (p, gamemodeDataFilePath) => {
     
     //-------------Draw--------------//
     p.draw = () => {
-        p.background(200);
+        p.background(43);
 
         switch (gameState){
             case "pregame":
-                p.fill(0);
-                p.textSize(50);
-                p.text("Click anywhere to start", 400, 300)
                 break;
 //
 //
@@ -74,24 +72,19 @@ export const Gridshot = (p, gamemodeDataFilePath) => {
                     circles[i][0].draw();
                 }
 
-                p.fill(0);
-                p.textSize(50);
-                p.text(timer, 400, 300);
-
                 if (timer <= 0) {
                     timer = 30;
                     gameState = "ingame";
+                    dispatch({ type: 'SET_GAMESTATE', payload: gameState }); // Update game state in context
                 }
                 break;
 //
 //
 //
             case "ingame":
-                p.fill(0);
+                p.fill(255);
                 p.textSize(15);
                 p.text(timer, 50, 50);
-                p.text("Hits: " + hits.toString(), 50, 75);
-                p.text("totalClicks: " + totalClicks.toString(), 50, 100)
 
                 for(let i = 0; i < circles.length; i++){
                     circles[i][0].draw();
@@ -100,16 +93,16 @@ export const Gridshot = (p, gamemodeDataFilePath) => {
                 if (timer <= 0) {
                     gameState = "endgame";
                     clearInterval(timerId)
+                    dispatch({ type: 'SET_GAMESTATE', payload: gameState }); // Update game state in context
                 }
+                dispatch({ type: 'SET_INGAME_STATS', payload: {hits: hits, misses: 0, misclicks: totalClicks - hits}});
                 break;
 //
 //
 //
             case "endgame":
-                p.text("balls", 400,300)
                 break;
         }
-
 
 
     }
@@ -121,12 +114,14 @@ export const Gridshot = (p, gamemodeDataFilePath) => {
                 if (p.mouseX > 0 && p.mouseX < 800 && p.mouseY > 0 && p.mouseY < 600){
                     // Initialize timer
                     timer = 3;
+                    setTimer(timer);
                     gameState = "countdown";
+                    dispatch({ type: 'SET_GAMESTATE', payload: gameState }); // Update game state in context
                     timerId = setInterval(handleTimer, 1000);
 
                     // Initialize circles
-                    for(let i = 0; i < numCircles; i++){
-                        addNewCircle();
+                    for(let i = 0; i < numCircles; i++){ 
+                        addNewCircle(); 
                     }
                 }
                 break;
@@ -179,6 +174,7 @@ export const Gridshot = (p, gamemodeDataFilePath) => {
     function handleTimer(){
         if (timer > 0) {
             timer--;
+            setTimer(timer);
         }
     }
 }
