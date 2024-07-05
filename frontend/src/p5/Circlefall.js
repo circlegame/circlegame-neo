@@ -1,6 +1,6 @@
 import {Circle} from './p5components/Circle.js'
 
-export const Circlefall = (p, gamemodeDataFilePath, setTimer, dispatch) => {
+export const Circlefall = (p, gamemodeDataFilePath, dispatch) => {
     // Sketch variables
     let circles;
     let gameState; // "pregame", "countdown", "ingame", or "endgame"
@@ -95,7 +95,13 @@ export const Circlefall = (p, gamemodeDataFilePath, setTimer, dispatch) => {
                     gameState = "endgame";
                     dispatch({ type: 'SET_GAMESTATE', payload: gameState }); // Update game state in context
                 }
-                dispatch({ type: 'SET_INGAME_STATS', payload: {hits: hits, misses: misses, misclicks: totalClicks - hits}});
+
+                // Update ingame stats
+                dispatch({  type: 'SET_INGAME_STATS', 
+                            payload:   {hits: hits, 
+                                        misses: misses, 
+                                        misclicks: totalClicks - hits}});
+
                 break;
 //
 //
@@ -115,7 +121,7 @@ export const Circlefall = (p, gamemodeDataFilePath, setTimer, dispatch) => {
             case "pregame":        
                 if (p.mouseX > 0 && p.mouseX < 800 && p.mouseY > 0 && p.mouseY < 600){
                     timer = 3;
-                    setTimer(timer);
+                    dispatch({ type: 'SET_TIMER', payload: timer });
                     gameState = "countdown";
                     dispatch({ type: 'SET_GAMESTATE', payload: gameState }); // Update game state in context
                     timerId = setInterval(handleTimer, 1000);
@@ -142,7 +148,7 @@ export const Circlefall = (p, gamemodeDataFilePath, setTimer, dispatch) => {
     function handleTimer(){
         if (timer > 0) {
             timer--;
-            setTimer(timer);
+            dispatch({ type: 'SET_TIMER', payload: timer });
         }
     }
 }

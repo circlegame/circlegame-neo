@@ -6,8 +6,8 @@ import {Context} from '../context/GamemodeContext'
 import './Component.css'
 
 const P5Wrapper = () => {
-  // Use context to get current gamemode
-  const { gamemodeType, gamemodeDataFilePath, gameState, resetGame, timer, setTimer, hits, misses, misclicks, dispatch} = useContext(Context);
+  // Use context to get all variables from the sketch
+  const gameContext = useContext(Context);
 
   // Create a ref to store the DOM node for the p5.js sketch
   const sketchRef = useRef();
@@ -16,7 +16,7 @@ const P5Wrapper = () => {
   useEffect(() => {
     // Initialize p5.js instance and attach it to the sketchRef DOM node
     let sketch;
-    switch (gamemodeType){
+    switch (gameContext.gamemodeType){
       case "Circlefall":
         sketch = Circlefall;
         break;
@@ -26,43 +26,43 @@ const P5Wrapper = () => {
       default:
         sketch = Circlefall;
     }
-    const p5Instance = new p5((p) => sketch(p, gamemodeDataFilePath, setTimer, dispatch), sketchRef.current);
+    const p5Instance = new p5((p) => sketch(p, gameContext.gamemodeDataFilePath, gameContext.dispatch), sketchRef.current);
 
     // Cleanup the p5.js instance when the component unmounts
     return () => {
       p5Instance.remove();
     };
-  }, [resetGame, gamemodeDataFilePath]);
+  }, [gameContext.resetGame, gameContext.gamemodeDataFilePath]);
 
   // Render a div that will be used as the container for the p5.js canvas
   return (
     <>
       
-    {gameState !== 'endgame' && (
+    {gameContext.gameState !== 'endgame' && (
       <div style={{ position: 'relative' }}>
 
-        {gameState === 'ingame' ? (
-          <div className='stats-overlay'>Hit {hits}&emsp;Missed {misses}&emsp;Misclicked {misclicks}</div>
+        {gameContext.gameState === 'ingame' ? (
+          <div className='stats-overlay'>Hit {gameContext.hits}&emsp;Missed {gameContext.misses}&emsp;Misclicked {gameContext.misclicks}&emsp;Time {gameContext.timer}</div>
         ) : <div className='placeholder-stats-overlay'></div> }
 
         <div 
-          className={gameState === 'pregame' ? 'blur' : 'crosshair'}
+          className={gameContext.gameState === 'pregame' ? 'blur' : 'crosshair'}
           style={{width: '800px', height: '600px'}}
           ref={sketchRef}
         />
 
-        {gameState === 'pregame' && ( 
+        {gameContext.gameState === 'pregame' && ( 
           <div 
             style={{color: '#666666', fontSize: '20px'}} 
             className="sketch-overlay">
               click here to start
             </div> 
         )}
-        {gameState === 'countdown' && ( 
+        {gameContext.gameState === 'countdown' && ( 
           <div 
             style={{color: 'white', fontSize: '48px'}} 
             className="sketch-overlay">
-              {timer}
+              {gameContext.timer}
             </div> 
         )}
 

@@ -1,7 +1,7 @@
 import { Circle } from './p5components/Circle.js'
 import { Grid } from './p5components/Grid.js';
 
-export const Gridshot = (p, gamemodeDataFilePath, setTimer, dispatch) => {
+export const Gridshot = (p, gamemodeDataFilePath, dispatch) => {
     // Sketch variables
     let circles;
     let grid;
@@ -74,6 +74,7 @@ export const Gridshot = (p, gamemodeDataFilePath, setTimer, dispatch) => {
 
                 if (timer <= 0) {
                     timer = 30;
+                    dispatch({ type: 'SET_TIMER', payload: timer })
                     gameState = "ingame";
                     dispatch({ type: 'SET_GAMESTATE', payload: gameState }); // Update game state in context
                 }
@@ -82,9 +83,6 @@ export const Gridshot = (p, gamemodeDataFilePath, setTimer, dispatch) => {
 //
 //
             case "ingame":
-                p.fill(255);
-                p.textSize(15);
-                p.text(timer, 50, 50);
 
                 for(let i = 0; i < circles.length; i++){
                     circles[i][0].draw();
@@ -95,7 +93,13 @@ export const Gridshot = (p, gamemodeDataFilePath, setTimer, dispatch) => {
                     clearInterval(timerId)
                     dispatch({ type: 'SET_GAMESTATE', payload: gameState }); // Update game state in context
                 }
-                dispatch({ type: 'SET_INGAME_STATS', payload: {hits: hits, misses: 0, misclicks: totalClicks - hits}});
+
+                // Update ingame stats
+                dispatch({  type: 'SET_INGAME_STATS', 
+                    payload:   {hits: hits, 
+                                misses: 0, 
+                                misclicks: totalClicks - hits}});
+
                 break;
 //
 //
@@ -114,7 +118,7 @@ export const Gridshot = (p, gamemodeDataFilePath, setTimer, dispatch) => {
                 if (p.mouseX > 0 && p.mouseX < 800 && p.mouseY > 0 && p.mouseY < 600){
                     // Initialize timer
                     timer = 3;
-                    setTimer(timer);
+                    dispatch({ type: 'SET_TIMER', payload: timer });
                     gameState = "countdown";
                     dispatch({ type: 'SET_GAMESTATE', payload: gameState }); // Update game state in context
                     timerId = setInterval(handleTimer, 1000);
@@ -174,7 +178,7 @@ export const Gridshot = (p, gamemodeDataFilePath, setTimer, dispatch) => {
     function handleTimer(){
         if (timer > 0) {
             timer--;
-            setTimer(timer);
+            dispatch({ type: 'SET_TIMER', payload: timer });
         }
     }
 }

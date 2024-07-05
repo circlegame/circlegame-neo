@@ -33,6 +33,12 @@ export const Reducer = (state, action) => {
                 gameState: action.payload
             };
 
+        case 'SET_TIMER':
+            return{
+                ...state,
+                timer: action.payload
+            };
+
         case 'SET_INGAME_STATS':
             return{
                 ...state,
@@ -62,6 +68,7 @@ const initialState = {
     gamemodeDataFilePath: "CirclefallNormal.json",
     gameState: "pregame",
     resetGame: false,
+    timer: 3,
     hits: 0,
     misses: 0,
     misclicks: 0,
@@ -73,7 +80,6 @@ export const Context = createContext();
 // Provider Component
 export const Provider = ({ children }) => {
     const [state, dispatch] = useReducer(Reducer, initialState);
-    const [timer, setTimer] = useState(3);
 
     return (
         <Context.Provider
@@ -82,11 +88,10 @@ export const Provider = ({ children }) => {
                 gamemodeDataFilePath: state.gamemodeDataFilePath,
                 gameState: state.gameState,
                 resetGame: state.resetGame,
+                timer: state.timer,
                 hits: state.hits,
                 misses: state.misses,
                 misclicks: state.misclicks,
-                timer,
-                setTimer,
                 dispatch
             }}
         >
