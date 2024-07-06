@@ -1,6 +1,7 @@
 class Circle {
-    constructor(p, x, y, xSpeed, ySpeed, radius, color){
+    constructor(p, id, x, y, xSpeed, ySpeed, radius, color){
         this.p = p; // Reference to the p5 instance
+        this.id = id;
         this.x = x;
         this.y = y;
         this.xSpeed = xSpeed;

@@ -1,13 +1,16 @@
 import { Circle } from './p5components/Circle.js'
 import { Grid } from './p5components/Grid.js';
+import { DataCollector } from './p5components/DataCollector.js';
 
 export const Gridshot = (p, gamemodeDataFilePath) => {
     // Sketch variables
     let circles;
     let grid;
+    let dataCollector;
     let gameState; // "pregame", "countdown", "ingame", or "endgame"
     let timer;
     let timerId;
+    let totalCirclesSpawned;
 
     // Stats Variables
     let totalClicks;
@@ -48,10 +51,13 @@ export const Gridshot = (p, gamemodeDataFilePath) => {
         // Initialize Grid
         grid = new Grid(numRows, numCols, xMin, xMax, yMin, yMax);
         circles = [];
+        dataCollector = new DataCollector();
+
         gameState = "pregame";
 
         totalClicks = 0;
         hits = 0;
+        totalCirclesSpawned = 0;
 
         p.textAlign(p.CENTER);
     }
@@ -96,10 +102,13 @@ export const Gridshot = (p, gamemodeDataFilePath) => {
                 for(let i = 0; i < circles.length; i++){
                     circles[i][0].draw();
                 }
+
+                dataCollector.addFrameMousePosition(p.frameCount, p.mouseX, p.mouseY);
                 
                 if (timer <= 0) {
                     gameState = "endgame";
                     clearInterval(timerId)
+                    console.log(dataCollector.dataStore)
                 }
                 break;
 //
@@ -134,11 +143,14 @@ export const Gridshot = (p, gamemodeDataFilePath) => {
 //
 //
             case "ingame":
+                let circleClickedId = null;
                 for(let i = circles.length-1; i >= 0; i--){
                     if (circles[i][0].isMouseHovering(p.mouseX, p.mouseY)){
                         // Set grid value to unoccupied
                         let row = circles[i][1];
                         let col = circles[i][2];
+
+                        circleClickedId = circles[i][0].id;
         
                         // Remove circle from list
                         circles.splice(i,1);
@@ -150,8 +162,8 @@ export const Gridshot = (p, gamemodeDataFilePath) => {
                         break;
                     }
                 }
-                // If here, must be a miss
                 totalClicks++;
+                dataCollector.addFrameMousePressed(p.frameCount, circleClickedId);
                 break;
         }
 
@@ -173,7 +185,10 @@ export const Gridshot = (p, gamemodeDataFilePath) => {
         let xSpeed = 0;
         let ySpeed = 0;
         let color = p.color(p.random(255), p.random(255), p.random(255));
-        circles.push([new Circle(p, x, y, xSpeed, ySpeed, circleRadius, color), row, col]);
+        let newCircle = new Circle(p, totalCirclesSpawned, x, y, xSpeed, ySpeed, circleRadius, color);
+        circles.push([newCircle, row, col]);
+        dataCollector.addCircle(newCircle, p.frameCount);
+        totalCirclesSpawned++;
     }
 
     function handleTimer(){

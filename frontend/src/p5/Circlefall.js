@@ -1,8 +1,10 @@
 import {Circle} from './p5components/Circle.js'
+import { DataCollector } from './p5components/DataCollector.js';
 
 export const Circlefall = (p, gamemodeDataFilePath) => {
     // Sketch variables
     let circles;
+    let dataCollector;
     let gameState; // "pregame", "countdown", "ingame", or "endgame"
     let timer;
     let timerId;
@@ -32,6 +34,7 @@ export const Circlefall = (p, gamemodeDataFilePath) => {
         circles = [];
         gameState = "pregame";
         totalCirclesSpawned = 0;
+        dataCollector = new DataCollector();
 
         circleRadius = gamemodeData["circleRadius"];
         ySpeed = gamemodeData["ySpeed"];
@@ -83,8 +86,10 @@ export const Circlefall = (p, gamemodeDataFilePath) => {
                     let y = -circleRadius;
                     let xSpeed = 0;
                     let color = p.color(p.random(255), p.random(255), p.random(255));
+                    let newCircle = new Circle(p, totalCirclesSpawned, x, y, xSpeed, ySpeed, circleRadius, color)
                     
-                    circles.push(new Circle(p, x, y, xSpeed, ySpeed, circleRadius, color));
+                    circles.push(newCircle);
+                    dataCollector.addCircle(newCircle, p.frameCount);
                     totalCirclesSpawned++;
                 }
 
@@ -98,8 +103,11 @@ export const Circlefall = (p, gamemodeDataFilePath) => {
                     }
                 }
 
+                dataCollector.addFrameMousePosition(p.frameCount, p.mouseX, p.mouseY);
+
                 if (totalCirclesSpawned >= 100 && circles.length === 0){
                     gameState = "endgame";
+                    console.log(dataCollector.dataStore);
                 }
                 break;
 //
@@ -129,15 +137,17 @@ export const Circlefall = (p, gamemodeDataFilePath) => {
 //
 //
             case "ingame":
+                let circleClickedId = null;
                 for(let i = circles.length-1; i >= 0; i--){
                     if (circles[i].isMouseHovering(p.mouseX, p.mouseY)){
-                        circles.splice(i,1);
                         hits++;
+                        circleClickedId = circles[i].id;
+                        circles.splice(i,1);
                         break;
                     }
                 }
-                // If here, is a misclick
                 totalClicks++;
+                dataCollector.addFrameMousePressed(p.frameCount, circleClickedId);
                 break;
         }
 
