@@ -1,4 +1,4 @@
-import React, { createContext, useReducer } from 'react';
+import React, { createContext, useReducer, useState } from 'react';
 
 // Reducer Function
 export const Reducer = (state, action) => {
@@ -26,6 +26,36 @@ export const Reducer = (state, action) => {
                 ...state,
                 gamemodeDataFilePath: action.payload
             };
+
+        case 'SET_GAMESTATE':
+            return{
+                ...state,
+                gameState: action.payload
+            };
+
+        case 'SET_TIMER':
+            return{
+                ...state,
+                timer: action.payload
+            };
+
+        case 'SET_INGAME_STATS':
+            return{
+                ...state,
+                hits: action.payload.hits,
+                misses: action.payload.misses,
+                misclicks: action.payload.misclicks
+            }
+
+        case 'RESET_GAME':
+            return {
+                ...state,
+                resetGame: !(state.resetGame),
+                gameState: "pregame",
+                hits: 0,
+                misses: 0,
+                misclicks: 0,
+            }
             
         default:
             return state;
@@ -35,7 +65,13 @@ export const Reducer = (state, action) => {
 // Initial State
 const initialState = {
     gamemodeType: "Circlefall",
-    gamemodeDataFilePath: "CirclefallNormal.json"
+    gamemodeDataFilePath: "CirclefallNormal.json",
+    gameState: "pregame",
+    resetGame: false,
+    timer: 3,
+    hits: 0,
+    misses: 0,
+    misclicks: 0,
 };
 
 // Context Creation
@@ -50,6 +86,12 @@ export const Provider = ({ children }) => {
             value={{
                 gamemodeType: state.gamemodeType,
                 gamemodeDataFilePath: state.gamemodeDataFilePath,
+                gameState: state.gameState,
+                resetGame: state.resetGame,
+                timer: state.timer,
+                hits: state.hits,
+                misses: state.misses,
+                misclicks: state.misclicks,
                 dispatch
             }}
         >

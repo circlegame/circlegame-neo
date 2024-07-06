@@ -5,7 +5,7 @@
   align-items: center;
   padding: 5px;
   background-color: #2b2b2b;
-  border-radius: 20px;
+  border-radius: 10px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
   margin: auto;
 }
@@ -15,7 +15,7 @@
   background-color: #2b2b2b;
   color: #666666;
   border: none;
-  padding: 10px 20px;
+  padding: 8px 20px;
   margin: 0 5px;
   border-radius: 5px;
   cursor: pointer;
@@ -24,7 +24,7 @@
 }
 
 .gamemode-button:hover {
-  color: rgb(221, 221, 221);
+  color: #dddddd;
   transform: translateY(-2px);
 }
 
@@ -34,7 +34,7 @@
 
 /* Active button styling */
 .gamemode-button.active {
-  color: rgb(255, 255, 255);
+  color: #ffffff;
   font-weight: bold;
 }
 
@@ -45,4 +45,35 @@
   margin: 0 10px;
   border-radius: 30px;
   align-self: center; 
+}
+
+.placeholder-gamemodebar {
+  height: 43px;
+}
+
+.placeholder-stats-overlay {
+  height: 36px;
+}
+
+.blur {
+  filter: blur(12px);
+  clip-path: inset(-10px round 10px);
+}
+
+.crosshair {
+  cursor: crosshair;
+}
+
+.sketch-overlay {
+  position: absolute;
+  text-align: center;
+  top: 336px;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 10; /* Overlay is on the top layer */
+}
+
+.stats-overlay {
+  text-align: left;
+  font-size: 24px;
 }
