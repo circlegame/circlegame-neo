@@ -33,7 +33,11 @@ export const Circlefall = (p, gamemodeDataFilePath, dispatch) => {
         p.createCanvas(800, 600);
 
         gameState = "pregame";
-        dispatch({ type: 'SET_GAMESTATE', payload: gameState }); // Initialize game state in context
+        // Initialize game state in context
+        dispatch({
+            type: 'SET_GAMESTATE',
+            payload: gameState
+        });
         
         circles = [];
         totalCirclesSpawned = 0;
@@ -64,7 +68,11 @@ export const Circlefall = (p, gamemodeDataFilePath, dispatch) => {
             case "countdown":
                 if (timer <= 0) {
                     gameState = "ingame";
-                    dispatch({ type: 'SET_GAMESTATE', payload: gameState }); // Update game state in context
+                    // Update game state in context
+                    dispatch({
+                        type: 'SET_GAMESTATE',
+                        payload: gameState
+                    });
                     clearInterval(timerId);
                 }
                 break;
@@ -79,7 +87,7 @@ export const Circlefall = (p, gamemodeDataFilePath, dispatch) => {
                     let y = -circleRadius;
                     let xSpeed = 0;
                     let color = p.color(p.random(255), p.random(255), p.random(255));
-                    let newCircle = new Circle(p, totalCirclesSpawned, x, y, xSpeed, ySpeed, circleRadius, color)
+                    let newCircle = new Circle(p, totalCirclesSpawned, x, y, xSpeed, ySpeed, circleRadius, color);
                     
                     circles.push(newCircle);
                     dataCollector.addCircle(newCircle, p.frameCount);
@@ -90,6 +98,7 @@ export const Circlefall = (p, gamemodeDataFilePath, dispatch) => {
                     circles[i].draw();
 
                     if (circles[i].y > p.height + circles[i].radius){
+                        dataCollector.addCircleDeath(circles[i].id, p.frameCount);
                         circles.splice(i, 1);
                         i--;
                         misses++;
@@ -100,14 +109,22 @@ export const Circlefall = (p, gamemodeDataFilePath, dispatch) => {
 
                 if (totalCirclesSpawned >= 100 && circles.length === 0){
                     gameState = "endgame";
-                    dispatch({ type: 'SET_GAMESTATE', payload: gameState }); // Update game state in context
+                    // Update game state in context
+                    dispatch({
+                        type: 'SET_GAMESTATE',
+                        payload: gameState
+                    });
                 }
 
                 // Update ingame stats
-                dispatch({  type: 'SET_INGAME_STATS', 
-                            payload:   {hits: hits, 
-                                        misses: misses, 
-                                        misclicks: totalClicks - hits}});
+                dispatch({
+                    type: 'SET_INGAME_STATS', 
+                    payload: {
+                        hits: hits, 
+                        misses: misses, 
+                        misclicks: totalClicks - hits
+                    }
+                });
 
                 break;
 //
@@ -128,9 +145,16 @@ export const Circlefall = (p, gamemodeDataFilePath, dispatch) => {
             case "pregame":        
                 if (p.mouseX > 0 && p.mouseX < 800 && p.mouseY > 0 && p.mouseY < 600){
                     timer = 3;
-                    dispatch({ type: 'SET_TIMER', payload: timer });
+                    dispatch({
+                        type: 'SET_TIMER',
+                        payload: timer
+                    });
                     gameState = "countdown";
-                    dispatch({ type: 'SET_GAMESTATE', payload: gameState }); // Update game state in context
+                    // Update game state in context
+                    dispatch({
+                        type: 'SET_GAMESTATE',
+                        payload: gameState
+                    });
                     timerId = setInterval(handleTimer, 1000);
                 }
                 break;
@@ -143,6 +167,7 @@ export const Circlefall = (p, gamemodeDataFilePath, dispatch) => {
                     if (circles[i].isMouseHovering(p.mouseX, p.mouseY)){
                         hits++;
                         circleClickedId = circles[i].id;
+                        dataCollector.addCircleDeath(circleClickedId, p.frameCount);
                         circles.splice(i,1);
                         break;
                     }
@@ -157,7 +182,10 @@ export const Circlefall = (p, gamemodeDataFilePath, dispatch) => {
     function handleTimer(){
         if (timer > 0) {
             timer--;
-            dispatch({ type: 'SET_TIMER', payload: timer });
+            dispatch({
+                type: 'SET_TIMER',
+                payload: timer
+            });
         }
     }
 }

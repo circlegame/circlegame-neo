@@ -1,3 +1,5 @@
+import p5 from 'p5';
+
 class DataCollector {
     constructor(){
         this.dataStore = {
@@ -14,8 +16,17 @@ class DataCollector {
             "xSpeed": circle.xSpeed,
             "ySpeed": circle.ySpeed,
             "radius": circle.radius,
-            "color": circle.color
+            "color": {
+                "red": p5.prototype.red(circle.color),
+                "green": p5.prototype.green(circle.color),
+                "blue": p5.prototype.blue(circle.color),
+                "alpha": p5.prototype.alpha(circle.color)
+            }
         };
+    }
+
+    addCircleDeath(circleId, frameCount){
+        this.dataStore["circles"][circleId.toString()]["deathFrame"] = frameCount;
     }
 
     addFrameMousePosition(frameCount, mouseX, mouseY){

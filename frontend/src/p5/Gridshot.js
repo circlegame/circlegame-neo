@@ -54,7 +54,11 @@ export const Gridshot = (p, gamemodeDataFilePath, dispatch) => {
         dataCollector = new DataCollector();
 
         gameState = "pregame";
-        dispatch({ type: 'SET_GAMESTATE', payload: gameState }); // Initialize game state in context
+        // Initialize game state in context
+        dispatch({
+            type: 'SET_GAMESTATE',
+            payload: gameState
+        });
 
         totalClicks = 0;
         hits = 0;
@@ -80,9 +84,16 @@ export const Gridshot = (p, gamemodeDataFilePath, dispatch) => {
 
                 if (timer <= 0) {
                     timer = 30;
-                    dispatch({ type: 'SET_TIMER', payload: timer })
+                    dispatch({
+                        type: 'SET_TIMER',
+                        payload: timer
+                    })
                     gameState = "ingame";
-                    dispatch({ type: 'SET_GAMESTATE', payload: gameState }); // Update game state in context
+                    // Update game state in context
+                    dispatch({
+                        type: 'SET_GAMESTATE',
+                        payload: gameState
+                    });
                 }
                 break;
 //
@@ -99,14 +110,22 @@ export const Gridshot = (p, gamemodeDataFilePath, dispatch) => {
                 if (timer <= 0) {
                     gameState = "endgame";
                     clearInterval(timerId)
-                    dispatch({ type: 'SET_GAMESTATE', payload: gameState }); // Update game state in context
+                    // Update game state in context
+                    dispatch({ 
+                        type: 'SET_GAMESTATE',
+                        payload: gameState 
+                    });
                 }
 
                 // Update ingame stats
-                dispatch({  type: 'SET_INGAME_STATS', 
-                    payload:   {hits: hits, 
-                                misses: 0, 
-                                misclicks: totalClicks - hits}});
+                dispatch({
+                    type: 'SET_INGAME_STATS', 
+                    payload: {
+                        hits: hits, 
+                        misses: 0, 
+                        misclicks: totalClicks - hits
+                    }
+                });
 
                 break;
 //
@@ -149,6 +168,7 @@ export const Gridshot = (p, gamemodeDataFilePath, dispatch) => {
                         let col = circles[i][2];
 
                         circleClickedId = circles[i][0].id;
+                        dataCollector.addCircleDeath(circleClickedId, p.frameCount);
         
                         // Remove circle from list
                         circles.splice(i,1);
@@ -192,7 +212,10 @@ export const Gridshot = (p, gamemodeDataFilePath, dispatch) => {
     function handleTimer(){
         if (timer > 0) {
             timer--;
-            dispatch({ type: 'SET_TIMER', payload: timer });
+            dispatch({
+                type: 'SET_TIMER',
+                payload: timer 
+            });
         }
     }
 }
