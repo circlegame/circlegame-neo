@@ -1,7 +1,7 @@
 import {Circle} from './p5components/Circle.js'
 import { DataCollector } from './p5components/DataCollector.js';
 
-export const Circlefall = (p, gamemodeDataFilePath) => {
+export const Circlefall = (p, gamemodeDataFilePath, dispatch) => {
     // Sketch variables
     let circles;
     let dataCollector;
@@ -31,8 +31,11 @@ export const Circlefall = (p, gamemodeDataFilePath) => {
     //--------------Setup-------------//
     p.setup = () => {
         p.createCanvas(800, 600);
-        circles = [];
+
         gameState = "pregame";
+        dispatch({ type: 'SET_GAMESTATE', payload: gameState }); // Initialize game state in context
+        
+        circles = [];
         totalCirclesSpawned = 0;
         dataCollector = new DataCollector();
 
@@ -49,24 +52,19 @@ export const Circlefall = (p, gamemodeDataFilePath) => {
 
     //--------------Draw--------------//
     p.draw = () => {
-        p.background(200);
+        p.background(43);
 
 
         switch (gameState){
             case "pregame":
-                p.fill(0);
-                p.textSize(50);
-                p.text("Click anywhere to start", 400, 300)
                 break;
 //
 //
 //
             case "countdown":
-                p.fill(0);
-                p.text(timer, 400, 300);
-
                 if (timer <= 0) {
                     gameState = "ingame";
+                    dispatch({ type: 'SET_GAMESTATE', payload: gameState }); // Update game state in context
                     clearInterval(timerId);
                 }
                 break;
@@ -74,11 +72,6 @@ export const Circlefall = (p, gamemodeDataFilePath) => {
 //
 //
             case "ingame":
-                p.fill(0);
-                p.textSize(15);
-                p.text("Hits: " + hits.toString(), 50, 25);
-                p.text("totalClicks: " + totalClicks.toString(), 50, 50);
-                p.text("Missed: " + misses.toString(), 50, 75);
                 // Spawn new circles based on frames
                 if (p.frameCount % (60/circlesPerSecond) === 0 && totalCirclesSpawned < 100){
                     // Input variables to circle class
@@ -107,14 +100,20 @@ export const Circlefall = (p, gamemodeDataFilePath) => {
 
                 if (totalCirclesSpawned >= 100 && circles.length === 0){
                     gameState = "endgame";
-                    console.log(dataCollector.dataStore);
+                    dispatch({ type: 'SET_GAMESTATE', payload: gameState }); // Update game state in context
                 }
+
+                // Update ingame stats
+                dispatch({  type: 'SET_INGAME_STATS', 
+                            payload:   {hits: hits, 
+                                        misses: misses, 
+                                        misclicks: totalClicks - hits}});
+
                 break;
 //
 //
 //
             case "endgame":
-                p.text("balls", 400,300)
                 break;
         }
 
@@ -129,7 +128,9 @@ export const Circlefall = (p, gamemodeDataFilePath) => {
             case "pregame":        
                 if (p.mouseX > 0 && p.mouseX < 800 && p.mouseY > 0 && p.mouseY < 600){
                     timer = 3;
+                    dispatch({ type: 'SET_TIMER', payload: timer });
                     gameState = "countdown";
+                    dispatch({ type: 'SET_GAMESTATE', payload: gameState }); // Update game state in context
                     timerId = setInterval(handleTimer, 1000);
                 }
                 break;
@@ -156,6 +157,7 @@ export const Circlefall = (p, gamemodeDataFilePath) => {
     function handleTimer(){
         if (timer > 0) {
             timer--;
+            dispatch({ type: 'SET_TIMER', payload: timer });
         }
     }
 }
