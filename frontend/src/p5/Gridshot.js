@@ -1,13 +1,16 @@
 import { Circle } from './p5components/Circle.js'
 import { Grid } from './p5components/Grid.js';
+import { DataCollector } from './p5components/DataCollector.js';
 
 export const Gridshot = (p, gamemodeDataFilePath, dispatch) => {
     // Sketch variables
     let circles;
     let grid;
+    let dataCollector;
     let gameState; // "pregame", "countdown", "ingame", or "endgame"
     let timer;
     let timerId;
+    let totalCirclesSpawned;
 
     // Stats Variables
     let totalClicks;
@@ -48,11 +51,18 @@ export const Gridshot = (p, gamemodeDataFilePath, dispatch) => {
         // Initialize Grid
         grid = new Grid(numRows, numCols, xMin, xMax, yMin, yMax);
         circles = [];
+        dataCollector = new DataCollector();
+
         gameState = "pregame";
-        dispatch({ type: 'SET_GAMESTATE', payload: gameState }); // Initialize game state in context
+        // Initialize game state in context
+        dispatch({
+            type: 'SET_GAMESTATE',
+            payload: gameState
+        });
 
         totalClicks = 0;
         hits = 0;
+        totalCirclesSpawned = 0;
 
         p.textAlign(p.CENTER);
     }
@@ -74,9 +84,16 @@ export const Gridshot = (p, gamemodeDataFilePath, dispatch) => {
 
                 if (timer <= 0) {
                     timer = 30;
-                    dispatch({ type: 'SET_TIMER', payload: timer })
+                    dispatch({
+                        type: 'SET_TIMER',
+                        payload: timer
+                    })
                     gameState = "ingame";
-                    dispatch({ type: 'SET_GAMESTATE', payload: gameState }); // Update game state in context
+                    // Update game state in context
+                    dispatch({
+                        type: 'SET_GAMESTATE',
+                        payload: gameState
+                    });
                 }
                 break;
 //
@@ -87,18 +104,28 @@ export const Gridshot = (p, gamemodeDataFilePath, dispatch) => {
                 for(let i = 0; i < circles.length; i++){
                     circles[i][0].draw();
                 }
+
+                dataCollector.addFrameMousePosition(p.frameCount, p.mouseX, p.mouseY);
                 
                 if (timer <= 0) {
                     gameState = "endgame";
                     clearInterval(timerId)
-                    dispatch({ type: 'SET_GAMESTATE', payload: gameState }); // Update game state in context
+                    // Update game state in context
+                    dispatch({ 
+                        type: 'SET_GAMESTATE',
+                        payload: gameState 
+                    });
                 }
 
                 // Update ingame stats
-                dispatch({  type: 'SET_INGAME_STATS', 
-                    payload:   {hits: hits, 
-                                misses: 0, 
-                                misclicks: totalClicks - hits}});
+                dispatch({
+                    type: 'SET_INGAME_STATS', 
+                    payload: {
+                        hits: hits, 
+                        misses: 0, 
+                        misclicks: totalClicks - hits
+                    }
+                });
 
                 break;
 //
@@ -133,11 +160,15 @@ export const Gridshot = (p, gamemodeDataFilePath, dispatch) => {
 //
 //
             case "ingame":
+                let circleClickedId = null;
                 for(let i = circles.length-1; i >= 0; i--){
                     if (circles[i][0].isMouseHovering(p.mouseX, p.mouseY)){
                         // Set grid value to unoccupied
                         let row = circles[i][1];
                         let col = circles[i][2];
+
+                        circleClickedId = circles[i][0].id;
+                        dataCollector.addCircleDeath(circleClickedId, p.frameCount);
         
                         // Remove circle from list
                         circles.splice(i,1);
@@ -149,8 +180,8 @@ export const Gridshot = (p, gamemodeDataFilePath, dispatch) => {
                         break;
                     }
                 }
-                // If here, must be a miss
                 totalClicks++;
+                dataCollector.addFrameMousePressed(p.frameCount, circleClickedId);
                 break;
         }
 
@@ -172,13 +203,19 @@ export const Gridshot = (p, gamemodeDataFilePath, dispatch) => {
         let xSpeed = 0;
         let ySpeed = 0;
         let color = p.color(p.random(255), p.random(255), p.random(255));
-        circles.push([new Circle(p, x, y, xSpeed, ySpeed, circleRadius, color), row, col]);
+        let newCircle = new Circle(p, totalCirclesSpawned, x, y, xSpeed, ySpeed, circleRadius, color);
+        circles.push([newCircle, row, col]);
+        dataCollector.addCircle(newCircle, p.frameCount);
+        totalCirclesSpawned++;
     }
 
     function handleTimer(){
         if (timer > 0) {
             timer--;
-            dispatch({ type: 'SET_TIMER', payload: timer });
+            dispatch({
+                type: 'SET_TIMER',
+                payload: timer 
+            });
         }
     }
 }
