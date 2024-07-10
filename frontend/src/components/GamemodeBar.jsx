@@ -3,22 +3,17 @@ import { Context } from '../context/GamemodeContext';
 import './Component.css';
 
 function GamemodeBar() {
-    const { gamemodeType, gamemodeDataFilePath, gameState, dispatch } = useContext(Context);
+    const { gamemode, gameState, dispatch } = useContext(Context);
   
     // Switch gamemodes when button is pressed
-    const changeGamemode = (gamemodeType) => {
+    const changeGamemode = (mode, type) => {
         // Change gamemode state in the GamemodeContext file
         dispatch ({
             type: 'SET_GAMEMODE',
-            payload: gamemodeType
-        })
-    }
-
-    const changeGamemodeData = (gamemodeDataFilePath) => {
-        // Change gamemode data file path in the GamemodeContext file
-        dispatch({
-            type: 'SET_GAMEMODE_DATA',
-            payload: gamemodeDataFilePath
+            payload: {
+                mode: mode,
+                type: type
+            }
         })
     }
 
@@ -29,39 +24,39 @@ function GamemodeBar() {
         <div className="gamemode-bar">
 
           <button
-            className={`gamemode-button ${gamemodeType === "Circlefall" ? "active" : ""}`}
-            onClick={() => changeGamemode("Circlefall")}
+            className={`gamemode-button ${gamemode.mode === "Circlefall" ? "active" : ""}`}
+            onClick={() => changeGamemode("Circlefall", "Normal")}
           >
             Circlefall
           </button>
           <button
-            className={`gamemode-button ${gamemodeType === "Gridshot" ? "active" : ""}`}
-            onClick={() => changeGamemode("Gridshot")}
+            className={`gamemode-button ${gamemode.mode === "Gridshot" ? "active" : ""}`}
+            onClick={() => changeGamemode("Gridshot", "Classic")}
           >
             Gridshot
           </button>
 
-          {gamemodeType === "Circlefall" && (
+          {gamemode.mode === "Circlefall" && (
             <>
               <div className="divider"></div>
 
               <div className="gamemode-data-buttons">
 
                 <button
-                  className={`gamemode-button ${gamemodeDataFilePath === "CirclefallNormal.json" ? "active" : ""}`}
-                  onClick={() => changeGamemodeData("CirclefallNormal.json")}
+                  className={`gamemode-button ${gamemode.type === "Normal" ? "active" : ""}`}
+                  onClick={() => changeGamemode("Circlefall", "Normal")}
                 >
                   Normal
                 </button>
                 <button
-                  className={`gamemode-button ${gamemodeDataFilePath === "CirclefallHard.json" ? "active" : ""}`}
-                  onClick={() => changeGamemodeData("CirclefallHard.json")}
+                  className={`gamemode-button ${gamemode.type === "Hard" ? "active" : ""}`}
+                  onClick={() => changeGamemode("Circlefall", "Hard")}
                 >
                   Hard
                 </button>
                 <button
-                  className={`gamemode-button ${gamemodeDataFilePath === "CirclefallImpossible.json" ? "active" : ""}`}
-                  onClick={() => changeGamemodeData("CirclefallImpossible.json")}
+                  className={`gamemode-button ${gamemode.type === "Impossible" ? "active" : ""}`}
+                  onClick={() => changeGamemode("Circlefall", "Impossible")}
                 >
                   Impossible
                 </button>
@@ -70,21 +65,21 @@ function GamemodeBar() {
             </>
           )}
 
-          {gamemodeType === "Gridshot" && (
+          {gamemode.mode === "Gridshot" && (
             <>
               <div className="divider"></div>
 
               <div className="gamemode-data-buttons">
 
               <button
-                  className={`gamemode-button ${gamemodeDataFilePath === "GridshotClassic.json" ? "active" : ""}`}
-                  onClick={() => changeGamemodeData("GridshotClassic.json")}
+                  className={`gamemode-button ${gamemode.type === "Classic" ? "active" : ""}`}
+                  onClick={() => changeGamemode("Gridshot", "Classic")}
                 >
                   Classic
                 </button>
                 <button
-                  className={`gamemode-button ${gamemodeDataFilePath === "GridshotMini.json" ? "active" : ""}`}
-                  onClick={() => changeGamemodeData("GridshotMini.json")}
+                  className={`gamemode-button ${gamemode.type === "Mini" ? "active" : ""}`}
+                  onClick={() => changeGamemode("Gridshot", "Mini")}
                 >
                   Mini
                 </button>

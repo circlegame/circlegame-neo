@@ -4,29 +4,13 @@ import React, { createContext, useReducer, useState } from 'react';
 export const Reducer = (state, action) => {
     switch(action.type) {
         case 'SET_GAMEMODE':
-            switch (action.payload) {
-                case "Circlefall":
-                    return {
-                        ...state,
-                        gamemodeType: "Circlefall",
-                        gamemodeDataFilePath: "CirclefallNormal.json"
-                    };
-                case "Gridshot":
-                    return {
-                        ...state,
-                        gamemodeType: "Gridshot",
-                        gamemodeDataFilePath: "GridshotClassic.json"
-                    };
-                default:
-                    return state;
-            }
-
-        case 'SET_GAMEMODE_DATA':
-            return{
+            return {
                 ...state,
-                gamemodeDataFilePath: action.payload
-            };
-
+                gamemode: {
+                    mode: action.payload.mode,
+                    type: action.payload.type
+                }
+            }
         case 'SET_GAMESTATE':
             return{
                 ...state,
@@ -64,8 +48,10 @@ export const Reducer = (state, action) => {
 
 // Initial State
 const initialState = {
-    gamemodeType: "Circlefall",
-    gamemodeDataFilePath: "CirclefallNormal.json",
+    gamemode: {
+        mode: "Circlefall",
+        type: "Normal"
+    },
     gameState: "pregame",
     resetGame: false,
     timer: 3,
@@ -84,8 +70,7 @@ export const Provider = ({ children }) => {
     return (
         <Context.Provider
             value={{
-                gamemodeType: state.gamemodeType,
-                gamemodeDataFilePath: state.gamemodeDataFilePath,
+                gamemode: state.gamemode,
                 gameState: state.gameState,
                 resetGame: state.resetGame,
                 timer: state.timer,
