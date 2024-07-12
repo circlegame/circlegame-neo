@@ -4,6 +4,7 @@ import {Circlefall} from './../p5/Circlefall'
 import {Gridshot} from './../p5/Gridshot'
 import {Context} from '../context/GamemodeContext'
 import './Component.css'
+import CirclefallWave from '../p5/CirclefallWave';
 
 const P5Wrapper = () => {
   // Use context to get all variables from the sketch
@@ -23,6 +24,7 @@ const P5Wrapper = () => {
           Normal: { sketch: Circlefall, filePath: "CirclefallNormal.json" },
           Hard: { sketch: Circlefall, filePath: "CirclefallHard.json" },
           Impossible: { sketch: Circlefall, filePath: "CirclefallImpossible.json" },
+          Marathon: { sketch: CirclefallWave, filePath: "CirclefallMarathon.json" },
           default: { sketch: Circlefall, filePath: "CirclefallNormal.json" }
       },
       Gridshot: {

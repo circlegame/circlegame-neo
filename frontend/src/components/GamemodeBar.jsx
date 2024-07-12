@@ -48,17 +48,26 @@ function GamemodeBar() {
                 >
                   Normal
                 </button>
+
                 <button
                   className={`gamemode-button ${gamemode.type === "Hard" ? "active" : ""}`}
                   onClick={() => changeGamemode("Circlefall", "Hard")}
                 >
                   Hard
                 </button>
+
                 <button
                   className={`gamemode-button ${gamemode.type === "Impossible" ? "active" : ""}`}
                   onClick={() => changeGamemode("Circlefall", "Impossible")}
                 >
                   Impossible
+                </button>
+
+                <button
+                  className={`gamemode-button ${gamemode.type === "Marathon" ? "active" : ""}`}
+                  onClick={() => changeGamemode("Circlefall", "Marathon")}
+                >
+                  Marathon
                 </button>
 
               </div>

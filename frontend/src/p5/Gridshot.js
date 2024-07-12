@@ -87,7 +87,7 @@ export const Gridshot = (p, gamemodeDataFilePath, dispatch) => {
                     dispatch({
                         type: 'SET_TIMER',
                         payload: timer
-                    })
+                    });
                     gameState = "ingame";
                     // Update game state in context
                     dispatch({
