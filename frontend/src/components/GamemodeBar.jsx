@@ -25,8 +25,8 @@ function GamemodeBar() {
     return (
       <>
       
-      {gameState === 'pregame' ? (
-        <div className="gamemode-bar">
+      <div className="gamemode-bar-container">
+        <div className={`gamemode-bar ${gameState === 'pregame' ? "" : 'hidden'}`}>
 
           <button
             className={`gamemode-button ${gamemodeType === "Circlefall" ? "active" : ""}`}
@@ -94,7 +94,8 @@ function GamemodeBar() {
           )}
 
         </div>
-      ) : gameState !== 'endgame' && (<div className='placeholder-gamemodebar'></div>) }
+      </div>
+
       </>
     )
 }

@@ -12,6 +12,11 @@ const P5Wrapper = () => {
   // Create a ref to store the DOM node for the p5.js sketch
   const sketchRef = useRef();
 
+  // Function to handle reset
+  const handleReset = () => {
+    gameContext.dispatch({ type: 'RESET_GAME' });
+  }
+
   // useEffect to initialize and cleanup the p5.js instance
   useEffect(() => {
     // Initialize p5.js instance and attach it to the sketchRef DOM node
@@ -33,6 +38,22 @@ const P5Wrapper = () => {
       p5Instance.remove();
     };
   }, [gameContext.resetGame, gameContext.gamemodeDataFilePath]);
+
+  // useEffect to listen for TAB key press to reset game
+  useEffect(() => {
+    // Function to handle keypresses
+    const handleKeyDown = (event) => {
+      if (event.key === 'Tab'){
+        event.preventDefault();
+        handleReset();
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);      // Listen for keypresses, call handleKeyDown
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown); // Remove listener
+    };
+  }, []);
 
   // Render a div that will be used as the container for the p5.js canvas
   return (

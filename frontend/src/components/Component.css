@@ -1,4 +1,6 @@
-/* Container styling */
+/* GAMEBAR STYLING */
+
+/* General Gamebar */
 .gamemode-bar {
   display: inline-flex;
   justify-content: center;
@@ -7,37 +9,48 @@
   background-color: #2b2b2b;
   border-radius: 10px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
-  margin: auto;
+  transition: opacity 0.2s ease-in-out, visibility 0.2s ease-in-out;
+}
+
+.gamemode-bar.hidden {
+  opacity: 0;
+  visibility: hidden;
+}
+
+.gamemode-data-buttons {
+  display: inline-flex;
 }
   
-/* Button styling */
+/* Button */
 .gamemode-button {
-  background-color: #2b2b2b;
+  background-color: transparent;
   color: #666666;
   border: none;
   padding: 8px 20px;
   margin: 0 5px;
   border-radius: 5px;
-  cursor: pointer;
   outline: none;
   transition: color 0.3s, transform 0.3s;
 }
 
+/* Button Hover */
 .gamemode-button:hover {
   color: #dddddd;
   transform: translateY(-2px);
 }
 
+/* Button Focus */
 .gamemode-button:focus{
   outline: none;
 }
 
-/* Active button styling */
+/* Active button */
 .gamemode-button.active {
   color: #ffffff;
   font-weight: bold;
 }
 
+/* Divider */
 .divider {
   width: 3px;
   height: 30px;
@@ -47,33 +60,108 @@
   align-self: center; 
 }
 
+/* Placeholder Gamebar */
 .placeholder-gamemodebar {
   height: 43px;
 }
 
+
+/* P5WRAPPER STYLING */
+
+/* Stats Placeholder */
 .placeholder-stats-overlay {
-  height: 36px;
+  height: 24px;
 }
 
+/* Blur Sketch */
 .blur {
   filter: blur(12px);
   clip-path: inset(-10px round 10px);
+  transition: filter 0.2s ease-in-out;
 }
 
+/* Active Sketch */
 .crosshair {
   cursor: crosshair;
+  transition: filter 0.2s ease-in-out;
 }
 
+/* Sketch Overlay */
 .sketch-overlay {
   position: absolute;
   text-align: center;
-  top: 336px;
+  top: 324px;
   left: 50%;
   transform: translate(-50%, -50%);
   z-index: 10; /* Overlay is on the top layer */
 }
 
+/* Stats Overlay */
 .stats-overlay {
   text-align: left;
   font-size: 24px;
+}
+
+/* NAVBAR STYLING */
+
+/* General NavBar */
+.navbar {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  transition: opacity 0.2s ease-in-out, visibility 0.2s ease-in-out;
+}
+
+.navbar.hidden {
+  opacity: 0;
+  visibility: hidden;
+}
+
+/* Logo */
+.navbar-logo {
+  display: inline-flex;
+  align-items: center;
+  margin-left: 5%;
+  margin-right: auto;
+  font-size: 54px;
+  font-weight: 600;
+  color: #e5e5e5;
+  cursor: pointer;
+}
+
+/* Logo Image */
+.logo-image {
+  width: 48px;
+  height: 48px;
+  margin-right: 10px;
+}
+
+/* Button Group */
+ .navbar-buttons {
+  margin-left: auto;
+  margin-right: 5%;
+  display: inline-flex;
+}
+
+/* Button */
+.navbar-button {
+  background-color: #2b2b2b;
+  color: #949494;
+  border: none;
+  padding: 8px 20px;
+  margin: 0 5px;
+  border-radius: 5px;
+  outline: none;
+  transition: color 0.3s, transform 0.3s;
+}
+
+/* Button Hover */
+.navbar-button:hover {
+  color: #e5e5e5;
+}
+
+/* Button Focus */
+.navbar-button:focus{
+  outline: none;
 }

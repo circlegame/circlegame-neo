@@ -81,7 +81,7 @@ export const Circlefall = (p, gamemodeDataFilePath, dispatch) => {
 //
             case "ingame":
                 // Spawn new circles based on frames
-                if (p.frameCount % (60/circlesPerSecond) === 0 && totalCirclesSpawned < 100){
+                if (p.frameCount % (p.int(60/circlesPerSecond)) === 0 && totalCirclesSpawned < 100){
                     // Input variables to circle class
                     let x = p.random(circleRadius+10, p.width-circleRadius-10);
                     let y = -circleRadius;
@@ -145,17 +145,19 @@ export const Circlefall = (p, gamemodeDataFilePath, dispatch) => {
             case "pregame":        
                 if (p.mouseX > 0 && p.mouseX < 800 && p.mouseY > 0 && p.mouseY < 600){
                     timer = 3;
+                    timerId = setInterval(handleTimer, 1000);
                     dispatch({
                         type: 'SET_TIMER',
-                        payload: timer
+                        payload: {timer: timer, timerId: timerId}
                     });
+
+                    // Update game state
                     gameState = "countdown";
-                    // Update game state in context
                     dispatch({
                         type: 'SET_GAMESTATE',
                         payload: gameState
                     });
-                    timerId = setInterval(handleTimer, 1000);
+                    
                 }
                 break;
 //
@@ -184,7 +186,7 @@ export const Circlefall = (p, gamemodeDataFilePath, dispatch) => {
             timer--;
             dispatch({
                 type: 'SET_TIMER',
-                payload: timer
+                payload: {timer: timer, timerId: timerId}
             });
         }
     }

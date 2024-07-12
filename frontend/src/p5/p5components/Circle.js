@@ -12,7 +12,9 @@ class Circle {
 
     draw(){
         // Draw the circle
-        this.p.fill(this.color);
+        this.p.fill(220);
+        this.p.strokeWeight(2);
+        this.p.stroke(255);
         this.p.circle(this.x, this.y, this.radius*2)
 
         // Update the circle

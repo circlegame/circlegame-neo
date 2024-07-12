@@ -1,5 +1,6 @@
 import React from 'react';
 import './App.css';
+import NavBar from './components/NavBar';
 import GamemodeBar from './components/GamemodeBar';
 import P5Wrapper from './components/P5Wrapper';
 import PostGame from './components/PostGame';
@@ -9,12 +10,14 @@ import { Provider } from './context/GamemodeContext';
 function App() {
 
   return (
-    <div style={{display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
+    <div className='App'>
       <Provider>
-        <PostGame/>
+        <NavBar/>
         <GamemodeBar/>
-        <br/>
-        <P5Wrapper/>
+        <div className='main-content'>
+          <PostGame/>
+          <P5Wrapper/>
+        </div>
       </Provider>
     </div>
   )
