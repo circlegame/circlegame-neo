@@ -140,11 +140,14 @@ export const CirclefallWave = (p, gamemodeDataFilePath, dispatch) => {
                             payload: gameState
                         });
                         timer = 3;
+                        timerId = setInterval(handleTimer, 1000);
                         dispatch({
                             type: 'SET_TIMER',
-                            payload: timer
+                            payload: {
+                                timer: timer,
+                                timerId: timerId
+                            }
                         });
-                        timerId = setInterval(handleTimer, 1000);
                     }
 
                 }
@@ -185,16 +188,20 @@ export const CirclefallWave = (p, gamemodeDataFilePath, dispatch) => {
             case "pregame":        
                 if (p.mouseX > 0 && p.mouseX < 800 && p.mouseY > 0 && p.mouseY < 600){
                     timer = 3;
+                    timerId = setInterval(handleTimer, 1000);
                     dispatch({
                         type: 'SET_TIMER',
-                        payload: timer
+                        payload: {
+                            timer: timer,
+                            timerId: timerId
+                        }
                     });
+
                     gameState = "countdown";
                     dispatch({
                         type: 'SET_GAMESTATE',
                         payload: gameState
                     });
-                    timerId = setInterval(handleTimer, 1000);
                 }
                 break;
 //
@@ -221,11 +228,14 @@ export const CirclefallWave = (p, gamemodeDataFilePath, dispatch) => {
     function handleTimer(){
         if (timer > 0) {
             timer--;
+            dispatch({
+                type: 'SET_TIMER',
+                payload: {
+                    timer: timer,
+                    timerId: timerId
+                }
+            });
         }
-        dispatch({
-            type: 'SET_TIMER',
-            payload: timer
-        });
     }
 }
 

@@ -13,7 +13,7 @@ function NavBar() {
         <div className="navbar-container">
             <div className={`navbar ${gameState === 'pregame' || gameState === 'endgame' ? "" : 'hidden'}`}>
                 <div className='navbar-logo' onClick={handleLogoClick}>
-                    <img src='/circlegame.png' className='logo-image'/>
+                    <img src='./circlegame.png' className='logo-image'/>
                     circlegame
                 </div>
                 <div className='navbar-buttons'>

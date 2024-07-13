@@ -87,10 +87,11 @@ export const Gridshot = (p, gamemodeDataFilePath, dispatch) => {
                     dispatch({
                         type: 'SET_TIMER',
                         payload: {
-                          timer: timer, 
-                          timerId: timerId
+                            timer: timer, 
+                            timerId: timerId
                         }
-                    })
+                    });
+
                     gameState = "ingame";
                     // Update game state in context
                     dispatch({
@@ -151,7 +152,10 @@ export const Gridshot = (p, gamemodeDataFilePath, dispatch) => {
                     timerId = setInterval(handleTimer, 1000);
                     dispatch({  
                         type: 'SET_TIMER', 
-                        payload: {timer: timer, timerId: timerId}
+                        payload: {
+                            timer: timer, 
+                            timerId: timerId
+                        }
                     });
 
                     // Update game state
@@ -222,7 +226,10 @@ export const Gridshot = (p, gamemodeDataFilePath, dispatch) => {
             timer--;
             dispatch({
                 type: 'SET_TIMER',
-                payload: {timer: timer, timerId: timerId}
+                payload: {
+                    timer: timer, 
+                    timerId: timerId
+                }
             });
         }
     }
