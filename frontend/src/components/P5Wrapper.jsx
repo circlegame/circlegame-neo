@@ -40,7 +40,6 @@ const P5Wrapper = () => {
 
     sketch = type.sketch;
     gamemodeDataFilePath = type.filePath;
-    console.log(gamemodeDataFilePath);
 
     const p5Instance = new p5((p) => sketch(p, gamemodeDataFilePath, gameContext.dispatch), sketchRef.current);
 
