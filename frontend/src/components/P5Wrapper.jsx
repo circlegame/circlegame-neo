@@ -4,6 +4,7 @@ import {Circlefall} from './../p5/Circlefall'
 import {Gridshot} from './../p5/Gridshot'
 import {Context} from '../context/GamemodeContext'
 import './Component.css'
+import CirclefallWave from '../p5/CirclefallWave';
 
 const P5Wrapper = () => {
   // Use context to get all variables from the sketch
@@ -21,23 +22,37 @@ const P5Wrapper = () => {
   useEffect(() => {
     // Initialize p5.js instance and attach it to the sketchRef DOM node
     let sketch;
-    switch (gameContext.gamemodeType){
-      case "Circlefall":
-        sketch = Circlefall;
-        break;
-      case "Gridshot":
-        sketch = Gridshot;
-        break
-      default:
-        sketch = Circlefall;
-    }
-    const p5Instance = new p5((p) => sketch(p, gameContext.gamemodeDataFilePath, gameContext.dispatch), sketchRef.current);
+    let gamemodeDataFilePath;
+
+    const paths = {
+      Circlefall: {
+          Normal: { sketch: Circlefall, filePath: "CirclefallNormal.json" },
+          Hard: { sketch: Circlefall, filePath: "CirclefallHard.json" },
+          Impossible: { sketch: Circlefall, filePath: "CirclefallImpossible.json" },
+          Marathon: { sketch: CirclefallWave, filePath: "CirclefallMarathon.json" },
+          default: { sketch: Circlefall, filePath: "CirclefallNormal.json" }
+      },
+      Gridshot: {
+          Classic: { sketch: Gridshot, filePath: "GridshotClassic.json" },
+          Mini: { sketch: Gridshot, filePath: "GridshotMini.json" },
+          default: { sketch: Gridshot, filePath: "GridshotClassic.json" }
+      },
+      default: { sketch: Circlefall, filePath: "CirclefallNormal.json" }
+    };
+
+    const mode = paths[gameContext.gamemode.mode] || paths.default;
+    const type = mode[gameContext.gamemode.type] || mode.default;
+
+    sketch = type.sketch;
+    gamemodeDataFilePath = type.filePath;
+
+    const p5Instance = new p5((p) => sketch(p, gamemodeDataFilePath, gameContext.dispatch), sketchRef.current);
 
     // Cleanup the p5.js instance when the component unmounts
     return () => {
       p5Instance.remove();
     };
-  }, [gameContext.resetGame, gameContext.gamemodeDataFilePath]);
+  }, [gameContext.resetGame, gameContext.gamemode]);
 
   // useEffect to listen for TAB key press to reset game
   useEffect(() => {
