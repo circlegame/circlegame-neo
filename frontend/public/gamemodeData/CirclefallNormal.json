@@ -5,9 +5,9 @@
     "waveInfo": {
         "1": {
             "circleRadius":35,
-            "minSpeedY": 3,
-            "maxSpeedY": 3,
-            "circlesPerSecond": 4,
+            "minSpeedY": 2.7,
+            "maxSpeedY": 3.3,
+            "circlesPerSecond": 4.44,
             "totalCircles": 100
         }
     }

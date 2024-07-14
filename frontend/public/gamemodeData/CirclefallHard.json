@@ -6,8 +6,8 @@
         "1": {
             "circleRadius":35,
             "minSpeedY": 3,
-            "maxSpeedY": 3,
-            "circlesPerSecond": 5,
+            "maxSpeedY": 3.6,
+            "circlesPerSecond": 5.55,
             "totalCircles": 100
         }
     }
