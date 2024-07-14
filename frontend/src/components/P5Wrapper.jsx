@@ -26,11 +26,11 @@ const P5Wrapper = () => {
 
     const paths = {
       Circlefall: {
-          Normal: { sketch: Circlefall, filePath: "CirclefallNormal.json" },
-          Hard: { sketch: Circlefall, filePath: "CirclefallHard.json" },
-          Impossible: { sketch: Circlefall, filePath: "CirclefallImpossible.json" },
+          Normal: { sketch: CirclefallWave, filePath: "CirclefallNormal.json" },
+          Hard: { sketch: CirclefallWave, filePath: "CirclefallHard.json" },
+          Impossible: { sketch: CirclefallWave, filePath: "CirclefallImpossible.json" },
           Marathon: { sketch: CirclefallWave, filePath: "CirclefallMarathon.json" },
-          default: { sketch: Circlefall, filePath: "CirclefallNormal.json" }
+          default: { sketch: CirclefallWave, filePath: "CirclefallNormal.json" }
       },
       Gridshot: {
           Classic: { sketch: Gridshot, filePath: "GridshotClassic.json" },

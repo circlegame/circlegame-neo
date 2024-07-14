@@ -70,9 +70,11 @@ export const CirclefallWave = (p, gamemodeDataFilePath, dispatch) => {
 //
 //
             case "countdown":
-                p.fill(255);
-                p.textSize(50);
-                p.text("Wave " + waveNumber, 400, 250);
+                if (gamemodeData.showWaveNumber){
+                    p.fill(255);
+                    p.textSize(50);
+                    p.text("Wave " + waveNumber, 400, 250);
+                }
 
                 if (timer <= 0) {
                     let waveInfo = gamemodeData["waveInfo"][waveNumber.toString()]
