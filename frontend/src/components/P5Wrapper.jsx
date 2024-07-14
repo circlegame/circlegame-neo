@@ -1,10 +1,11 @@
 import React, { useRef, useEffect, useContext } from 'react';
+import { Context } from '../context/GamemodeContext';
+import './Component.css';
+
 import p5 from 'p5';
-import {Circlefall} from './../p5/Circlefall'
-import {Gridshot} from './../p5/Gridshot'
-import {Context} from '../context/GamemodeContext'
-import './Component.css'
-import CirclefallWave from '../p5/CirclefallWave';
+import { Circlefall } from './../p5/Circlefall';
+import { Gridshot } from './../p5/Gridshot';
+import { CirclefallWave } from '../p5/CirclefallWave';
 
 const P5Wrapper = () => {
   // Use context to get all variables from the sketch
@@ -26,6 +27,7 @@ const P5Wrapper = () => {
 
     const paths = {
       Circlefall: {
+          Easy: { sketch: CirclefallWave, filePath: "CirclefallEasy.json" },
           Normal: { sketch: CirclefallWave, filePath: "CirclefallNormal.json" },
           Hard: { sketch: CirclefallWave, filePath: "CirclefallHard.json" },
           Impossible: { sketch: CirclefallWave, filePath: "CirclefallImpossible.json" },
