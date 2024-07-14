@@ -20,7 +20,8 @@ export const Reducer = (state, action) => {
         case 'SET_TIMER':
             return{
                 ...state,
-                timer: action.payload
+                timer: action.payload.timer,
+                timerId: action.payload.timerId
             };
 
         case 'SET_INGAME_STATS':
@@ -32,10 +33,14 @@ export const Reducer = (state, action) => {
             }
 
         case 'RESET_GAME':
+            if (state.timerId) {
+                clearInterval(state.timerId);
+            }
             return {
                 ...state,
                 resetGame: !(state.resetGame),
                 gameState: "pregame",
+                timerId: null,
                 hits: 0,
                 misses: 0,
                 misclicks: 0,
@@ -55,6 +60,7 @@ const initialState = {
     gameState: "pregame",
     resetGame: false,
     timer: 3,
+    timerId: null,
     hits: 0,
     misses: 0,
     misclicks: 0,

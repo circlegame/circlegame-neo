@@ -12,10 +12,10 @@ function PostGame() {
   return (
     <>
       {gameState === 'endgame' && (
-        <>
+        <div style={{display: 'block'}}>
           <div>Hits: {hits}&emsp;Misses: {misses}&emsp;Misclicks: {misclicks}</div>
           <button onClick={handleReset}>Home</button>
-        </>
+        </div>
       )}
     </>
   );
