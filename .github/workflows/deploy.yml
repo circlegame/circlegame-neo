@@ -4,9 +4,6 @@ on:
   push:
     branches:
       - master
-  pull_request:
-    branches:
-      - master
 
 jobs:
   build:
@@ -19,9 +16,11 @@ jobs:
 
       - name: Setup Node
         uses: actions/setup-node@v3
+        with:
+          node-version: '14'
 
       - name: Install dependencies
-        uses: cd frontend && bahmutov/npm-install@v1
+        run: cd frontend && npm install
 
       - name: Build project
         run: cd frontend && npm run build
