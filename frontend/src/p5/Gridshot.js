@@ -214,8 +214,8 @@ export const Gridshot = (p, gamemodeDataFilePath, dispatch) => {
         let [x, y] = grid.getCoordinates(row,col);
         let xSpeed = 0;
         let ySpeed = 0;
-        let color = p.color(p.random(255), p.random(255), p.random(255));
-        let newCircle = new Circle(p, totalCirclesSpawned, x, y, xSpeed, ySpeed, circleRadius, color);
+        let color = p.color(255, 40, 40);
+        let newCircle = new Circle(p, totalCirclesSpawned, x, y, xSpeed, ySpeed, circleRadius, color, 43);
         circles.push([newCircle, row, col]);
         dataCollector.addCircle(newCircle, p.frameCount);
         totalCirclesSpawned++;
