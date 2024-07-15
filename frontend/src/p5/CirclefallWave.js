@@ -154,7 +154,7 @@ export const CirclefallWave = (p, gamemodeDataFilePath, dispatch) => {
 
                 }
 
-                if (misses === lives){
+                if (misses >= lives){
                     gameState = "endgame";
                     dispatch({
                         type: 'SET_GAMESTATE',
