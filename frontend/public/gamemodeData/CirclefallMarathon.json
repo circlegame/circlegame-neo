@@ -1,6 +1,7 @@
 {
     "numWaves": 10,
     "numLives": 1,
+    "showWaveNumber": true,
     "waveInfo": {
         "1": {
             "circleRadius":35,

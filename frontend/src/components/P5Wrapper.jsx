@@ -1,10 +1,11 @@
 import React, { useRef, useEffect, useContext } from 'react';
+import { Context } from '../context/GamemodeContext';
+import './Component.css';
+
 import p5 from 'p5';
-import {Circlefall} from './../p5/Circlefall'
-import {Gridshot} from './../p5/Gridshot'
-import {Context} from '../context/GamemodeContext'
-import './Component.css'
-import CirclefallWave from '../p5/CirclefallWave';
+import { Circlefall } from './../p5/Circlefall';
+import { Gridshot } from './../p5/Gridshot';
+import { CirclefallWave } from '../p5/CirclefallWave';
 
 const P5Wrapper = () => {
   // Use context to get all variables from the sketch
@@ -26,11 +27,12 @@ const P5Wrapper = () => {
 
     const paths = {
       Circlefall: {
-          Normal: { sketch: Circlefall, filePath: "CirclefallNormal.json" },
-          Hard: { sketch: Circlefall, filePath: "CirclefallHard.json" },
-          Impossible: { sketch: Circlefall, filePath: "CirclefallImpossible.json" },
+          Easy: { sketch: CirclefallWave, filePath: "CirclefallEasy.json" },
+          Normal: { sketch: CirclefallWave, filePath: "CirclefallNormal.json" },
+          Hard: { sketch: CirclefallWave, filePath: "CirclefallHard.json" },
+          Impossible: { sketch: CirclefallWave, filePath: "CirclefallImpossible.json" },
           Marathon: { sketch: CirclefallWave, filePath: "CirclefallMarathon.json" },
-          default: { sketch: Circlefall, filePath: "CirclefallNormal.json" }
+          default: { sketch: CirclefallWave, filePath: "CirclefallNormal.json" }
       },
       Gridshot: {
           Classic: { sketch: Gridshot, filePath: "GridshotClassic.json" },

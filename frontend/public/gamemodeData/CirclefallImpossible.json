@@ -1,5 +1,14 @@
 {
-    "circleRadius":30,
-    "ySpeed": 3,
-    "circlesPerSecond": 6.66
+    "numWaves": 1,
+    "numLives": 1,
+    "showWaveNumber": false,
+    "waveInfo": {
+        "1": {
+            "circleRadius":30,
+            "minSpeedY": 3,
+            "maxSpeedY": 4,
+            "circlesPerSecond": 6.66,
+            "totalCircles": 1000000000
+        }
+    }
 }
