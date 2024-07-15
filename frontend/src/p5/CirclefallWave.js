@@ -106,7 +106,8 @@ export const CirclefallWave = (p, gamemodeDataFilePath, dispatch) => {
                     let xSpeed = 0;
                     let ySpeed = p.random(minSpeedY, maxSpeedY);
                     let color = p.color(0, 174, 255);
-                    let newCircle = new Circle(p, totalCirclesSpawned, x, y, xSpeed, ySpeed, circleRadius, color, 43);
+                    let stroke = p.color(43);
+                    let newCircle = new Circle(p, totalCirclesSpawned, x, y, xSpeed, ySpeed, circleRadius, color, stroke);
                     
                     circles.push(newCircle);
                     dataCollector.addCircle(newCircle, p.frameCount);

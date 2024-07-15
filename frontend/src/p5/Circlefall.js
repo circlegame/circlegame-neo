@@ -86,8 +86,9 @@ export const Circlefall = (p, gamemodeDataFilePath, dispatch) => {
                     let x = p.random(circleRadius+10, p.width-circleRadius-10);
                     let y = -circleRadius;
                     let xSpeed = 0;
-                    let color = p.color(p.random(255), p.random(255), p.random(255));
-                    let newCircle = new Circle(p, totalCirclesSpawned, x, y, xSpeed, ySpeed, circleRadius, color);
+                    let color = p.color(0, 174, 255);
+                    let stroke = p.color(43);
+                    let newCircle = new Circle(p, totalCirclesSpawned, x, y, xSpeed, ySpeed, circleRadius, color, stroke);
                     
                     circles.push(newCircle);
                     dataCollector.addCircle(newCircle, p.frameCount);
