@@ -1,5 +1,5 @@
 class Circle {
-    constructor(p, id, x, y, xSpeed, ySpeed, radius, color){
+    constructor(p, id, x, y, xSpeed, ySpeed, radius, color, stroke){
         this.p = p; // Reference to the p5 instance
         this.id = id;
         this.x = x;
@@ -8,13 +8,13 @@ class Circle {
         this.ySpeed = ySpeed;
         this.radius = radius;
         this.color = color;
+        this.stroke = stroke;
     }
 
     draw(){
         // Draw the circle
-        this.p.fill(220);
-        this.p.strokeWeight(2);
-        this.p.stroke(255);
+        this.p.fill(this.color);
+        this.p.stroke(this.stroke);
         this.p.circle(this.x, this.y, this.radius*2)
 
         // Update the circle
