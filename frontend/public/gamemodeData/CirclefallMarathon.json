@@ -1,0 +1,77 @@
+{
+    "numWaves": 10,
+    "numLives": 1,
+    "showWaveNumber": true,
+    "waveInfo": {
+        "1": {
+            "circleRadius":35,
+            "minSpeedY": 3,
+            "maxSpeedY": 3,
+            "circlesPerSecond": 3,
+            "totalCircles": 45
+        },
+        "2": {
+            "circleRadius":35,
+            "minSpeedY": 3,
+            "maxSpeedY": 3,
+            "circlesPerSecond": 3.5,
+            "totalCircles": 60
+        },
+        "3": {
+            "circleRadius":35,
+            "minSpeedY": 3,
+            "maxSpeedY": 4,
+            "circlesPerSecond": 4,
+            "totalCircles": 120
+        },
+        "4": {
+            "circleRadius":30,
+            "minSpeedY": 3,
+            "maxSpeedY": 4,
+            "circlesPerSecond": 4,
+            "totalCircles": 180
+        },
+        "5": {
+            "circleRadius":30,
+            "minSpeedY": 3,
+            "maxSpeedY": 4,
+            "circlesPerSecond": 4.5,
+            "totalCircles": 150
+        },
+        "6": {
+            "circleRadius":30,
+            "minSpeedY": 4,
+            "maxSpeedY": 4,
+            "circlesPerSecond": 5,
+            "totalCircles": 225 
+        },
+        "7": {
+            "circleRadius":25,
+            "minSpeedY": 4,
+            "maxSpeedY": 4,
+            "circlesPerSecond": 5,
+            "totalCircles": 300
+        },
+        "8": {
+            "circleRadius":30,
+            "minSpeedY": 4,
+            "maxSpeedY": 4,
+            "circlesPerSecond": 6,
+            "totalCircles": 270
+        },
+        "9": {
+            "circleRadius":30,
+            "minSpeedY": 4,
+            "maxSpeedY": 5,
+            "circlesPerSecond": 6,
+            "totalCircles": 360
+        },
+        "10": {
+            "circleRadius":25,
+            "minSpeedY": 4,
+            "maxSpeedY": 6,
+            "circlesPerSecond": 6.66,
+            "totalCircles": 1000000
+        }
+    }
+}
