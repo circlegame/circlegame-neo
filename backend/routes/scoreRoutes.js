@@ -3,9 +3,9 @@ const { submitScore, getScoreByUsername } = require('../controllers/scoreControl
 const authMiddleware = require('../middleware/authMiddleware');
 const router = express.Router();
 
-router.use(authMiddleware)
+//router.use(authMiddleware)
 
-router.post('/submit', submitScore);
+router.post('/submit', authMiddleware, submitScore);
 router.get('/username/:username', getScoreByUsername);
 
 module.exports = router;

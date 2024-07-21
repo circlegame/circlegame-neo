@@ -2,9 +2,11 @@ const Score = require('../models/Score');
 
 exports.submitScore = async (req, res) => {
     try {
-        const { username, gamemode, score, stats} = req.body;
+        const { gamemode, score, stats} = req.body;
+        const username = req.username;
+        // const userId = req.userId
 
-        // Validation (optional but recommended)
+        // Validation
         if (!username || !gamemode || score === undefined || stats === undefined || stats.hits === undefined || stats.misses === undefined || stats.misclicks === undefined) {
             return res.status(400).json({ message: 'All fields are required' });
         }
