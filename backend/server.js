@@ -6,8 +6,8 @@ const cors = require('cors');
 dotenv.config();
 
 const corsOptions = {
-    origin: 'https://circlegame.github.io',
-    //origin: '*',
+    //origin: 'https://circlegame.github.io',
+    origin: '*',
     credentials: true
 };
 
@@ -19,6 +19,7 @@ app.use(express.json());
 
 // Routes
 app.use('/api/auth', require('./routes/authRoutes'));
+app.use('/api/scores', require('./routes/scoreRoutes'));
 
 // Connect to mongoDB
 mongoose.connect(process.env.MONGO_URI, { useNewUrlParser: true, useUnifiedTopology: true })
