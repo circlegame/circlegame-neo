@@ -5,6 +5,7 @@ import GamemodeBar from './components/GamemodeBar';
 import P5Wrapper from './components/P5Wrapper';
 import PostGame from './components/PostGame';
 import Popup from './components/Popup';
+import Footer from './components/Footer';
 import { GamemodeProvider } from './context/GamemodeContext';
 import { MenuProvider } from './context/MenuContext';
 
@@ -13,8 +14,7 @@ function App() {
 
     return (
         <div className='App'>
-            <GamemodeProvider>
-            <MenuProvider>
+            <GamemodeProvider><MenuProvider>
 
                 <Popup/>
                 <NavBar/>
@@ -25,8 +25,10 @@ function App() {
                     <PostGame/>
                     <P5Wrapper/>
                 </div>
-            </MenuProvider>
-            </GamemodeProvider>
+
+                <Footer/>
+                
+                </MenuProvider></GamemodeProvider>
         </div>
     )
 }

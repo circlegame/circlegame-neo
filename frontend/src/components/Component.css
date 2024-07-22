@@ -51,8 +51,8 @@
 
 /* Divider */
 .divider {
-  width: 3px;
-  height: 30px;
+  width: 4px;
+  height: 23px;
   background-color: #3b3b3b;
   margin: 0 10px;
   border-radius: 30px;
@@ -137,7 +137,7 @@
 }
 
 /* Button Group */
- .navbar-buttons {
+.navbar-buttons {
   margin-left: auto;
   margin-right: 5%;
   display: inline-flex;
@@ -165,7 +165,7 @@
   outline: none;
 }
 
-/* MISC OVERLAY */
+/* POPUP STYLING */
 
 .popup-container {
   position: fixed;
@@ -187,4 +187,60 @@
   width: 50%;
   max-width: 600px;
   position: relative;
+}
+
+/* FOOTER STYLING */
+
+/* General Footer */
+.footer{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  transition: opacity 0.2s ease-in-out, visibility 0.2s ease-in-out;
+}
+
+.footer.hidden {
+  opacity: 0;
+  visibility: hidden;
+}
+
+/* Version Number */
+.footer-version {
+  display: inline-flex;
+  align-items: center;
+  margin-left: 16%;
+  margin-right: auto;
+  color: #c8c8c8;
+  font-size: 17px;
+  font-weight: 700;
+}
+
+/* Button Group */
+.footer-buttons {
+  margin-left: auto;
+  margin-right: 16%;
+  display: inline-flex;
+}
+
+/* Button */
+.footer-button {
+  background-color: transparent;
+  color: #666666;
+  border: none;
+  padding: 8px 20px;
+  margin: 0 5px;
+  border-radius: 5px;
+  outline: none;
+  transition: color 0.3s, transform 0.3s;
+}
+
+/* Button Hover */
+.footer-button:hover {
+  color: #e5e5e5;
+}
+
+/* Button Focus */
+.footer-button:focus{
+  outline: none;
 }
