@@ -1,10 +1,10 @@
-const Leaderboard = require('../models/leaderboard');
+const Leaderboard = require('../models/Leaderboard');
 
 exports.getLeaderboard = async (req, res) => {
     try{
         const { gamemode } = req.body;
 
-        const leaderboard = await Leaderboard.find({ gamemode: gamemode });
+        const leaderboard = await Leaderboard.findOne({ gamemode: gamemode });
 
         const leaderboardEntries = leaderboard.entries;
 
