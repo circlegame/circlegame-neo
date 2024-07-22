@@ -1,14 +1,14 @@
 import React, { useContext } from 'react';
-import { Context } from '../context/GamemodeContext';
+import { GamemodeContext } from '../context/GamemodeContext';
 import './Component.css';
 
 function GamemodeBar() {
-    const { gamemode, gameState, dispatch } = useContext(Context);
+    const { gamemode, gameState, gamemodeDispatch } = useContext(GamemodeContext);
   
     // Switch gamemodes when button is pressed
     const changeGamemode = (mode, type) => {
         // Change gamemode state in the GamemodeContext file
-        dispatch ({
+        gamemodeDispatch ({
             type: 'SET_GAMEMODE',
             payload: {
                 mode: mode,
