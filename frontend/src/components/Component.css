@@ -167,6 +167,7 @@
 
 /* POPUP STYLING */
 
+/* General Popup */
 .popup-container {
   position: fixed;
   top: 0;
@@ -177,16 +178,99 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  flex-direction: column;
   z-index: 1000;
 }
 
-.popup-content {
-  background: #2b2b2b;
+/* Misc Popup */
+.misc-popup {
+  background: #242424;
   padding: 10px;
   border-radius: 5px;
   width: 50%;
   max-width: 600px;
   position: relative;
+}
+
+/* Signup/Login Popup */
+.signup-login-popup{
+  background: #242424;
+  padding: 10px;
+  border-radius: 5px;
+  width: 50%;
+  max-width: 325px;
+  position: relative;
+}
+
+.login-header {
+  margin-bottom: 0;
+}
+
+/* Login Form */
+form {
+  display: grid;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 30px;
+}
+
+/* Login Form Input */
+input {
+  border: none;
+  background: #2b2b2b;
+  padding: 5px;
+  border-radius: 5px;
+  line-height: 1.5rem;
+  font-size: 16px;
+  font-weight: 500;
+  font-family: 'Inconsolata', monospace;
+  width: 15rem;
+}
+
+/* Login Form Button */
+.login-form-button {
+  width: 15rem;
+  background-color: rgb(55, 55, 55);
+  color: #949494;
+  border: none;
+  border-radius: 5px;
+  outline: none;
+  transition: color 0.3s, background-color 0.3s, transform 0.3s;
+}
+
+/* Login Button Hover */
+.login-form-button:hover {
+  color: #e5e5e5;
+  background-color: rgb(60, 60, 60);
+}
+
+/* Login Button Focus */
+.login-form-button:focus{
+  outline: none;
+}
+
+/* Signup/Login Switch Button */
+.login-register-button {
+  width: 8rem;
+  background-color: rgb(47, 47, 47);
+  color: #949494;
+  border: none;
+  border-radius: 5px;
+  margin: 5px;
+  outline: none;
+  transition: color 0.3s, background-color 0.3s, transform 0.3s;
+}
+
+/* Signup/Login Switch Button Hover */
+.login-register-button:hover {
+  color: #e5e5e5;
+  background-color: rgb(52, 52, 52);
+}
+
+/* Signup/Login Switch Button Focus */
+.login-register-button:focus{
+  outline: none;
 }
 
 /* FOOTER STYLING */
@@ -211,7 +295,7 @@
   align-items: center;
   margin-left: 16%;
   margin-right: auto;
-  color: #c8c8c8;
+  color: #666666;
   font-size: 17px;
   font-weight: 700;
 }
