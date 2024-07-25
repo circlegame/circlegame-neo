@@ -6,8 +6,10 @@ const CRON_SCHEDULE = '*/15 * * * *';
 
 // Gamemodes to keep a leaderboard for
 const gamemodes = [
-    'gridshot',
-    'circlefall'
+    'GridshotClassic',
+    'GridshotMini',
+    'CirclefallImpossible',
+    'CirclefallMarathon'
 ]
 
 const getAggregationPipeline = (gamemode) => [

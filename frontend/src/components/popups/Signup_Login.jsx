@@ -1,14 +1,53 @@
 import React, { useState } from 'react';
+import { register, login } from '../../api';
 import '../Component.css';
 
 function Signup_Login() {
     // popupType = true : LOGIN POPUP
     // popupType = false : REGISTER POPUP
     const [popupType, setPopupType] = useState(true);
+
+    const [loginFormData, setLoginFormData] = useState({
+        identifier: '',
+        password: ''
+    });
+    const [registerFormData, setRegisterFormData] = useState({
+        username: '',
+        email: '',
+        new_password: ''
+    })
     
     const handlePopupChange = () => {
         setPopupType(!popupType);
     };
+
+    const handleInputChange = (e) => {
+        const { id, value } = e.target;
+        setLoginFormData({ ...loginFormData, [id]:value });
+        setRegisterFormData({ ...registerFormData, [id]:value });
+    };
+
+    // Login submition
+    const handleLogin = async (e) => {
+        e.preventDefault();
+        try {
+            const response = await login(loginFormData.identifier, loginFormData.password);
+            console.log("Login successful:", response.data);
+        } catch (error) {
+            console.error('Login Failed:', error);
+        }
+    };
+
+    // Register submition
+    const handleRegister = async (e) => {
+        e.preventDefault();
+        try {
+            const response = await register(registerFormData.email, registerFormData.username, registerFormData.new_password);
+            console.log("Registration successful:", response.data);
+        } catch (error) {
+            console.log("Registration failed:", error);
+        }
+    }
 
     return (
         <>
@@ -20,19 +59,23 @@ function Signup_Login() {
                 <form autoComplete="off">
                     <input
                         type="text"
-                        id="username"
-                        placeholder='username'
+                        id="identifier"
+                        value={loginFormData.identifier}
+                        onChange={handleInputChange}
+                        placeholder="username or email"
                         autoComplete="off"
                         required
                     />
                     <input
                         type="password"
                         id="password"
+                        value={loginFormData.password}
+                        onChange={handleInputChange}
                         placeholder='password'
                         autoComplete="off"
                         required
                     />
-                    <button type="submit" className="login-form-button">sign in</button>
+                    <button type="submit" className="login-form-button" onClick={handleLogin}>sign in</button>
                 </form>
                 <div>
                     don't have an account? 
@@ -48,6 +91,8 @@ function Signup_Login() {
                     <input
                         type="text"
                         id="email"
+                        value={registerFormData.email}
+                        onChange={handleInputChange}
                         placeholder='email'
                         autoComplete="off"
                         required
@@ -55,13 +100,17 @@ function Signup_Login() {
                     <input
                         type="text"
                         id="username"
+                        value={registerFormData.username}
+                        onChange={handleInputChange}
                         placeholder='username'
                         autoComplete="off"
                         required
                     />
                     <input
                         type="password"
-                        id="password"
+                        id="new_password"
+                        value={registerFormData.new_password}
+                        onChange={handleInputChange}
                         placeholder='password'
                         autoComplete="off"
                         required
@@ -73,7 +122,7 @@ function Signup_Login() {
                         autoComplete="off"
                         required
                     />
-                    <button type="submit" className="login-form-button">sign up</button>
+                    <button type="submit" className="login-form-button" onClick={handleRegister}>sign up</button>
                 </form>
                 <div>
                     already have an account? 

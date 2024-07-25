@@ -66,15 +66,15 @@ exports.login = async (req, res) => {
 
         res.cookie('accessToken', accessToken, {
             httpOnly: true,
-            secure: process.env.NODE_ENV === 'production',
-            sameSite: 'Strict' // Help mitigate CSRF attacks
+            secure: true, //process.env.NODE_ENV === 'production'
+            sameSite: "None"
         });
         res.cookie('refreshToken', refreshToken, {
             httpOnly: true,
-            secure: process.env.NODE_ENV === 'production',
-            sameSite: 'Strict' // Help mitigate CSRF attacks
+            secure: true, //process.env.NODE_ENV === 'production',
+            sameSite: "None"
         });
-        res.status(200).json({ message: 'Logged in successfully' });
+        return res.status(200).json({ message: 'Logged in successfully' });
     } catch (err) {
         res.status(500).json({ error: err.message });
     }

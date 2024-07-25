@@ -2,13 +2,15 @@ const express = require('express');
 const mongoose = require('mongoose');
 const dotenv = require('dotenv');
 const cors = require('cors');
+const cookieParser = require('cookie-parser');
 
 dotenv.config();
 
 const corsOptions = {
     //origin: 'https://circlegame.github.io',
-    origin: '*',
-    credentials: true
+    origin: 'http://127.0.0.1:5173',
+    credentials: true,
+    exposedHeaders: ["Set-Cookie"]
 };
 
 const app = express();
@@ -16,6 +18,7 @@ const app = express();
 // Middleware
 app.use(cors(corsOptions));
 app.use(express.json());
+app.use(cookieParser());
 
 // Routes
 app.use('/api/auth', require('./routes/authRoutes'));

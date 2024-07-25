@@ -29,19 +29,19 @@ const P5Wrapper = () => {
 
     const paths = {
       Circlefall: {
-          Easy: { sketch: CirclefallWave, filePath: "CirclefallEasy.json" },
-          Normal: { sketch: CirclefallWave, filePath: "CirclefallNormal.json" },
-          Hard: { sketch: CirclefallWave, filePath: "CirclefallHard.json" },
-          Impossible: { sketch: CirclefallWave, filePath: "CirclefallImpossible.json" },
-          Marathon: { sketch: CirclefallWave, filePath: "CirclefallMarathon.json" },
-          default: { sketch: CirclefallWave, filePath: "CirclefallNormal.json" }
+          Easy: { sketch: CirclefallWave, filePath: "CirclefallEasy" },
+          Normal: { sketch: CirclefallWave, filePath: "CirclefallNormal" },
+          Hard: { sketch: CirclefallWave, filePath: "CirclefallHard" },
+          Impossible: { sketch: CirclefallWave, filePath: "CirclefallImpossible" },
+          Marathon: { sketch: CirclefallWave, filePath: "CirclefallMarathon" },
+          default: { sketch: CirclefallWave, filePath: "CirclefallNormal" }
       },
       Gridshot: {
-          Classic: { sketch: Gridshot, filePath: "GridshotClassic.json" },
-          Mini: { sketch: Gridshot, filePath: "GridshotMini.json" },
-          default: { sketch: Gridshot, filePath: "GridshotClassic.json" }
+          Classic: { sketch: Gridshot, filePath: "GridshotClassic" },
+          Mini: { sketch: Gridshot, filePath: "GridshotMini" },
+          default: { sketch: Gridshot, filePath: "GridshotClassic" }
       },
-      default: { sketch: Circlefall, filePath: "CirclefallNormal.json" }
+      default: { sketch: Circlefall, filePath: "CirclefallNormal" }
     };
 
     const mode = paths[gameContext.gamemode.mode] || paths.default;

@@ -1,8 +1,9 @@
 import { Circle } from './p5components/Circle.js'
 import { Grid } from './p5components/Grid.js';
 import { DataCollector } from './p5components/DataCollector.js';
+import { submitScore } from '../api.js';
 
-export const Gridshot = (p, gamemodeDataFilePath, context) => {
+export const Gridshot = (p, gamemode, context) => {
     // Sketch variables
     let circles;
     let grid;
@@ -30,8 +31,8 @@ export const Gridshot = (p, gamemodeDataFilePath, context) => {
     //-----------Preload-----------//
     let gamemodeData;
     p.preload = () => {
-        if (gamemodeDataFilePath){
-            gamemodeData = p.loadJSON("./gamemodeData/" + gamemodeDataFilePath);
+        if (gamemode){
+            gamemodeData = p.loadJSON("./gamemodeData/" + gamemode + ".json");
         } // Maybe raise error if this messes up or something
     }
     
@@ -119,6 +120,7 @@ export const Gridshot = (p, gamemodeDataFilePath, context) => {
                         type: 'SET_GAMESTATE',
                         payload: gameState 
                     });
+                    submitScore(gamemode, hits, hits, 0, totalClicks-hits);
                 }
 
                 // Update ingame stats
