@@ -3,45 +3,58 @@ import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 
 // Styled components
+
+// Container for the leaderboard
 const LeaderboardContainer = styled.div`
     background: #242424;
-    justify-content: center;
     padding: 10px;
+    padding-top: 0px;
     border-radius: 5px;
     position: relative;
     width: 100%;
-    max-height: 600px;
     margin: 0 auto;
     text-align: center;
+    overflow-y: hidden;
+    
+`;
+
+// Wrapper for container to have its own scrollbar
+const TableWrapper = styled.div`
+    max-height: 600px; 
     overflow-y: auto;
 `;
 
-const LeaderboardGrid = styled.div`
-    display: grid;
-    grid-template-columns: 1fr;
-    margin-top: 10px;
-    border: 1px solid black;
+// Table styles
+const Table = styled.table`
+    width: 100%;
+    border-collapse: collapse;
 `;
 
-const LeaderboardEntryDark = styled.div`
+// Table header styles
+const TableHeader = styled.th`
+    background-color: #333;
+    color: white;
+    padding: 10px;
+    border: 1px solid #444;
+    position: sticky; /* Fix the header to the top */
+    top: 0; /* Position it at the top of the scrolling area */
+    z-index: 1; /* Ensure the header stays above other content */
+`;
+
+// Table cell styles
+const TableCell = styled.td`
+    padding: 10px;
+    border: 1px solid #444;
+    color: white;
+`;
+
+// Table row styles for alternating colors
+const TableRowDark = styled.tr`
     background-color: #404040;
-    padding: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-`;
-const LeaderboardEntryLight = styled.div`
-    background-color: #555555;
-    padding: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
 `;
 
-const EntryText = styled.span`
-    margin: 5px 0;
+const TableRowLight = styled.tr`
+    background-color: #555555;
 `;
 
 function Leaderboard() {
@@ -112,20 +125,34 @@ function Leaderboard() {
         <>                
             <LeaderboardContainer>
                 <h1>Leaderboard</h1>
-                <LeaderboardGrid>
-                    {leaderboard.map((entry, index) => (
-                        index % 2 === 0 ? (
-                            <LeaderboardEntryDark key={index}>
-                                <EntryText>{index+1}: {entry.username}: {entry.score}</EntryText>
-                            </LeaderboardEntryDark>
-                        ) : (
-                            <LeaderboardEntryLight key={index}>
-                                <EntryText>{index+1}: {entry.username}: {entry.score}</EntryText>
-                            </LeaderboardEntryLight>
-                        )
-
-                    ))}
-                </LeaderboardGrid>
+                <TableWrapper>
+                    <Table>
+                        <thead>
+                            <tr>
+                                <TableHeader>Rank</TableHeader>
+                                <TableHeader>Username</TableHeader>
+                                <TableHeader>Score</TableHeader>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {leaderboard.map((entry, index) => (
+                                index % 2 === 0 ? (
+                                    <TableRowDark key={index}>
+                                        <TableCell>{index + 1}</TableCell>
+                                        <TableCell>{entry.username}</TableCell>
+                                        <TableCell>{entry.score}</TableCell>
+                                    </TableRowDark>
+                                ) : (
+                                    <TableRowLight key={index}>
+                                        <TableCell>{index + 1}</TableCell>
+                                        <TableCell>{entry.username}</TableCell>
+                                        <TableCell>{entry.score}</TableCell>
+                                    </TableRowLight>
+                                )
+                            ))}
+                        </tbody>
+                    </Table>
+                </TableWrapper>
             </LeaderboardContainer>
         </>
     );
