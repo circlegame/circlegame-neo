@@ -120,7 +120,15 @@ export const Gridshot = (p, gamemode, context) => {
                         type: 'SET_GAMESTATE',
                         payload: gameState 
                     });
-                    submitScore(gamemode, hits, hits, 0, totalClicks-hits);
+                    try{
+                        let response = submitScore(gamemode, hits, hits, 0, totalClicks-hits);
+                        // if (!response.ok){
+                        //     throw new Error(`HTTP error! Status: ${response.status}`);
+                        // }
+                        // console.log("Submit Score Successful");
+                    }catch (error){
+                        console.log("Submit Score Failed:", error);
+                    }
                 }
 
                 // Update ingame stats

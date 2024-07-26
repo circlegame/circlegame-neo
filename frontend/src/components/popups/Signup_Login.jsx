@@ -21,7 +21,6 @@ function Signup_Login() {
     
     const handlePopupChange = () => {
         setPopupType(!popupType);
-        console.log(loggedin);
     };
 
     const handleInputChange = (e) => {

@@ -6,9 +6,9 @@ const cookieParser = require('cookie-parser');
 
 dotenv.config();
 
+const corsOrigin = process.env.NODE_ENV === "prod" ? 'https://circlegame.net' : 'http://localhost:5173'
 const corsOptions = {
-    //origin: 'https://circlegame.github.io',
-    origin: 'http://localhost:5173',
+    origin: corsOrigin,
     credentials: true
 };
 

@@ -78,7 +78,6 @@ function Leaderboard() {
         const loadLeaderboard = async () => {
             try{
                 const data = await getLeaderboard(gamemode);
-                console.log(data);
                 setLeaderboard(data.data);
                 setLoading(false);
             } catch (error) {
@@ -87,33 +86,7 @@ function Leaderboard() {
             }
         }
         loadLeaderboard();
-        console.log(leaderboard)
 
-
-        // setLeaderboard([
-        //     {username: "kPin", score: 11210},
-        //     {username: "kPin1", score: 11200},
-        //     {username: "kPin2", score: 11120},
-        //     {username: "kPin3", score: 1121},
-        //     {username: "kPin4", score: 1120},
-        //     {username: "kPin5", score: 1120},
-        //     {username: "kPin6", score: 1120},
-        //     {username: "kPin7", score: 1120},
-        //     {username: "kPin8", score: 1120},
-        //     {username: "kPin9", score: 1120},
-        //     {username: "kPin0", score: 1120},
-        //     {username: "kPin12", score: 1120},
-        //     {username: "kPin11", score: 1120},
-        //     {username: "kPin23", score: 1120},
-        //     {username: "kPin24", score: 1120},
-        //     {username: "kPin25", score: 1120},
-        //     {username: "kPin26", score: 1120},
-        //     {username: "kPin27", score: 1120},
-        //     {username: "kPin28", score: 1120},
-        //     {username: "kPin29", score: 1120},
-        //     {username: "kPin39", score: 120},
-        // ]);
-        // setLoading(false);
     }, [gamemode]);
 
     if (loading){

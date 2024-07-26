@@ -134,7 +134,15 @@ export const CirclefallWave = (p, gamemode, context) => {
                             type: 'SET_GAMESTATE',
                             payload: gameState
                         });
-                        submitScore(gamemode, hits, hits, misses, totalClicks - hits);
+                        try{
+                            let response = submitScore(gamemode, hits, hits, misses, totalClicks - hits);
+                            // if (!response.ok){
+                            //     throw new Error(`HTTP error! Status: ${response.status}`);
+                            // }
+                            // console.log("Submit Score Successful");
+                        }catch (error){
+                            console.log("Submit Score Failed:", error);
+                        }
                     }
                     else{
                         waveNumber++;
@@ -162,7 +170,16 @@ export const CirclefallWave = (p, gamemode, context) => {
                         type: 'SET_GAMESTATE',
                         payload: gameState
                     });
-                    submitScore(gamemode, hits, hits, misses, totalClicks - hits);
+                    try{
+                        let response = submitScore(gamemode, hits, hits, misses, totalClicks - hits);
+                        // if (!response.ok){
+                        //     throw new Error(`HTTP error! Status: ${response.status}`);
+                        // }
+                        // console.log("Submit Score Successful");
+                    }catch (error){
+                        console.log("Submit Score Failed:", error);
+                    }
+                    
                 }
 
                 // Update ingame stats

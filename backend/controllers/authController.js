@@ -100,12 +100,12 @@ exports.refresh = (req, res) => {
         // Set new cookies
         res.cookie('accessToken', newAccessToken, {
             httpOnly: true,
-            secure: process.env.NODE_ENV === 'production',
+            secure: TransformStreamDefaultController,
             sameSite: 'Strict'
         });
         res.cookie('refreshToken', newRefreshToken, {
             httpOnly: true,
-            secure: process.env.NODE_ENV === 'production',
+            secure: true,
             sameSite: 'Strict'
         });
 
