@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-// import { fetchLeaderboard } from './api';
+import { getLeaderboard } from '../../api';
 import styled from 'styled-components';
 
 // Styled components
@@ -57,51 +57,64 @@ const TableRowLight = styled.tr`
     background-color: #555555;
 `;
 
+// Dropdown styles
+const Dropdown = styled.select`
+    padding: 5px;
+    margin-bottom: 10px;
+    background-color: #333;
+    color: white;
+    border: 1px solid #444;
+    border-radius: 5px;
+`;
+
 function Leaderboard() {
     const [leaderboard, setLeaderboard] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
+    const [gamemode, setGamemode] = useState("CirclefallImpossible");
 
     useEffect(() => {
         // Async functions must be defined inside and not in useEffect parameter
-        // const loadLeaderboard = async () => {
-        //     try{
-        //         const data = await getLeaderboard();
-        //         setLeaderboard(data);
-        //         setLoading(false);
-        //     } catch (error) {
-        //         setError(error);
-        //         setLoading(false);
-        //     }
-        // }
-        // loadLeaderboard();
+        const loadLeaderboard = async () => {
+            try{
+                const data = await getLeaderboard(gamemode);
+                console.log(data);
+                setLeaderboard(data.data);
+                setLoading(false);
+            } catch (error) {
+                setError(error);
+                setLoading(false);
+            }
+        }
+        loadLeaderboard();
+        console.log(leaderboard)
 
 
-        setLeaderboard([
-            {username: "kPin", score: 11210},
-            {username: "kPin1", score: 11200},
-            {username: "kPin2", score: 11120},
-            {username: "kPin3", score: 1121},
-            {username: "kPin4", score: 1120},
-            {username: "kPin5", score: 1120},
-            {username: "kPin6", score: 1120},
-            {username: "kPin7", score: 1120},
-            {username: "kPin8", score: 1120},
-            {username: "kPin9", score: 1120},
-            {username: "kPin0", score: 1120},
-            {username: "kPin12", score: 1120},
-            {username: "kPin11", score: 1120},
-            {username: "kPin23", score: 1120},
-            {username: "kPin24", score: 1120},
-            {username: "kPin25", score: 1120},
-            {username: "kPin26", score: 1120},
-            {username: "kPin27", score: 1120},
-            {username: "kPin28", score: 1120},
-            {username: "kPin29", score: 1120},
-            {username: "kPin39", score: 120},
-        ]);
-        setLoading(false);
-    }, []);
+        // setLeaderboard([
+        //     {username: "kPin", score: 11210},
+        //     {username: "kPin1", score: 11200},
+        //     {username: "kPin2", score: 11120},
+        //     {username: "kPin3", score: 1121},
+        //     {username: "kPin4", score: 1120},
+        //     {username: "kPin5", score: 1120},
+        //     {username: "kPin6", score: 1120},
+        //     {username: "kPin7", score: 1120},
+        //     {username: "kPin8", score: 1120},
+        //     {username: "kPin9", score: 1120},
+        //     {username: "kPin0", score: 1120},
+        //     {username: "kPin12", score: 1120},
+        //     {username: "kPin11", score: 1120},
+        //     {username: "kPin23", score: 1120},
+        //     {username: "kPin24", score: 1120},
+        //     {username: "kPin25", score: 1120},
+        //     {username: "kPin26", score: 1120},
+        //     {username: "kPin27", score: 1120},
+        //     {username: "kPin28", score: 1120},
+        //     {username: "kPin29", score: 1120},
+        //     {username: "kPin39", score: 120},
+        // ]);
+        // setLoading(false);
+    }, [gamemode]);
 
     if (loading){
         return (
@@ -125,6 +138,14 @@ function Leaderboard() {
         <>                
             <LeaderboardContainer>
                 <h1>Leaderboard</h1>
+
+                <Dropdown value={gamemode} onChange={(e) => setGamemode(e.target.value)}>
+                    <option value="CirclefallImpossible">Circlefall Impossible</option>
+                    <option value="CirclefallMarathon">Circlefall Marathon</option>
+                    <option value="GridshotClassic">Gridshot Classic</option>
+                    <option value="GridshotMini">Gridshot Mini</option>
+                </Dropdown>
+
                 <TableWrapper>
                     <Table>
                         <thead>

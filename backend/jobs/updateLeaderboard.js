@@ -2,7 +2,7 @@ const cron = require('node-cron');
 const Score = require('../models/Score');
 const Leaderboard = require('../models/Leaderboard');
 
-const CRON_SCHEDULE = '*/15 * * * *';
+const CRON_SCHEDULE = '*/5 * * * *';
 
 // Gamemodes to keep a leaderboard for
 const gamemodes = [
