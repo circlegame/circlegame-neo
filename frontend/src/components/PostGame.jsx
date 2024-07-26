@@ -1,12 +1,12 @@
 import React, { useContext } from 'react';
-import { Context } from '../context/GamemodeContext';
+import { GamemodeContext } from '../context/GamemodeContext';
 import './Component.css';
 
 function PostGame() {
-  const { gameState, hits, misses, misclicks, dispatch } = useContext(Context);
+  const { gameState, hits, misses, misclicks, gamemodeDispatch } = useContext(GamemodeContext);
 
   const handleReset = () => {
-    dispatch({type: 'RESET_GAME'});
+    gamemodeDispatch({type: 'RESET_GAME'});
   };
 
   return (

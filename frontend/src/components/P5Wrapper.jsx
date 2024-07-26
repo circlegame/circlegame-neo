@@ -1,5 +1,6 @@
 import React, { useRef, useEffect, useContext } from 'react';
-import { Context } from '../context/GamemodeContext';
+import { GamemodeContext } from '../context/GamemodeContext';
+import { MenuContext } from '../context/MenuContext';
 import './Component.css';
 
 import p5 from 'p5';
@@ -8,15 +9,16 @@ import { Gridshot } from './../p5/Gridshot';
 import { CirclefallWave } from '../p5/CirclefallWave';
 
 const P5Wrapper = () => {
-  // Use context to get all variables from the sketch
-  const gameContext = useContext(Context);
+  // Use context to get all variables from the sketch and menu
+  const gameContext = useContext(GamemodeContext);
+  const { popup } = useContext(MenuContext);
 
   // Create a ref to store the DOM node for the p5.js sketch
   const sketchRef = useRef();
 
   // Function to handle reset
   const handleReset = () => {
-    gameContext.dispatch({ type: 'RESET_GAME' });
+    gameContext.gamemodeDispatch({ type: 'RESET_GAME' });
   }
 
   // useEffect to initialize and cleanup the p5.js instance
@@ -27,19 +29,19 @@ const P5Wrapper = () => {
 
     const paths = {
       Circlefall: {
-          Easy: { sketch: CirclefallWave, filePath: "CirclefallEasy.json" },
-          Normal: { sketch: CirclefallWave, filePath: "CirclefallNormal.json" },
-          Hard: { sketch: CirclefallWave, filePath: "CirclefallHard.json" },
-          Impossible: { sketch: CirclefallWave, filePath: "CirclefallImpossible.json" },
-          Marathon: { sketch: CirclefallWave, filePath: "CirclefallMarathon.json" },
-          default: { sketch: CirclefallWave, filePath: "CirclefallNormal.json" }
+          Easy: { sketch: CirclefallWave, filePath: "CirclefallEasy" },
+          Normal: { sketch: CirclefallWave, filePath: "CirclefallNormal" },
+          Hard: { sketch: CirclefallWave, filePath: "CirclefallHard" },
+          Impossible: { sketch: CirclefallWave, filePath: "CirclefallImpossible" },
+          Marathon: { sketch: CirclefallWave, filePath: "CirclefallMarathon" },
+          default: { sketch: CirclefallWave, filePath: "CirclefallNormal" }
       },
       Gridshot: {
-          Classic: { sketch: Gridshot, filePath: "GridshotClassic.json" },
-          Mini: { sketch: Gridshot, filePath: "GridshotMini.json" },
-          default: { sketch: Gridshot, filePath: "GridshotClassic.json" }
+          Classic: { sketch: Gridshot, filePath: "GridshotClassic" },
+          Mini: { sketch: Gridshot, filePath: "GridshotMini" },
+          default: { sketch: Gridshot, filePath: "GridshotClassic" }
       },
-      default: { sketch: Circlefall, filePath: "CirclefallNormal.json" }
+      default: { sketch: Circlefall, filePath: "CirclefallNormal" }
     };
 
     const mode = paths[gameContext.gamemode.mode] || paths.default;
@@ -48,13 +50,13 @@ const P5Wrapper = () => {
     sketch = type.sketch;
     gamemodeDataFilePath = type.filePath;
 
-    const p5Instance = new p5((p) => sketch(p, gamemodeDataFilePath, gameContext.dispatch), sketchRef.current);
+    const p5Instance = new p5((p) => sketch(p, gamemodeDataFilePath, {dispatch: gameContext.gamemodeDispatch, popupVisible: popup.visible}), sketchRef.current);
 
     // Cleanup the p5.js instance when the component unmounts
     return () => {
       p5Instance.remove();
     };
-  }, [gameContext.resetGame, gameContext.gamemode]);
+  }, [gameContext.resetGame, gameContext.gamemode, popup.visible]);
 
   // useEffect to listen for TAB key press to reset game
   useEffect(() => {

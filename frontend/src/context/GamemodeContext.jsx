@@ -1,6 +1,7 @@
-import React, { createContext, useReducer, useState } from 'react';
+import React, { createContext, useReducer } from 'react';
 
-// Reducer Function
+// Reducer function
+//  -   Handles changes made in components and updates the context state 
 export const Reducer = (state, action) => {
     switch(action.type) {
         case 'SET_GAMEMODE':
@@ -67,14 +68,15 @@ const initialState = {
 };
 
 // Context Creation
-export const Context = createContext();
+export const GamemodeContext = createContext();
 
 // Provider Component
-export const Provider = ({ children }) => {
-    const [state, dispatch] = useReducer(Reducer, initialState);
+//  -   Components using this context are required to be wrapped in this component to receive the context state
+export const GamemodeProvider = ({ children }) => {
+    const [state, gamemodeDispatch] = useReducer(Reducer, initialState);
 
     return (
-        <Context.Provider
+        <GamemodeContext.Provider
             value={{
                 gamemode: state.gamemode,
                 gameState: state.gameState,
@@ -83,10 +85,10 @@ export const Provider = ({ children }) => {
                 hits: state.hits,
                 misses: state.misses,
                 misclicks: state.misclicks,
-                dispatch
+                gamemodeDispatch
             }}
         >
             {children}
-        </Context.Provider>
+        </GamemodeContext.Provider>
     );
 }

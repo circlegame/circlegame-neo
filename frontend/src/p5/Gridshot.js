@@ -1,8 +1,9 @@
 import { Circle } from './p5components/Circle.js'
 import { Grid } from './p5components/Grid.js';
 import { DataCollector } from './p5components/DataCollector.js';
+import { submitScore } from '../api.js';
 
-export const Gridshot = (p, gamemodeDataFilePath, dispatch) => {
+export const Gridshot = (p, gamemode, context) => {
     // Sketch variables
     let circles;
     let grid;
@@ -30,8 +31,8 @@ export const Gridshot = (p, gamemodeDataFilePath, dispatch) => {
     //-----------Preload-----------//
     let gamemodeData;
     p.preload = () => {
-        if (gamemodeDataFilePath){
-            gamemodeData = p.loadJSON("./gamemodeData/" + gamemodeDataFilePath);
+        if (gamemode){
+            gamemodeData = p.loadJSON("./gamemodeData/" + gamemode + ".json");
         } // Maybe raise error if this messes up or something
     }
     
@@ -55,7 +56,7 @@ export const Gridshot = (p, gamemodeDataFilePath, dispatch) => {
 
         gameState = "pregame";
         // Initialize game state in context
-        dispatch({
+        context.dispatch({
             type: 'SET_GAMESTATE',
             payload: gameState
         });
@@ -84,7 +85,7 @@ export const Gridshot = (p, gamemodeDataFilePath, dispatch) => {
 
                 if (timer <= 0) {
                     timer = 30;
-                    dispatch({
+                    context.dispatch({
                         type: 'SET_TIMER',
                         payload: {
                             timer: timer, 
@@ -94,7 +95,7 @@ export const Gridshot = (p, gamemodeDataFilePath, dispatch) => {
 
                     gameState = "ingame";
                     // Update game state in context
-                    dispatch({
+                    context.dispatch({
                         type: 'SET_GAMESTATE',
                         payload: gameState
                     });
@@ -115,14 +116,23 @@ export const Gridshot = (p, gamemodeDataFilePath, dispatch) => {
                     gameState = "endgame";
                     clearInterval(timerId)
                     // Update game state in context
-                    dispatch({ 
+                    context.dispatch({ 
                         type: 'SET_GAMESTATE',
                         payload: gameState 
                     });
+                    try{
+                        let response = submitScore(gamemode, hits, hits, 0, totalClicks-hits);
+                        // if (!response.ok){
+                        //     throw new Error(`HTTP error! Status: ${response.status}`);
+                        // }
+                        // console.log("Submit Score Successful");
+                    }catch (error){
+                        console.log("Submit Score Failed:", error);
+                    }
                 }
 
                 // Update ingame stats
-                dispatch({
+                context.dispatch({
                     type: 'SET_INGAME_STATS', 
                     payload: {
                         hits: hits, 
@@ -146,11 +156,11 @@ export const Gridshot = (p, gamemodeDataFilePath, dispatch) => {
     p.mousePressed = () => {
         switch (gameState) {
             case "pregame":
-                if (p.mouseX > 0 && p.mouseX < 800 && p.mouseY > 0 && p.mouseY < 600){
+                if (!(context.popupVisible) && p.mouseX > 0 && p.mouseX < 800 && p.mouseY > 0 && p.mouseY < 600){
                     // Initialize timer
                     timer = 3;
                     timerId = setInterval(handleTimer, 1000);
-                    dispatch({  
+                    context.dispatch({  
                         type: 'SET_TIMER', 
                         payload: {
                             timer: timer, 
@@ -160,7 +170,7 @@ export const Gridshot = (p, gamemodeDataFilePath, dispatch) => {
 
                     // Update game state
                     gameState = "countdown";
-                    dispatch({ type: 'SET_GAMESTATE', payload: gameState }); // Update game state in context
+                    context.dispatch({ type: 'SET_GAMESTATE', payload: gameState }); // Update game state in context
 
                     // Initialize circles
                     for(let i = 0; i < numCircles; i++){ 
@@ -225,7 +235,7 @@ export const Gridshot = (p, gamemodeDataFilePath, dispatch) => {
     function handleTimer(){
         if (timer > 0) {
             timer--;
-            dispatch({
+            context.dispatch({
                 type: 'SET_TIMER',
                 payload: {
                     timer: timer, 

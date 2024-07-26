@@ -1,12 +1,23 @@
 import React, { useContext } from 'react';
-import { Context } from '../context/GamemodeContext';
+import { GamemodeContext } from '../context/GamemodeContext';
+import { MenuContext } from '../context/MenuContext';
+import { AuthContext } from '../context/AuthContext';
 import './Component.css';
 
 function NavBar() {
-    const { gameState, dispatch } = useContext(Context);
+    const { gameState, gamemodeDispatch } = useContext(GamemodeContext);
+    const { menuDispatch } = useContext(MenuContext);
+    const { loggedin } = useContext(AuthContext);
 
     const handleLogoClick = () => {
-        dispatch({type: 'RESET_GAME'})
+        gamemodeDispatch({type: 'RESET_GAME'})
+    }
+
+    const handleOpenPopup = (data) => {
+        menuDispatch({
+            type: 'OPEN_POPUP',
+            payload: data
+        })
     }
 
     return(
@@ -17,9 +28,12 @@ function NavBar() {
                     circlegame
                 </div>
                 <div className='navbar-buttons'>
-                    <button className='navbar-button'>leaderboard</button>
-                    <button className='navbar-button'>settings</button>
-                    <button className='navbar-button'>info</button>
+                    <button className='navbar-button' onClick={() => handleOpenPopup('leaderboard')}>leaderboard</button>
+                    <button className='navbar-button' onClick={() => handleOpenPopup('settings')}>settings</button>
+                    <button className='navbar-button' onClick={() => handleOpenPopup('info')}>info</button>
+                    {loggedin ? <button className='navbar-button' onClick={() => handleOpenPopup('signup_login')}>profile</button>
+                              : <button className='navbar-button' onClick={() => handleOpenPopup('signup_login')}>login</button> }
+                    
                 </div>
             </div>
         </div>
