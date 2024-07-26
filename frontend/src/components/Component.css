@@ -186,6 +186,7 @@
 .misc-popup {
   background: #242424;
   padding: 10px;
+  padding-top:0px;
   border-radius: 5px;
   width: 50%;
   max-width: 600px;
