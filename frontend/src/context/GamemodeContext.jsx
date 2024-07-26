@@ -1,4 +1,4 @@
-import React, { createContext, useReducer, useState } from 'react';
+import React, { createContext, useReducer } from 'react';
 
 // Reducer function
 //  -   Handles changes made in components and updates the context state 
