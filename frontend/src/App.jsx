@@ -8,13 +8,14 @@ import Popup from './components/Popup';
 import Footer from './components/Footer';
 import { GamemodeProvider } from './context/GamemodeContext';
 import { MenuProvider } from './context/MenuContext';
+import { AuthProvider } from './context/AuthContext';
 
 
 function App() {
 
     return (
         <div className='App'>
-            <GamemodeProvider><MenuProvider>
+            <GamemodeProvider><MenuProvider><AuthProvider>
 
                 <Popup/>
                 <NavBar/>
@@ -28,7 +29,7 @@ function App() {
 
                 <Footer/>
                 
-                </MenuProvider></GamemodeProvider>
+                </AuthProvider></MenuProvider></GamemodeProvider>
         </div>
     )
 }

@@ -24,6 +24,8 @@ export const login = (identifier, password) => API.post(
     }
 );
 
+export const logout = () => API.post('/auth/logout');
+
 // Submit score
 export const submitScore = (gamemode, score, hits, misses, misclicks) => API.post(
     '/scores/submit',
