@@ -8,9 +8,8 @@ dotenv.config();
 
 const corsOptions = {
     //origin: 'https://circlegame.github.io',
-    origin: 'http://127.0.0.1:5173',
-    credentials: true,
-    exposedHeaders: ["Set-Cookie"]
+    origin: 'http://localhost:5173',
+    credentials: true
 };
 
 const app = express();

@@ -61,18 +61,18 @@ exports.login = async (req, res) => {
         }
         
         // Create and return authorization token
-        const accessToken = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, { expiresIn: '1h' });
+        const accessToken = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, { expiresIn: '1d' });
         const refreshToken = jwt.sign({ userId: user._id }, process.env.REFRESH_SECRET, { expiresIn: '30d' });
 
         res.cookie('accessToken', accessToken, {
             httpOnly: true,
             secure: true, //process.env.NODE_ENV === 'production'
-            sameSite: "None"
+            sameSite: "Strict"
         });
         res.cookie('refreshToken', refreshToken, {
             httpOnly: true,
             secure: true, //process.env.NODE_ENV === 'production',
-            sameSite: "None"
+            sameSite: "Strict"
         });
         return res.status(200).json({ message: 'Logged in successfully' });
     } catch (err) {
@@ -92,7 +92,7 @@ exports.refresh = (req, res) => {
         const decoded = jwt.verify(refreshToken, process.env.REFRESH_SECRET);
 
         // Create new access token
-        const newAccessToken = jwt.sign({ userId: decoded.userId }, process.env.JWT_SECRET, { expiresIn: '1h' });
+        const newAccessToken = jwt.sign({ userId: decoded.userId }, process.env.JWT_SECRET, { expiresIn: '1d' });
 
         // Create and set a new refresh token
         const newRefreshToken = jwt.sign({ userId: decoded.userId }, process.env.REFRESH_SECRET, { expiresIn: '30d' });
@@ -116,7 +116,15 @@ exports.refresh = (req, res) => {
 }
 
 exports.logout = (req, res) => {
-    res.clearCookie('refreshToken');
-    res.clearCookie('accessToken');
-    res.json({ message: 'Logged out successfully' });
+    try {
+        // Clear cookies with the same options as when they were set
+        res.clearCookie('accessToken', { httpOnly: true, secure: true, sameSite: 'Strict' });
+        res.clearCookie('refreshToken', { httpOnly: true, secure: true, sameSite: 'Strict' });
+
+        // Respond with a success message
+        res.json({ message: 'Logged out successfully' });
+    } catch (err) {
+        // Handle any errors that may occur
+        res.status(500).json({ message: 'Logout failed', error: err.message });
+    }
 }
