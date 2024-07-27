@@ -36,9 +36,7 @@ app.use('/api/leaderboard', require('./routes/leaderboardRoutes'));
 // The "catchall" handler: for any request that doesn't
 // match one above, send back index.html.
 app.get('/', (req, res) => {
-    console.log(path.join(__dirname + '/../frontend/dist/index.html'))
     res.sendFile(path.join(__dirname + '/../frontend/dist/index.html'));
-    console.log("test");
 });
  
 // Connect to mongoDB
