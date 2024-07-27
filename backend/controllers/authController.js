@@ -14,7 +14,7 @@ const isValidEmail = (email) => {
 const isValidUsername = (username) => {
     const usernameRegex = /^(?!.*[_.-]{2})[a-zA-Z0-9._-]{3,20}$/;
     return usernameRegex.test(username);
-  };
+};
 
 
 exports.register = async (req, res) => {
@@ -58,21 +58,29 @@ exports.register = async (req, res) => {
         // Send response
         res.status(201).json({ message: 'User created' });
     } catch (err) {
-        res.status(500).json({ error: err.message });
+        res.status(500).json({ message: 'Registration failed' });
     }
 };
 
 exports.login = async (req, res) => {
     try {
         const { identifier, password } = req.body; // Identifier can either be username or email
-        // Need to add data validation
-        //
-        //
+        
+        if (!identifier || !password) {
+            return res.status(400).json({ message: 'Please provide both identifier and password' });
+        }
+
+        let query;
+        if (isValidEmail(identifier)) {
+            query = { email: identifier };
+        } else if (isValidUsername(identifier)) {
+            query = { username: identifier };
+        } else {
+            return res.status(400).json({ message: 'Invalid username or email format' });
+        }
 
         // Find user in database
-        const user = await User.findOne({
-            $or: [{ username: identifier }, { email: identifier }]
-        });
+        const user = await User.findOne({query});
         if (!user) {
             return res.status(400).json({ message: 'Invalid credentials' });
         }
@@ -99,7 +107,7 @@ exports.login = async (req, res) => {
         });
         return res.status(200).json({ message: 'Logged in successfully' });
     } catch (err) {
-        res.status(500).json({ error: err.message });
+        res.status(500).json({ message: 'Login failed' });
     }
 };
 
@@ -123,7 +131,7 @@ exports.refresh = (req, res) => {
         // Set new cookies
         res.cookie('accessToken', newAccessToken, {
             httpOnly: true,
-            secure: TransformStreamDefaultController,
+            secure: true,
             sameSite: 'Strict'
         });
         res.cookie('refreshToken', newRefreshToken, {
@@ -148,6 +156,6 @@ exports.logout = (req, res) => {
         res.json({ message: 'Logged out successfully' });
     } catch (err) {
         // Handle any errors that may occur
-        res.status(500).json({ message: 'Logout failed', error: err.message });
+        res.status(500).json({ message: 'Logout failed'});
     }
 }
