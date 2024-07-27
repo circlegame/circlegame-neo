@@ -3,7 +3,9 @@ import { MenuContext } from '../context/MenuContext';
 import Leaderboard from './popups/Leaderboard';
 import Settings from './popups/Settings';
 import Info from './popups/Info';
-import Signup_Login from './popups/Signup_Login';
+import Login from './popups/Login';
+import Signup from './popups/Signup';
+import Profile from './popups/Profile';
 import './Component.css';
 
 function Popup() {
@@ -31,12 +33,25 @@ function Popup() {
                         <Info/>
                     </div>
                 );
-            case 'signup_login':
+            case 'login':
                 return (
                     <div ref={popupRef} className='signup-login-popup'>
-                        <Signup_Login/>
+                        <Login/>
                     </div>
                 );
+            case 'signup':
+                return (
+                    <div ref={popupRef} className='signup-login-popup'>
+                        <Signup/>
+                    </div>
+                );
+            case 'profile':
+                return (
+                    <div ref={popupRef} className='misc-popup'>
+                        <Profile/>
+                    </div>
+                )
+
             default:
                 return undefined;
         }
