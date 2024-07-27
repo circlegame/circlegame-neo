@@ -21,6 +21,10 @@ function Signup() {
         e.preventDefault();
         try {
             const response = await register(registerFormData.email, registerFormData.username, registerFormData.new_password);
+            menuDispatch({
+                type: 'OPEN_POPUP',
+                payload: 'login'
+            })
             console.log("Registration successful:", response.data);
         } catch (error) {
             console.log("Registration failed:", error);

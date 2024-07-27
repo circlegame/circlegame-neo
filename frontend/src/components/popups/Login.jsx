@@ -5,8 +5,6 @@ import { AuthContext } from '../../context/AuthContext';
 import '../Component.css';
 
 function Login() {
-    // popupType = true : LOGIN POPUP
-    // popupType = false : REGISTER POPUP
     const { authDispatch } = useContext(AuthContext);
     const { menuDispatch } = useContext(MenuContext);
 
@@ -20,7 +18,7 @@ function Login() {
         menuDispatch({
             type: 'OPEN_POPUP',
             payload: 'signup'
-        })
+        });
     };
 
     const handleInputChange = (e) => {
@@ -36,7 +34,10 @@ function Login() {
             authDispatch({
                 type: 'LOGIN',
                 payload: loginFormData.identifier
-            })
+            });
+            menuDispatch({
+                type: 'CLOSE_POPUP'
+            });
             console.log("Login successful:", response.data);
         } catch (error) {
             console.error('Login Failed:', error);
