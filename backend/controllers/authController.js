@@ -2,12 +2,35 @@ const User = require('../models/User');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 
+// ------ Utility ------- //
+
+// Email validity
+const isValidEmail = (email) => {
+    const emailRegex = /^[a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/;
+    return emailRegex.test(email);
+}
+
+// Username validity
+const isValidUsername = (username) => {
+    const usernameRegex = /^(?!.*[_.-]{2})[a-zA-Z0-9._-]{3,20}$/;
+    return usernameRegex.test(username);
+  };
+
+
 exports.register = async (req, res) => {
     try {
+        // Get info from body
         const { username, email, password } = req.body;
-        // Need to add data validation
-        //
-        //
+
+        // Check if username is valid
+        if (!isValidUsername(username)){
+            return res.status(400).json({ message: 'Invalid username format' });
+        }
+
+        // Check if email is a valid format
+        if (!isValidEmail(email)){
+            return res.status(400).json({ message: 'Invalid email format' });
+        }
 
         // Check if username already exists
         const existingUserByUsername = await User.findOne({ username });
