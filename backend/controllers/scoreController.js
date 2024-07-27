@@ -20,7 +20,7 @@ exports.submitScore = async (req, res) => {
         await newScore.save();
         res.status(201).json({ message: 'Score submitted'});
     } catch (err) {
-        res.status(500).json({ error: err.message })
+        res.status(500).json({ message: 'Score submission failed'})
     }
 }
 
@@ -38,6 +38,6 @@ exports.getScoreByUsername = async (req, res) => {
 
         res.status(200).json(scores);
     } catch (err) {
-        res.status(500).json({error: err.message})
+        res.status(500).json({message: 'Falied getting scores'})
     }
 }
