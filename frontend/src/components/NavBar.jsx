@@ -31,8 +31,8 @@ function NavBar() {
                     <button className='navbar-button' onClick={() => handleOpenPopup('leaderboard')}>leaderboard</button>
                     <button className='navbar-button' onClick={() => handleOpenPopup('settings')}>settings</button>
                     <button className='navbar-button' onClick={() => handleOpenPopup('info')}>info</button>
-                    {loggedin ? <button className='navbar-button' onClick={() => handleOpenPopup('signup_login')}>profile</button>
-                              : <button className='navbar-button' onClick={() => handleOpenPopup('signup_login')}>login</button> }
+                    {loggedin ? <button className='navbar-button' onClick={() => handleOpenPopup('profile')}>profile</button>
+                              : <button className='navbar-button' onClick={() => handleOpenPopup('login')}>login</button> }
                     
                 </div>
             </div>
