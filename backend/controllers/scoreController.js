@@ -4,6 +4,7 @@ exports.submitScore = async (req, res) => {
     try {
         const { gamemode, score, stats} = req.body;
         const username = req.username;
+        const usernameDisplay = req.usernameDisplay;
         // const userId = req.userId
 
         // Validation
@@ -13,6 +14,7 @@ exports.submitScore = async (req, res) => {
         
         const newScore = new Score({
             username: username,
+            usernameDisplay: usernameDisplay,
             gamemode: gamemode,
             score: score,
             stats: stats

@@ -23,7 +23,7 @@ exports.register = async (req, res) => {
         const { username, email, password } = req.body;
 
         // Check if username is valid
-        if (!isValidUsername(username)){
+        if (!isValidUsername(username) || !isValidUsername(usernameLowerCase)){
             return res.status(400).json({ message: 'Invalid username format' });
         }
 
@@ -33,7 +33,7 @@ exports.register = async (req, res) => {
         }
 
         // Check if username already exists
-        const existingUserByUsername = await User.findOne({ username });
+        const existingUserByUsername = await User.findOne({ username: username.toLowerCase() });
         if (existingUserByUsername){
             return res.status(400).json({ message: 'Username already in use' });
         }
@@ -49,8 +49,9 @@ exports.register = async (req, res) => {
 
         // Store the data
         const user = new User({
-            username: username,
-            email: email,
+            username: username.toLowerCase(),
+            usernameDisplay: username,
+            email: email.toLowerCase(),
             password: hashedPassword
         });
         await user.save();
@@ -72,15 +73,15 @@ exports.login = async (req, res) => {
 
         let query;
         if (isValidEmail(identifier)) {
-            query = { email: identifier };
+            query = { email: identifier.toLowerCase() };
         } else if (isValidUsername(identifier)) {
-            query = { username: identifier };
+            query = { username: identifier.toLowerCase() };
         } else {
             return res.status(400).json({ message: 'Invalid username or email format' });
         }
 
         // Find user in database
-        const user = await User.findOne({query});
+        const user = await User.findOne(query);
         if (!user) {
             return res.status(400).json({ message: 'Invalid credentials' });
         }
