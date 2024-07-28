@@ -22,7 +22,7 @@ const getAggregationPipeline = (gamemode) => [
     // Group each entry the the max score for each username
     {
       '$group': {
-        '_id': '$username', 
+        '_id': '$usernameDisplay', 
         'maxScore': {
           '$max': '$score'
         }

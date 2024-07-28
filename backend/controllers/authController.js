@@ -2,15 +2,38 @@ const User = require('../models/User');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 
+// ------ Utility ------- //
+
+// Email validity
+const isValidEmail = (email) => {
+    const emailRegex = /^[a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/;
+    return emailRegex.test(email);
+}
+
+// Username validity
+const isValidUsername = (username) => {
+    const usernameRegex = /^(?!.*[_.-]{2})[a-zA-Z0-9._-]{3,20}$/;
+    return usernameRegex.test(username);
+};
+
+
 exports.register = async (req, res) => {
     try {
+        // Get info from body
         const { username, email, password } = req.body;
-        // Need to add data validation
-        //
-        //
+
+        // Check if username is valid
+        if (!isValidUsername(username)){
+            return res.status(400).json({ message: 'Invalid username format' });
+        }
+
+        // Check if email is a valid format
+        if (!isValidEmail(email)){
+            return res.status(400).json({ message: 'Invalid email format' });
+        }
 
         // Check if username already exists
-        const existingUserByUsername = await User.findOne({ username });
+        const existingUserByUsername = await User.findOne({ username: username.toLowerCase() });
         if (existingUserByUsername){
             return res.status(400).json({ message: 'Username already in use' });
         }
@@ -26,8 +49,9 @@ exports.register = async (req, res) => {
 
         // Store the data
         const user = new User({
-            username: username,
-            email: email,
+            username: username.toLowerCase(),
+            usernameDisplay: username,
+            email: email.toLowerCase(),
             password: hashedPassword
         });
         await user.save();
@@ -35,21 +59,29 @@ exports.register = async (req, res) => {
         // Send response
         res.status(201).json({ message: 'User created' });
     } catch (err) {
-        res.status(500).json({ error: err.message });
+        res.status(500).json({ message: 'Registration failed' });
     }
 };
 
 exports.login = async (req, res) => {
     try {
         const { identifier, password } = req.body; // Identifier can either be username or email
-        // Need to add data validation
-        //
-        //
+        
+        if (!identifier || !password) {
+            return res.status(400).json({ message: 'Please provide both identifier and password' });
+        }
+
+        let query;
+        if (isValidEmail(identifier)) {
+            query = { email: identifier.toLowerCase() };
+        } else if (isValidUsername(identifier)) {
+            query = { username: identifier.toLowerCase() };
+        } else {
+            return res.status(400).json({ message: 'Invalid credentials' });
+        }
 
         // Find user in database
-        const user = await User.findOne({
-            $or: [{ username: identifier }, { email: identifier }]
-        });
+        const user = await User.findOne(query);
         if (!user) {
             return res.status(400).json({ message: 'Invalid credentials' });
         }
@@ -76,7 +108,7 @@ exports.login = async (req, res) => {
         });
         return res.status(200).json({ message: 'Logged in successfully' });
     } catch (err) {
-        res.status(500).json({ error: err.message });
+        res.status(500).json({ message: 'Login failed' });
     }
 };
 
@@ -100,7 +132,7 @@ exports.refresh = (req, res) => {
         // Set new cookies
         res.cookie('accessToken', newAccessToken, {
             httpOnly: true,
-            secure: TransformStreamDefaultController,
+            secure: true,
             sameSite: 'Strict'
         });
         res.cookie('refreshToken', newRefreshToken, {
@@ -125,6 +157,6 @@ exports.logout = (req, res) => {
         res.json({ message: 'Logged out successfully' });
     } catch (err) {
         // Handle any errors that may occur
-        res.status(500).json({ message: 'Logout failed', error: err.message });
+        res.status(500).json({ message: 'Logout failed'});
     }
 }

@@ -6,6 +6,11 @@ const scoreSchema = new mongoose.Schema({
         required: true,
         index: true
     },
+    usernameDisplay: {
+        type: String,
+        required: true,
+        index: true
+    },
     gamemode: {
         type: String,
         required: true,
