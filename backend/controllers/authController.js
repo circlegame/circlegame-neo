@@ -77,7 +77,7 @@ exports.login = async (req, res) => {
         } else if (isValidUsername(identifier)) {
             query = { username: identifier.toLowerCase() };
         } else {
-            return res.status(400).json({ message: 'Invalid username or email format' });
+            return res.status(400).json({ message: 'Invalid credentials' });
         }
 
         // Find user in database
