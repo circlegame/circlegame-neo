@@ -23,7 +23,7 @@ exports.register = async (req, res) => {
         const { username, email, password } = req.body;
 
         // Check if username is valid
-        if (!isValidUsername(username) || !isValidUsername(usernameLowerCase)){
+        if (!isValidUsername(username)){
             return res.status(400).json({ message: 'Invalid username format' });
         }
 
