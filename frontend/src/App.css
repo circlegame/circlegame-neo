@@ -27,19 +27,6 @@ body {
   height: 100vh;
 }
 
-.navbar-container {
-  grid-row: 1 / 2;
-  width: 100%;
-  margin-top: 3vh;
-}
-
-.gamemode-bar-container {
-  grid-row: 2 / 3;
-  display: flex;
-  justify-content: center;
-  margin-top: 5px;
-}
-
 .main-content {
   grid-row: 3 / 4;
   display: flex;
@@ -47,14 +34,4 @@ body {
   align-items: center;
   width: 100%;
   margin-top: 10px;
-}
-
-.footer-container{
-  grid-row: 4 / 5;
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-end;
-  padding-top: 20px;
-  padding-bottom: 3vh;
 }

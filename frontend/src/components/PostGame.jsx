@@ -1,6 +1,5 @@
 import React, { useContext } from 'react';
 import { GamemodeContext } from '../context/GamemodeContext';
-import './Component.css';
 
 function PostGame() {
   const { gameState, hits, misses, misclicks, gamemodeDispatch } = useContext(GamemodeContext);

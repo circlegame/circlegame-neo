@@ -6,7 +6,7 @@ import Info from './popups/Info';
 import Login from './popups/Login';
 import Signup from './popups/Signup';
 import Profile from './popups/Profile';
-import './Component.css';
+import styled from 'styled-components';
 
 function Popup() {
     const { menuDispatch, popup } = useContext(MenuContext);
@@ -17,39 +17,27 @@ function Popup() {
         switch(popup.type){
             case 'leaderboard':
                 return (
-                    <div ref={popupRef} className='misc-popup'>
-                        <Leaderboard/>
-                    </div>
+                    <Leaderboard/>
                 );
             case 'settings':
                 return (
-                    <div ref={popupRef} className='misc-popup'>
-                        <Settings/>
-                    </div>
+                    <Settings/>
                 );
             case 'info':
                 return (
-                    <div ref={popupRef} className='misc-popup'>
-                        <Info/>
-                    </div>
+                    <Info/>
                 );
             case 'login':
                 return (
-                    <div ref={popupRef} className='signup-login-popup'>
-                        <Login/>
-                    </div>
+                    <Login/>
                 );
             case 'signup':
                 return (
-                    <div ref={popupRef} className='signup-login-popup'>
-                        <Signup/>
-                    </div>
+                    <Signup/>
                 );
             case 'profile':
                 return (
-                    <div ref={popupRef} className='misc-popup'>
-                        <Profile/>
-                    </div>
+                    <Profile/>
                 )
 
             default:
@@ -86,12 +74,43 @@ function Popup() {
     return (
         <>
             {popup.visible && (
-                <div className='popup-container'>
-                    {renderContent()}
-                </div>
+                <PopupContainer>
+                    <PopupDiv
+                        ref={popupRef}
+                        style={popup.type === 'login' || popup.type === 'signup' ?
+                              {maxWidth: '325px'}
+                            : {maxWidth: '600px'}}
+                    >
+                        {renderContent()}
+                    </PopupDiv>
+                </PopupContainer>
             )}
         </>
     );
 }
 
 export default Popup;
+
+// Styling
+const PopupContainer = styled.div`
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    z-index: 1000;
+`;
+
+const PopupDiv = styled.div`
+    background: #242424;
+    padding: 10px;
+    border-radius: 5px;
+    width: 50%;
+    position: relative;
+`;
+

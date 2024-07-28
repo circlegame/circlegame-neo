@@ -1,7 +1,7 @@
 import React, { useRef, useEffect, useContext } from 'react';
 import { GamemodeContext } from '../context/GamemodeContext';
 import { MenuContext } from '../context/MenuContext';
-import './Component.css';
+import styled from 'styled-components';
 
 import p5 from 'p5';
 import { Circlefall } from './../p5/Circlefall';
@@ -79,34 +79,30 @@ const P5Wrapper = () => {
     <>
       
     {gameContext.gameState !== 'endgame' && (
-      <div style={{ position: 'relative' }}>
+      <P5Container>
 
-        {gameContext.gameState === 'ingame' ? (
-          <div className='stats-overlay'>Hit {gameContext.hits}&emsp;Missed {gameContext.misses}&emsp;Misclicked {gameContext.misclicks}&emsp;Time {gameContext.timer}</div>
-        ) : <div className='placeholder-stats-overlay'></div> }
+        {gameContext.gameState === 'ingame' ?
+          <StatsOverlay>Hit {gameContext.hits}&emsp;Missed {gameContext.misses}&emsp;Misclicked {gameContext.misclicks}&emsp;Time {gameContext.timer}</StatsOverlay>
+        : <StatsPlaceholder/> }
 
-        <div 
+        <SketchFilter 
           className={gameContext.gameState === 'pregame' ? 'blur' : 'crosshair'}
           style={{width: '800px', height: '600px'}}
           ref={sketchRef}
         />
 
         {gameContext.gameState === 'pregame' && ( 
-          <div 
-            style={{color: '#666666', fontSize: '20px'}} 
-            className="sketch-overlay">
-              click here to start
-            </div> 
+          <SketchOverlay style={{color: '#666666', fontSize: '20px'}} >
+            click here to start
+          </SketchOverlay> 
         )}
         {gameContext.gameState === 'countdown' && ( 
-          <div 
-            style={{color: 'white', fontSize: '48px'}} 
-            className="sketch-overlay">
-              {gameContext.timer}
-            </div> 
+          <SketchOverlay style={{color: 'white', fontSize: '48px'}} >
+            {gameContext.timer}
+          </SketchOverlay> 
         )}
 
-      </div>
+      </P5Container>
     )}
 
     </>
@@ -114,3 +110,42 @@ const P5Wrapper = () => {
 };
 
 export default P5Wrapper;
+
+// Styling
+const P5Container = styled.div`
+  position: relative;
+`;
+
+const StatsPlaceholder = styled.div`
+  height: 24px;
+`;
+
+const StatsOverlay = styled.div`
+  text-align: left;
+  font-size: 24px;
+`;
+
+const SketchFilter = styled.div`
+  width: 800px;
+  height: 600px;
+
+  &.blur{
+    filter: blur(12px);
+    clip-path: inset(-10px round 10px);
+    transition: filter 0.2s ease-in-out;
+  };
+  &.crosshair{
+    cursor: crosshair;
+    transition: filter 0.2s ease-in-out;
+  };
+
+`;
+
+const SketchOverlay = styled.div`
+  position: absolute;
+  text-align: center;
+  top: 324px;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 10;
+`;
