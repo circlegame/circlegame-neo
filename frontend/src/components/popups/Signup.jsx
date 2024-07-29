@@ -26,9 +26,17 @@ function Signup() {
                 type: 'OPEN_POPUP',
                 payload: 'login'
             })
-            console.log("Registration successful:", response.data);
+            menuDispatch({
+                type: 'SHOW_ALERT',
+                payload: {type: 'success',
+                          message: 'Registration Successful!' }
+            })
         } catch (error) {
-            console.log("Registration failed:", error);
+            menuDispatch({
+                type: 'SHOW_ALERT',
+                payload: {type: 'error',
+                          message: error.response.data.message }
+            })
         }
     }
 

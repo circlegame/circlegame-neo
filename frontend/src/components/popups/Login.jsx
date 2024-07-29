@@ -38,9 +38,17 @@ function Login() {
             menuDispatch({
                 type: 'CLOSE_POPUP'
             });
-            console.log("Login successful:", response.data);
+            menuDispatch({
+                type: 'SHOW_ALERT',
+                payload: {type: 'success',
+                          message: 'Login Successful!' }
+            })
         } catch (error) {
-            console.error('Login Failed:', error);
+            menuDispatch({
+                type: 'SHOW_ALERT',
+                payload: {type: 'error',
+                          message: error.response.data.message }
+            })
         }
     };
 

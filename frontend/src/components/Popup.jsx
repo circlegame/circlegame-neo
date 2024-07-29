@@ -6,10 +6,11 @@ import Info from './popups/Info';
 import Login from './popups/Login';
 import Signup from './popups/Signup';
 import Profile from './popups/Profile';
+import Alert from './popups/Alert';
 import styled from 'styled-components';
 
 function Popup() {
-    const { menuDispatch, popup } = useContext(MenuContext);
+    const { menuDispatch, popup, alert } = useContext(MenuContext);
     const popupRef = useRef();
 
     // Choose which popup to render
@@ -56,10 +57,10 @@ function Popup() {
     useEffect(() => {
         // Function to handle the click event
         const handleClickOutside = (event) => {
-        // Check if the click happened outside the div
-        if (popupRef.current && !popupRef.current.contains(event.target)) {
-            handleClose();
-        }
+            // Check if the click happened outside the div
+            if (popupRef.current && !popupRef.current.contains(event.target)) {
+                handleClose();
+            }
         };
 
         // Add event listener to the document
@@ -85,6 +86,8 @@ function Popup() {
                     </PopupDiv>
                 </PopupContainer>
             )}
+
+            {alert.visible && <Alert/>}
         </>
     );
 }
@@ -113,4 +116,3 @@ const PopupDiv = styled.div`
     width: 50%;
     position: relative;
 `;
-
