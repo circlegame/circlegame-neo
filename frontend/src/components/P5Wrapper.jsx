@@ -82,7 +82,17 @@ const P5Wrapper = () => {
       <div style={{ position: 'relative' }}>
 
         {gameContext.gameState === 'ingame' ? (
-          <div className='stats-overlay'>Hit {gameContext.hits}&emsp;Missed {gameContext.misses}&emsp;Misclicked {gameContext.misclicks}&emsp;Time {gameContext.timer}</div>
+          <div className='stats-overlay'>
+            Score {gameContext.hits - gameContext.misses - gameContext.misclicks}
+            &emsp;
+            Hit {gameContext.hits}
+            &emsp;
+            Missed {gameContext.misses}
+            &emsp;
+            Misclicked {gameContext.misclicks}
+            &emsp;
+            Time {gameContext.timer}
+          </div>
         ) : <div className='placeholder-stats-overlay'></div> }
 
         <div 
