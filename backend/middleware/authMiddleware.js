@@ -12,6 +12,7 @@ module.exports = async (req, res, next) => {
         req.userId = decoded.userId;
         const user = await User.findById(req.userId);
         req.username = user.username;
+        req.usernameDisplay = user.usernameDisplay;
         next();
     } catch (err) {
         res.status(401).json({ message: 'Token is not valid' });
