@@ -19,9 +19,17 @@ function Profile() {
                 type: 'OPEN_POPUP',
                 payload: 'login'
             })
-            console.log("Logout successful:", response.data);
+            menuDispatch({
+                type: 'SHOW_ALERT',
+                payload: {type: 'success',
+                          message: 'Logout Successful!' }
+            })
         } catch (error) {
-            console.log("Logout failed:", error);
+            menuDispatch({
+                type: 'SHOW_ALERT',
+                payload: {type: 'error',
+                          message: error.response.data.message }
+            })
         }
     }
 

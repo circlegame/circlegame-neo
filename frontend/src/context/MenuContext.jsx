@@ -1,4 +1,4 @@
-import React, { createContext, useReducer, useState } from 'react';
+import React, { createContext, useReducer } from 'react';
 
 // Reducer function
 //  -   Handles changes made in components and updates the context state 
@@ -22,6 +22,26 @@ export const Reducer = (state, action) => {
                 }
             }
 
+        case 'SHOW_ALERT':
+            return {
+                ...state,
+                alert: {
+                    visible: true,
+                    type: action.payload.type,
+                    message: action.payload.message
+                }
+            }
+        
+        case 'CLOSE_ALERT':
+            return {
+                ...state,
+                alert: {
+                    visible: false,
+                    type: null,
+                    message: null
+                }
+            }
+
         default:
             return state;
     }
@@ -32,6 +52,11 @@ const initialState = {
     popup: {
         visible: false,
         type: null
+    },
+    alert: {
+        visible: false,
+        type: null,
+        message: null
     }
 }
 
@@ -47,6 +72,7 @@ export const MenuProvider = ({ children }) => {
         <MenuContext.Provider
             value={{
                 popup: state.popup,
+                alert: state.alert,
                 menuDispatch
             }}
         >

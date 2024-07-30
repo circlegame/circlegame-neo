@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import { GamemodeContext } from '../context/GamemodeContext';
-import './Component.css';
+import styled from 'styled-components';
 
 function GamemodeBar() {
     const { gamemode, gameState, gamemodeDispatch } = useContext(GamemodeContext);
@@ -20,95 +20,152 @@ function GamemodeBar() {
     return (
       <>
       
-      <div className="gamemode-bar-container">
-        <div className={`gamemode-bar ${gameState === 'pregame' ? "" : 'hidden'}`}>
+      <GamemodeBarContainer>
+        <GamemodeBarDiv className={gameState === 'pregame' ? "" : 'hidden'}>
 
-          <button
-            className={`gamemode-button ${gamemode.mode === "Circlefall" ? "active" : ""}`}
+          <GamemodeButton
+            className={gamemode.mode === "Circlefall" ? "active" : ""}
             onClick={() => changeGamemode("Circlefall", "Normal")}
           >
             Circlefall
-          </button>
-          <button
-            className={`gamemode-button ${gamemode.mode === "Gridshot" ? "active" : ""}`}
+          </GamemodeButton>
+          <GamemodeButton
+            className={gamemode.mode === "Gridshot" ? "active" : ""}
             onClick={() => changeGamemode("Gridshot", "Classic")}
           >
             Gridshot
-          </button>
+          </GamemodeButton>
+
+          <Divider/>
 
           {gamemode.mode === "Circlefall" && (
             <>
-              <div className="divider"></div>
+              <GamemodeDataButtons>
 
-              <div className="gamemode-data-buttons">
-
-                <button
-                  className={`gamemode-button ${gamemode.type === "Easy" ? "active" : ""}`}
+                <GamemodeButton
+                  className={gamemode.type === "Easy" ? "active" : ""}
                   onClick={() => changeGamemode("Circlefall", "Easy")}
                 >
                   Easy
-                </button>
+                </GamemodeButton>
 
-                <button
-                  className={`gamemode-button ${gamemode.type === "Normal" ? "active" : ""}`}
+                <GamemodeButton
+                  className={gamemode.type === "Normal" ? "active" : ""}
                   onClick={() => changeGamemode("Circlefall", "Normal")}
                 >
                   Normal
-                </button>
+                </GamemodeButton>
 
-                <button
-                  className={`gamemode-button ${gamemode.type === "Hard" ? "active" : ""}`}
+                <GamemodeButton
+                  className={gamemode.type === "Hard" ? "active" : ""}
                   onClick={() => changeGamemode("Circlefall", "Hard")}
                 >
                   Hard
-                </button>
+                </GamemodeButton>
 
-                <button
-                  className={`gamemode-button ${gamemode.type === "Impossible" ? "active" : ""}`}
+                <GamemodeButton
+                  className={gamemode.type === "Impossible" ? "active" : ""}
                   onClick={() => changeGamemode("Circlefall", "Impossible")}
                 >
                   Impossible
-                </button>
+                </GamemodeButton>
 
-                <button
-                  className={`gamemode-button ${gamemode.type === "Marathon" ? "active" : ""}`}
+                <GamemodeButton
+                  className={gamemode.type === "Marathon" ? "active" : ""}
                   onClick={() => changeGamemode("Circlefall", "Marathon")}
                 >
                   Marathon
-                </button>
+                </GamemodeButton>
 
-              </div>
+              </GamemodeDataButtons>
             </>
           )}
 
           {gamemode.mode === "Gridshot" && (
             <>
-              <div className="divider"></div>
+              <GamemodeDataButtons>
 
-              <div className="gamemode-data-buttons">
-
-              <button
-                  className={`gamemode-button ${gamemode.type === "Classic" ? "active" : ""}`}
+              <GamemodeButton
+                  className={gamemode.type === "Classic" ? "active" : ""}
                   onClick={() => changeGamemode("Gridshot", "Classic")}
                 >
                   Classic
-                </button>
-                <button
-                  className={`gamemode-button ${gamemode.type === "Mini" ? "active" : ""}`}
+                </GamemodeButton>
+                <GamemodeButton
+                  className={gamemode.type === "Mini" ? "active" : ""}
                   onClick={() => changeGamemode("Gridshot", "Mini")}
                 >
                   Mini
-                </button>
+                </GamemodeButton>
 
-              </div>
+              </GamemodeDataButtons>
             </>
           )}
 
-        </div>
-      </div>
+        </GamemodeBarDiv>
+      </GamemodeBarContainer>
 
       </>
     )
 }
 
-export default GamemodeBar
+export default GamemodeBar;
+
+//Styling
+const GamemodeBarContainer = styled.div`
+  grid-row: 2 / 3;
+  display: flex;
+  justify-content: center;
+  margin-top: 5px;
+`;
+
+const GamemodeBarDiv = styled.div`
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  padding: 5px;
+  background-color: #2b2b2b;
+  border-radius: 10px;
+  transition: opacity 0.2s ease-in-out, visibility 0.2s ease-in-out;
+
+  &.hidden {
+    opacity: 0;
+    visibility: hidden;
+  }
+`;
+
+const GamemodeDataButtons = styled.div`
+  display: inline-flex;
+`
+
+const GamemodeButton = styled.button`
+  background-color: transparent;
+  color: #666666;
+  border: none;
+  padding: 8px 20px;
+  margin: 0 5px;
+  border-radius: 5px;
+  outline: none;
+  transition: color 0.3s, transform 0.3s;
+
+  &:hover{
+    color: #dddddd;
+    transform: translateY(-2px);
+  }
+  &:focus{
+    outline: none;
+  }
+  &.active{
+    color: #ffffff;
+    font-weight: bold;
+  }
+`;
+
+const Divider = styled.div`
+  width: 4px;
+  height: 23px;
+  background-color: #3b3b3b;
+  margin: 0 10px;
+  border-radius: 30px;
+  align-self: center; 
+`;
