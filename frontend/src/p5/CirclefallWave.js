@@ -135,7 +135,7 @@ export const CirclefallWave = (p, gamemode, context) => {
                             payload: gameState
                         });
                         try{
-                            let response = submitScore(gamemode, hits, hits, misses, totalClicks - hits);
+                            let response = submitScore(gamemode, hits-misses-(totalClicks-hits), hits, misses, totalClicks - hits);
                             // if (!response.ok){
                             //     throw new Error(`HTTP error! Status: ${response.status}`);
                             // }
@@ -171,7 +171,7 @@ export const CirclefallWave = (p, gamemode, context) => {
                         payload: gameState
                     });
                     try{
-                        let response = submitScore(gamemode, hits, hits, misses, totalClicks - hits);
+                        let response = submitScore(gamemode, hits-misses-(totalClicks-hits), hits, misses, totalClicks - hits);
                         // if (!response.ok){
                         //     throw new Error(`HTTP error! Status: ${response.status}`);
                         // }

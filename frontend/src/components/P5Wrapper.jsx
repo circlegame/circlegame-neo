@@ -80,10 +80,20 @@ const P5Wrapper = () => {
       
     {gameContext.gameState !== 'endgame' && (
       <P5Container>
-
-        {gameContext.gameState === 'ingame' ?
-          <StatsOverlay>Hit {gameContext.hits}&emsp;Missed {gameContext.misses}&emsp;Misclicked {gameContext.misclicks}&emsp;Time {gameContext.timer}</StatsOverlay>
-        : <StatsPlaceholder/> }
+     
+        {gameContext.gameState === 'ingame' ? (
+          <StatsOverlay>
+            Score {gameContext.hits - gameContext.misses - gameContext.misclicks}
+            &emsp;
+            Hit {gameContext.hits}
+            &emsp;
+            Missed {gameContext.misses}
+            &emsp;
+            Misclicked {gameContext.misclicks}
+            &emsp;
+            Time {gameContext.timer}
+          </StatsOverlay>
+        ) : <StatsPlaceholder/> }
 
         <SketchFilter 
           className={gameContext.gameState === 'pregame' ? 'blur' : 'crosshair'}
