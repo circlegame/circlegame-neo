@@ -7,6 +7,7 @@ import Login from './popups/Login';
 import Signup from './popups/Signup';
 import Profile from './popups/Profile';
 import Alert from './popups/Alert';
+import Contact from './popups/Contact';
 import styled from 'styled-components';
 
 function Popup() {
@@ -39,6 +40,10 @@ function Popup() {
             case 'profile':
                 return (
                     <Profile/>
+                )
+            case 'contact':
+                return(
+                    <Contact/>
                 )
 
             default:
@@ -80,7 +85,7 @@ function Popup() {
                         ref={popupRef}
                         style={popup.type === 'login' || popup.type === 'signup' ?
                               {maxWidth: '325px'}
-                            : {maxWidth: '600px'}}
+                            : {maxWidth: '600px', display: 'flex', flexDirection: 'column'}}
                     >
                         {renderContent()}
                     </PopupDiv>

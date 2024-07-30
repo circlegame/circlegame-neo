@@ -1,9 +1,18 @@
 import React, { useContext } from 'react';
 import { GamemodeContext } from '../context/GamemodeContext';
+import { MenuContext } from '../context/MenuContext';
 import styled from 'styled-components';
 
 function Footer() {
     const { gameState } = useContext(GamemodeContext);
+    const { menuDispatch } = useContext(MenuContext);
+
+    const handleContact = () => {
+        menuDispatch({
+            type: 'OPEN_POPUP',
+            payload: 'contact'
+        })
+    }
 
     return (
         <FooterContainer>
@@ -12,8 +21,10 @@ function Footer() {
                     v1.1.0
                 </Version>
                 <FooterButtons>
-                    <FooterButton>github</FooterButton>
-                    <FooterButton>contact</FooterButton>
+                    <a href="https://github.com/circlegame/circlegame-neo" target="_blank" rel="noreferrer noopener">
+                        <FooterButton>github</FooterButton>
+                    </a>
+                    <FooterButton onClick={handleContact}>contact</FooterButton>
                 </FooterButtons>
             </FooterDiv>
         </FooterContainer>
