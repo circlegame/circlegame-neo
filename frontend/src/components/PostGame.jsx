@@ -1,6 +1,5 @@
 import React, { useContext } from 'react';
 import { GamemodeContext } from '../context/GamemodeContext';
-import './Component.css';
 
 function PostGame() {
   const { gameState, hits, misses, misclicks, gamemodeDispatch } = useContext(GamemodeContext);
@@ -13,7 +12,15 @@ function PostGame() {
     <>
       {gameState === 'endgame' && (
         <div style={{display: 'block'}}>
-          <div>Hits: {hits}&emsp;Misses: {misses}&emsp;Misclicks: {misclicks}</div>
+          <div>
+            Score: {hits-misses-misclicks}
+            &emsp;
+            Hits: {hits}
+            &emsp;
+            Misses: {misses}
+            &emsp;
+            Misclicks: {misclicks}
+          </div>
           <button onClick={handleReset}>Home</button>
         </div>
       )}

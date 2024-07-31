@@ -3,11 +3,15 @@ import { MenuContext } from '../context/MenuContext';
 import Leaderboard from './popups/Leaderboard';
 import Settings from './popups/Settings';
 import Info from './popups/Info';
-import Signup_Login from './popups/Signup_Login';
-import './Component.css';
+import Login from './popups/Login';
+import Signup from './popups/Signup';
+import Profile from './popups/Profile';
+import Alert from './popups/Alert';
+import Contact from './popups/Contact';
+import styled from 'styled-components';
 
 function Popup() {
-    const { menuDispatch, popup } = useContext(MenuContext);
+    const { menuDispatch, popup, alert } = useContext(MenuContext);
     const popupRef = useRef();
 
     // Choose which popup to render
@@ -15,28 +19,33 @@ function Popup() {
         switch(popup.type){
             case 'leaderboard':
                 return (
-                    <div ref={popupRef} className='misc-popup'>
-                        <Leaderboard/>
-                    </div>
+                    <Leaderboard/>
                 );
             case 'settings':
                 return (
-                    <div ref={popupRef} className='misc-popup'>
-                        <Settings/>
-                    </div>
+                    <Settings/>
                 );
             case 'info':
                 return (
-                    <div ref={popupRef} className='misc-popup'>
-                        <Info/>
-                    </div>
+                    <Info/>
                 );
-            case 'signup_login':
+            case 'login':
                 return (
-                    <div ref={popupRef} className='signup-login-popup'>
-                        <Signup_Login/>
-                    </div>
+                    <Login/>
                 );
+            case 'signup':
+                return (
+                    <Signup/>
+                );
+            case 'profile':
+                return (
+                    <Profile/>
+                )
+            case 'contact':
+                return(
+                    <Contact/>
+                )
+
             default:
                 return undefined;
         }
@@ -53,10 +62,10 @@ function Popup() {
     useEffect(() => {
         // Function to handle the click event
         const handleClickOutside = (event) => {
-        // Check if the click happened outside the div
-        if (popupRef.current && !popupRef.current.contains(event.target)) {
-            handleClose();
-        }
+            // Check if the click happened outside the div
+            if (popupRef.current && !popupRef.current.contains(event.target)) {
+                handleClose();
+            }
         };
 
         // Add event listener to the document
@@ -71,12 +80,44 @@ function Popup() {
     return (
         <>
             {popup.visible && (
-                <div className='popup-container'>
-                    {renderContent()}
-                </div>
+                <PopupContainer>
+                    <PopupDiv
+                        ref={popupRef}
+                        style={popup.type === 'login' || popup.type === 'signup' ?
+                              {maxWidth: '325px'}
+                            : {maxWidth: '600px', display: 'flex', flexDirection: 'column'}}
+                    >
+                        {renderContent()}
+                    </PopupDiv>
+                </PopupContainer>
             )}
+
+            {alert.visible && <Alert/>}
         </>
     );
 }
 
 export default Popup;
+
+// Styling
+const PopupContainer = styled.div`
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    z-index: 1000;
+`;
+
+const PopupDiv = styled.div`
+    background: #242424;
+    padding: 10px;
+    border-radius: 5px;
+    width: 50%;
+    position: relative;
+`;
