@@ -18,7 +18,7 @@ function Footer() {
         <FooterContainer>
             <FooterDiv className={gameState === 'pregame' || gameState === 'endgame' ? "" : 'hidden'}>
                 <Version>
-                    v1.1.0
+                    v1.2.0
                 </Version>
                 <FooterButtons>
                     <a href="https://github.com/circlegame/circlegame-neo" target="_blank" rel="noreferrer noopener">
