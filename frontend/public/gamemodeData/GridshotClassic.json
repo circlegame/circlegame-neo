@@ -5,6 +5,6 @@
     "xMax": 600,
     "yMin": 100,
     "yMax": 500,
-    "numCircles": 5,
+    "numCircles": 3,
     "circleRadius": 45
 }
