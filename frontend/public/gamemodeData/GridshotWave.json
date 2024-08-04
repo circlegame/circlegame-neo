@@ -1,0 +1,35 @@
+{
+    "numWaves": 3,
+    "waveInfo": {
+        "1": {
+            "circleRadius":17,
+            "numRows": 100,
+            "numCols": 100,
+            "xMin": 22,
+            "xMax": 778,
+            "yMin": 22,
+            "yMax": 578,
+            "numCircles": 50
+        },
+        "2": {
+            "circleRadius":25,
+            "numRows": 100,
+            "numCols": 100,
+            "xMin": 30,
+            "xMax": 770,
+            "yMin": 30,
+            "yMax": 570,
+            "numCircles": 50
+        },
+        "3": {
+            "circleRadius":10,
+            "numRows": 100,
+            "numCols": 100,
+            "xMin": 15,
+            "xMax": 785,
+            "yMin": 15,
+            "yMax": 585,
+            "numCircles": 50
+        }
+    }
+}

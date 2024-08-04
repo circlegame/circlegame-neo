@@ -97,6 +97,12 @@ function GamemodeBar() {
                 >
                   Mini
                 </GamemodeButton>
+                <GamemodeButton
+                  className={gamemode.type === "Wave" ? "active" : ""}
+                  onClick={() => changeGamemode("Gridshot", "Wave")}
+                >
+                  Wave
+                </GamemodeButton>
 
               </GamemodeDataButtons>
             </>
