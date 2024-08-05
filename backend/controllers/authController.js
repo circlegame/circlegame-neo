@@ -99,12 +99,14 @@ exports.login = async (req, res) => {
         res.cookie('accessToken', accessToken, {
             httpOnly: true,
             secure: true, //process.env.NODE_ENV === 'production'
-            sameSite: "Strict"
+            sameSite: "Strict",
+            maxAge: 24 * 60 * 60 * 1000 // 1 day
         });
         res.cookie('refreshToken', refreshToken, {
             httpOnly: true,
             secure: true, //process.env.NODE_ENV === 'production',
-            sameSite: "Strict"
+            sameSite: "Strict",
+            maxAge: 30 * 24 * 60 * 60 * 1000 // 30 days
         });
         return res.status(200).json({ message: 'Logged in successfully' });
     } catch (err) {
@@ -133,12 +135,14 @@ exports.refresh = (req, res) => {
         res.cookie('accessToken', newAccessToken, {
             httpOnly: true,
             secure: true,
-            sameSite: 'Strict'
+            sameSite: 'Strict',
+            maxAge: 24 * 60 * 60 * 1000 // 1 day
         });
         res.cookie('refreshToken', newRefreshToken, {
             httpOnly: true,
             secure: true,
-            sameSite: 'Strict'
+            sameSite: 'Strict',
+            maxAge: 30 * 24 * 60 * 60 * 1000 // 30 days
         });
 
         res.json({ message: 'Token refreshed' });
