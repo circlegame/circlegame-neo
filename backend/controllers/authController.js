@@ -99,20 +99,25 @@ exports.login = async (req, res) => {
         res.cookie('accessToken', accessToken, {
             httpOnly: true,
             secure: true, //process.env.NODE_ENV === 'production'
-            sameSite: "Strict"
+            sameSite: "Strict",
+            maxAge: 24 * 60 * 60 * 1000 // 1 day
         });
         res.cookie('refreshToken', refreshToken, {
             httpOnly: true,
             secure: true, //process.env.NODE_ENV === 'production',
-            sameSite: "Strict"
+            sameSite: "Strict",
+            maxAge: 30 * 24 * 60 * 60 * 1000 // 30 days
         });
-        return res.status(200).json({ message: 'Logged in successfully' });
+        return res.status(200).json({ 
+            message: 'Logged in successfully',
+            usernameDisplay: user.usernameDisplay
+        });
     } catch (err) {
         res.status(500).json({ message: 'Login failed' });
     }
 };
 
-exports.refresh = (req, res) => {
+exports.refresh = async (req, res) => {
     const { refreshToken } = req.cookies;
 
     if (!refreshToken) {
@@ -122,6 +127,13 @@ exports.refresh = (req, res) => {
     try {
         // Verify and decode refresh token
         const decoded = jwt.verify(refreshToken, process.env.REFRESH_SECRET);
+
+        // Fetch user from data base to return display name
+        const user = await User.findById(decoded.userId);
+
+        if (!user){
+            return res.status(401).json({ message: 'User not found' });
+        }
 
         // Create new access token
         const newAccessToken = jwt.sign({ userId: decoded.userId }, process.env.JWT_SECRET, { expiresIn: '1d' });
@@ -133,15 +145,20 @@ exports.refresh = (req, res) => {
         res.cookie('accessToken', newAccessToken, {
             httpOnly: true,
             secure: true,
-            sameSite: 'Strict'
+            sameSite: 'Strict',
+            maxAge: 24 * 60 * 60 * 1000 // 1 day
         });
         res.cookie('refreshToken', newRefreshToken, {
             httpOnly: true,
             secure: true,
-            sameSite: 'Strict'
+            sameSite: 'Strict',
+            maxAge: 30 * 24 * 60 * 60 * 1000 // 30 days
         });
 
-        res.json({ message: 'Token refreshed' });
+        res.status(200).json({ 
+            message: 'Token refreshed',
+            usernameDisplay: user.usernameDisplay
+        });
     } catch (err) {
         res.status(401).json({ message: 'Refresh token is expired or invalid' });
     }

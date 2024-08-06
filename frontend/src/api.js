@@ -25,7 +25,11 @@ export const login = (identifier, password) => API.post(
     }
 );
 
+// Logout (deletes cookies)
 export const logout = () => API.post('/auth/logout');
+
+// Refresh jwt tokens in cookies
+export const authRefresh = () => API.post('/auth/refresh');
 
 // Submit score
 export const submitScore = (gamemode, score, hits, misses, misclicks) => API.post(

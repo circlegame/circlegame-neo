@@ -33,22 +33,26 @@ function Login() {
             const response = await login(loginFormData.identifier, loginFormData.password);
             authDispatch({
                 type: 'LOGIN',
-                payload: loginFormData.identifier
+                payload: response.data.usernameDisplay
             });
             menuDispatch({
                 type: 'CLOSE_POPUP'
             });
             menuDispatch({
                 type: 'SHOW_ALERT',
-                payload: {type: 'success',
-                          message: 'Login Successful!' }
-            })
+                payload: {
+                    type: 'success',
+                    message: 'Login Successful!' 
+                }
+            });
         } catch (error) {
             menuDispatch({
                 type: 'SHOW_ALERT',
-                payload: {type: 'error',
-                          message: error.response.data.message }
-            })
+                payload: {
+                    type: 'error',
+                    message: error.response.data.message 
+                }
+            });
         }
     };
 
