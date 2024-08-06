@@ -21,9 +21,10 @@ function App() {
         const refreshAuthToken = async () => {
             try{
                 const response = await authRefresh();
+                console.log(response);
                 authContext.authDispatch({
                     type: 'LOGIN',
-                    payload: 'test username'
+                    payload: response.data.usernameDisplay
                 });
                 menuContext.menuDispatch({
                     type: 'SHOW_ALERT',
