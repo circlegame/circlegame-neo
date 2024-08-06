@@ -20,12 +20,15 @@ function App() {
     useEffect(async () => {
         const refreshAuthToken = async () => {
             try{
+                // Call refresh endpoint
                 const response = await authRefresh();
-                console.log(response);
+
+                // If here, successful, log user in
                 authContext.authDispatch({
                     type: 'LOGIN',
                     payload: response.data.usernameDisplay
                 });
+                // Show successful login alert popup
                 menuContext.menuDispatch({
                     type: 'SHOW_ALERT',
                     payload: {
@@ -34,6 +37,7 @@ function App() {
                     }
                 });
             } catch (error) {
+                // If here, refresh failed, open login popup
                 menuContext.menuDispatch({
                     type: 'OPEN_POPUP',
                     payload: 'login'
