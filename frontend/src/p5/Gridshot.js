@@ -131,16 +131,6 @@ export const Gridshot = (p, gamemode, context) => {
                     }
                 }
 
-                // Update ingame stats
-                context.dispatch({
-                    type: 'SET_INGAME_STATS', 
-                    payload: {
-                        hits: hits, 
-                        misses: 0, 
-                        misclicks: totalClicks - hits
-                    }
-                });
-
                 break;
 //
 //
@@ -204,6 +194,7 @@ export const Gridshot = (p, gamemode, context) => {
                 }
                 totalClicks++;
                 dataCollector.addFrameMousePressed(p.frameCount, circleClickedId);
+                updateGameStats();
                 break;
         }
 
@@ -243,6 +234,18 @@ export const Gridshot = (p, gamemode, context) => {
                 }
             });
         }
+    }
+
+    function updateGameStats(){
+        // Update ingame stats
+        context.dispatch({
+            type: 'SET_INGAME_STATS', 
+            payload: {
+                hits: hits, 
+                misses: 0, 
+                misclicks: totalClicks - hits
+            }
+        });
     }
 }
 

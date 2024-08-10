@@ -122,6 +122,7 @@ export const CirclefallWave = (p, gamemode, context) => {
                         circles.splice(i, 1);
                         i--;
                         misses++;
+                        updateGameStats();
                     }
                 }
 
@@ -181,16 +182,6 @@ export const CirclefallWave = (p, gamemode, context) => {
                     }
                     
                 }
-
-                // Update ingame stats
-                context.dispatch({
-                    type: 'SET_INGAME_STATS', 
-                    payload: {
-                        hits: hits, 
-                        misses: misses, 
-                        misclicks: totalClicks - hits
-                    }
-                });
                 break;
 //
 //
@@ -241,6 +232,7 @@ export const CirclefallWave = (p, gamemode, context) => {
                 }
                 totalClicks++;
                 dataCollector.addFrameMousePressed(p.frameCount, circleClickedId);
+                updateGameStats();
                 break;
         }
 
@@ -258,6 +250,18 @@ export const CirclefallWave = (p, gamemode, context) => {
                 }
             });
         }
+    }
+
+    function updateGameStats(){
+        // Update ingame stats
+        context.dispatch({
+            type: 'SET_INGAME_STATS', 
+            payload: {
+                hits: hits, 
+                misses: misses, 
+                misclicks: totalClicks - hits
+            }
+        });
     }
 }
 
