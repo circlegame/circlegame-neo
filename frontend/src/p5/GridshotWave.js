@@ -18,6 +18,7 @@ export const GridshotWave = (p, gamemode, context) => {
     // Stats Variables
     let totalClicks;
     let hits;
+    let score;
 
     // Gamemode Data Variables
     let numRows;
@@ -72,6 +73,7 @@ export const GridshotWave = (p, gamemode, context) => {
         totalClicks = 0;
         hits = 0;
         totalCirclesSpawned = 0;
+        score = 150000;
 
         p.textAlign(p.CENTER);
     }
@@ -104,6 +106,15 @@ export const GridshotWave = (p, gamemode, context) => {
 //
 //
             case "ingame":
+
+                // Update score 10 times/s
+                if (p.frameCount % 6 === 0){
+                    context.dispatch({
+                        type: 'SET_SCORE',
+                        payload: score
+                    });
+                }
+                score -= 24;
 
                 for(let i = 0; i < circles.length; i++){
                     circles[i][0].draw();
@@ -174,6 +185,9 @@ export const GridshotWave = (p, gamemode, context) => {
                 }
                 totalClicks++;
                 dataCollector.addFrameMousePressed(p.frameCount, circleClickedId);
+                if (!circleClickedId){
+                    score -= 666;
+                }
                 if (circles.length <= 0){
                     // Go to next wave
                     if (waveNumber < maxWaves){
@@ -268,7 +282,7 @@ export const GridshotWave = (p, gamemode, context) => {
                 hits: hits, 
                 misses: 0, 
                 misclicks: totalClicks - hits,
-                score: hits - (totalClicks - hits)
+                score: score
             }
         });
     }
