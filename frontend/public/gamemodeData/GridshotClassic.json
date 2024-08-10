@@ -6,5 +6,9 @@
     "yMin": 100,
     "yMax": 500,
     "numCircles": 3,
-    "circleRadius": 45
+    "circleRadius": 45,
+    "scoring": {
+        "scorePerHit": 637,
+        "scorePerMiss": -123
+    }
 }

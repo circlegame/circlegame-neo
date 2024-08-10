@@ -16,8 +16,9 @@ export const Gridshot = (p, gamemode, context) => {
     // Stats Variables
     let totalClicks;
     let hits;
+    let score;
 
-    // Gamemode Data Variables
+    // General Gamemode Data Variables
     let numRows;
     let numCols;
     let xMin;
@@ -26,6 +27,10 @@ export const Gridshot = (p, gamemode, context) => {
     let yMax;
     let numCircles;
     let circleRadius;
+
+    // Scoring Gamemode Data Variables
+    let scorePerHit;
+    let scorePerMiss;
 
     
     //-----------Preload-----------//
@@ -49,6 +54,10 @@ export const Gridshot = (p, gamemode, context) => {
         numCircles = gamemodeData["numCircles"];
         circleRadius = gamemodeData["circleRadius"];
 
+        let scoringData = gamemodeData["scoring"];
+        scorePerHit = scoringData["scorePerHit"];
+        scorePerMiss = scoringData["scorePerMiss"];
+
         // Initialize Grid
         grid = new Grid(numRows, numCols, xMin, xMax, yMin, yMax);
         circles = [];
@@ -63,6 +72,7 @@ export const Gridshot = (p, gamemode, context) => {
 
         totalClicks = 0;
         hits = 0;
+        score = 0;
         totalCirclesSpawned = 0;
 
         p.textAlign(p.CENTER);
@@ -121,7 +131,7 @@ export const Gridshot = (p, gamemode, context) => {
                         payload: gameState 
                     });
                     try{
-                        let response = submitScore(gamemode, hits-(totalClicks-hits), hits, 0, totalClicks-hits);
+                        let response = submitScore(gamemode, score, hits, 0, totalClicks-hits);
                         // if (!response.ok){
                         //     throw new Error(`HTTP error! Status: ${response.status}`);
                         // }
@@ -194,6 +204,11 @@ export const Gridshot = (p, gamemode, context) => {
                 }
                 totalClicks++;
                 dataCollector.addFrameMousePressed(p.frameCount, circleClickedId);
+                if (circleClickedId){
+                    score += scorePerHit;
+                } else{
+                    score += scorePerMiss;
+                }
                 updateGameStats();
                 break;
         }
@@ -244,7 +259,7 @@ export const Gridshot = (p, gamemode, context) => {
                 hits: hits, 
                 misses: 0, 
                 misclicks: totalClicks - hits,
-                score: hits - (totalClicks - hits)
+                score: score
             }
         });
     }
