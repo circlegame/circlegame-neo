@@ -7,6 +7,7 @@ import p5 from 'p5';
 import { Circlefall } from './../p5/Circlefall';
 import { Gridshot } from './../p5/Gridshot';
 import { CirclefallWave } from '../p5/CirclefallWave';
+import { GridshotWave } from '../p5/GridshotWave';
 
 const P5Wrapper = () => {
   // Use context to get all variables from the sketch and menu
@@ -39,6 +40,7 @@ const P5Wrapper = () => {
       Gridshot: {
           Classic: { sketch: Gridshot, filePath: "GridshotClassic" },
           Mini: { sketch: Gridshot, filePath: "GridshotMini" },
+          Wave: { sketch: GridshotWave, filePath: "GridshotWave" },
           default: { sketch: Gridshot, filePath: "GridshotClassic" }
       },
       default: { sketch: Circlefall, filePath: "CirclefallNormal" }
@@ -83,7 +85,7 @@ const P5Wrapper = () => {
      
         {gameContext.gameState === 'ingame' ? (
           <StatsOverlay>
-            Score {gameContext.hits - gameContext.misses - gameContext.misclicks}
+            Score {gameContext.score}
             &emsp;
             Hit {gameContext.hits}
             &emsp;

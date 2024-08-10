@@ -259,7 +259,8 @@ export const CirclefallWave = (p, gamemode, context) => {
             payload: {
                 hits: hits, 
                 misses: misses, 
-                misclicks: totalClicks - hits
+                misclicks: totalClicks - hits,
+                score: hits - (totalClicks - hits)
             }
         });
     }
