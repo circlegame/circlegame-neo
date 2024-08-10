@@ -221,7 +221,7 @@ export const GridshotWave = (p, gamemode, context) => {
                             payload: gameState 
                         });
                         try{
-                            let response = submitScore(gamemode, hits-(totalClicks-hits), hits, 0, totalClicks-hits);
+                            let response = submitScore(gamemode, score, hits, 0, totalClicks-hits);
                             // if (!response.ok){
                             //     throw new Error(`HTTP error! Status: ${response.status}`);
                             // }

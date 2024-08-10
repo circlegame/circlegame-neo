@@ -51,6 +51,7 @@ function Leaderboard() {
                 <option value="CirclefallMarathon">circlefall marathon</option>
                 <option value="GridshotClassic">gridshot classic</option>
                 <option value="GridshotMini">gridshot mini</option>
+                <option value="GridshotWave">gridshot wave</option>
             </Dropdown>
 
             <Divider/>

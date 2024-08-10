@@ -8,6 +8,7 @@ const CRON_SCHEDULE = '*/1 * * * *';
 const gamemodes = [
     'GridshotClassic',
     'GridshotMini',
+    'GridshotWave',
     'CirclefallImpossible',
     'CirclefallMarathon'
 ]
