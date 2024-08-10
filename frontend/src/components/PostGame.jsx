@@ -2,24 +2,24 @@ import React, { useContext } from 'react';
 import { GamemodeContext } from '../context/GamemodeContext';
 
 function PostGame() {
-  const { gameState, hits, misses, misclicks, gamemodeDispatch } = useContext(GamemodeContext);
+  const gameContext = useContext(GamemodeContext);
 
   const handleReset = () => {
-    gamemodeDispatch({type: 'RESET_GAME'});
+    gameContext.gamemodeDispatch({type: 'RESET_GAME'});
   };
 
   return (
     <>
-      {gameState === 'endgame' && (
+      {gameContext.gameState === 'endgame' && (
         <div style={{display: 'block'}}>
           <div>
-            Score: {hits-misses-misclicks}
+            Score: {gameContext.score}
             &emsp;
-            Hits: {hits}
+            Hits: {gameContext.hits}
             &emsp;
-            Misses: {misses}
+            Misses: {gameContext.misses}
             &emsp;
-            Misclicks: {misclicks}
+            Misclicks: {gameContext.misclicks}
           </div>
           <button onClick={handleReset}>Home</button>
         </div>

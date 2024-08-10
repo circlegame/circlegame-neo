@@ -85,7 +85,7 @@ const P5Wrapper = () => {
      
         {gameContext.gameState === 'ingame' ? (
           <StatsOverlay>
-            Score {gameContext.hits - gameContext.misses - gameContext.misclicks}
+            Score {gameContext.score}
             &emsp;
             Hit {gameContext.hits}
             &emsp;
