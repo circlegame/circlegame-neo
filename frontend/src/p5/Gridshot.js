@@ -243,7 +243,8 @@ export const Gridshot = (p, gamemode, context) => {
             payload: {
                 hits: hits, 
                 misses: 0, 
-                misclicks: totalClicks - hits
+                misclicks: totalClicks - hits,
+                score: hits - (totalClicks - hits)
             }
         });
     }
