@@ -31,6 +31,7 @@ export const Gridshot = (p, gamemode, context) => {
     // Scoring Gamemode Data Variables
     let scorePerHit;
     let scorePerMiss;
+    let precisionBonus;
 
     
     //-----------Preload-----------//
@@ -57,6 +58,7 @@ export const Gridshot = (p, gamemode, context) => {
         let scoringData = gamemodeData["scoring"];
         scorePerHit = scoringData["scorePerHit"];
         scorePerMiss = scoringData["scorePerMiss"];
+        precisionBonus = scoringData["precisionBonus"]
 
         // Initialize Grid
         grid = new Grid(numRows, numCols, xMin, xMax, yMin, yMax);
@@ -131,7 +133,7 @@ export const Gridshot = (p, gamemode, context) => {
                         payload: gameState 
                     });
                     try{
-                        let response = submitScore(gamemode, score, hits, 0, totalClicks-hits);
+                        let response = submitScore(gamemode, p.int(score), hits, 0, totalClicks-hits);
                         // if (!response.ok){
                         //     throw new Error(`HTTP error! Status: ${response.status}`);
                         // }
@@ -183,6 +185,8 @@ export const Gridshot = (p, gamemode, context) => {
 //
             case "ingame":
                 let circleClickedId = null;
+                let circleX;
+                let circleY;
                 for(let i = circles.length-1; i >= 0; i--){
                     if (circles[i][0].isMouseHovering(p.mouseX, p.mouseY)){
                         // Set grid value to unoccupied
@@ -191,13 +195,16 @@ export const Gridshot = (p, gamemode, context) => {
 
                         circleClickedId = circles[i][0].id;
                         dataCollector.addCircleDeath(circleClickedId, p.frameCount);
+
+                        circleX = circles[i][0].x;
+                        circleY = circles[i][0].y;
         
                         // Remove circle from list
                         circles.splice(i,1);
         
                         // Add new circle to grid
                         addNewCircle();
-                        grid.setPointNotOccupied(row, col)
+                        grid.setPointNotOccupied(row, col);
                         hits++;
                         break;
                     }
@@ -206,6 +213,7 @@ export const Gridshot = (p, gamemode, context) => {
                 dataCollector.addFrameMousePressed(p.frameCount, circleClickedId);
                 if (circleClickedId){
                     score += scorePerHit;
+                    score += calculatePrecisionBonus(p.mouseX, p.mouseY, circleX, circleY);
                 } else{
                     score += scorePerMiss;
                 }
@@ -259,9 +267,14 @@ export const Gridshot = (p, gamemode, context) => {
                 hits: hits, 
                 misses: 0, 
                 misclicks: totalClicks - hits,
-                score: score
+                score: p.int(score)
             }
         });
+    }
+
+    function calculatePrecisionBonus(mouseX, mouseY, circleX, circleY){
+        let distFromCenter = Math.sqrt(Math.pow((circleX - mouseX), 2) + Math.pow((circleY - mouseY), 2));
+        return ((circleRadius-distFromCenter)/circleRadius) * precisionBonus;
     }
 }
 

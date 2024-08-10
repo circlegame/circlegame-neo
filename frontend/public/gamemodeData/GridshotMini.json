@@ -9,6 +9,7 @@
     "circleRadius": 10,
     "scoring": {
         "scorePerHit": 1333,
-        "scorePerMiss": -436
+        "scorePerMiss": -436,
+        "precisionBonus": 200
     }
 }
