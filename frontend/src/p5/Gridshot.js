@@ -27,6 +27,7 @@ export const Gridshot = (p, gamemode, context) => {
     let yMax;
     let numCircles;
     let circleRadius;
+    let taxicabRadius;
 
     // Scoring Gamemode Data Variables
     let scorePerHit;
@@ -54,11 +55,12 @@ export const Gridshot = (p, gamemode, context) => {
         yMax = gamemodeData["yMax"];
         numCircles = gamemodeData["numCircles"];
         circleRadius = gamemodeData["circleRadius"];
+        taxicabRadius = gamemodeData["taxicabRadius"];
 
         let scoringData = gamemodeData["scoring"];
         scorePerHit = scoringData["scorePerHit"];
         scorePerMiss = scoringData["scorePerMiss"];
-        precisionBonus = scoringData["precisionBonus"]
+        precisionBonus = scoringData["precisionBonus"];
 
         // Initialize Grid
         grid = new Grid(numRows, numCols, xMin, xMax, yMin, yMax);
@@ -228,7 +230,7 @@ export const Gridshot = (p, gamemode, context) => {
     function addNewCircle(){
         let row = p.int(p.random(0, numRows));
         let col = p.int(p.random(0, numCols));
-        while(grid.isPointOccupied(row, col)){
+        while(!isValidSpawnPoint(row, col)){
             row = p.int(p.random(0, numRows));
             col = p.int(p.random(0, numCols));
         }
@@ -275,6 +277,19 @@ export const Gridshot = (p, gamemode, context) => {
     function calculatePrecisionBonus(mouseX, mouseY, circleX, circleY){
         let distFromCenter = Math.sqrt(Math.pow((circleX - mouseX), 2) + Math.pow((circleY - mouseY), 2));
         return ((circleRadius-distFromCenter)/circleRadius) * precisionBonus;
+    }
+
+    function isValidSpawnPoint(row, col){
+        for (let i = row - taxicabRadius; i <= row + taxicabRadius; i++){
+            for (let j = col - taxicabRadius; j <= col + taxicabRadius; j++){
+                if (Math.abs(i-row) + Math.abs(j-col) <= taxicabRadius){
+                    if (grid.isPointOccupied(i, j)){
+                        return false;
+                    }
+                }
+            }
+        }
+        return true;
     }
 }
 

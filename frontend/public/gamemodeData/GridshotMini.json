@@ -7,6 +7,7 @@
     "yMax": 550,
     "numCircles": 5,
     "circleRadius": 10,
+    "taxicabRadius": 7,
     "scoring": {
         "scorePerHit": 1333,
         "scorePerMiss": -436,

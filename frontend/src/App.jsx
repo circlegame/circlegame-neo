@@ -17,7 +17,7 @@ function App() {
     const menuContext = useContext(MenuContext);
 
     // On app mounted, use refresh token
-    useEffect(async () => {
+    useEffect(() => {
         const refreshAuthToken = async () => {
             try{
                 // Call refresh endpoint
