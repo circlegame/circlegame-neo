@@ -53,7 +53,7 @@ function Signup() {
             <Header>register</Header>
             <RegisterForm autoComplete="off">
                 <RegisterFormInput
-                    type="text"
+                    type="email"
                     id="email"
                     value={registerFormData.email}
                     onChange={handleInputChange}
