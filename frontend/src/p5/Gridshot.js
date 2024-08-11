@@ -281,11 +281,10 @@ export const Gridshot = (p, gamemode, context) => {
 
     function isValidSpawnPoint(row, col){
         for (let i = row - taxicabRadius; i <= row + taxicabRadius; i++){
-            for (let j = col - taxicabRadius; j <= col + taxicabRadius; j++){
-                if (Math.abs(i-row) + Math.abs(j-col) <= taxicabRadius){
-                    if (grid.isPointOccupied(i, j)){
-                        return false;
-                    }
+            let rowsFromCenter = Math.abs(i - row);
+            for (let j = col - taxicabRadius + rowsFromCenter; j <= col + taxicabRadius - rowsFromCenter; j++){
+                if (grid.isPointOccupied(i, j)){
+                    return false;
                 }
             }
         }
