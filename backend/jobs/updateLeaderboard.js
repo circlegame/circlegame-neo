@@ -50,8 +50,6 @@ const updateLeaderboardForGamemode = async (gamemode) => {
         // Get the leaderboard with the pipeline
         const aggregationPipeline = getAggregationPipeline(gamemode);
         const result = await Score.aggregate(aggregationPipeline);
-
-        console.log(`Aggregation Result for ${gamemode}:`, result);
         
         let currentLeaderboard = await Leaderboard.findOne({ gamemode });
         if (!currentLeaderboard) {
@@ -65,7 +63,6 @@ const updateLeaderboardForGamemode = async (gamemode) => {
         }
 
         currentLeaderboard.save()
-        console.log(`Leaderboard for ${gamemode} updated successfully.`);
     } catch (err) {
         console.error(`Error running leaderboard update job for ${gamemode}:`, err);
     }
@@ -77,7 +74,7 @@ cron.schedule(CRON_SCHEDULE, async () => {
         for (const gamemode of gamemodes) {
             await updateLeaderboardForGamemode(gamemode);
         }
-        console.log('All leaderboards updated successfully.');
+        console.log('Leaderboard successfully updated at ' + new Date());
     } catch (err) {
         console.error('Error running leaderboard update job:', err);
     }
