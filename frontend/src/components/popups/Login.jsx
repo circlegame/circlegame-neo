@@ -1,11 +1,11 @@
 import React, { useState, useContext } from 'react';
 import { login } from '../../api';
 import { MenuContext } from '../../context/MenuContext';
-import { AuthContext } from '../../context/AuthContext';
+import { UserContext } from '../../context/UserContext';
 import styled from 'styled-components';
 
 function Login() {
-    const { authDispatch } = useContext(AuthContext);
+    const { userDispatch } = useContext(UserContext);
     const { menuDispatch } = useContext(MenuContext);
 
     const [loginFormData, setLoginFormData] = useState({
@@ -31,7 +31,7 @@ function Login() {
         e.preventDefault();
         try {
             const response = await login(loginFormData.identifier, loginFormData.password);
-            authDispatch({
+            userDispatch({
                 type: 'LOGIN',
                 payload: response.data.usernameDisplay
             });

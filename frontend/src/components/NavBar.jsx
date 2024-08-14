@@ -1,13 +1,13 @@
 import React, { useContext } from 'react';
 import { GamemodeContext } from '../context/GamemodeContext';
 import { MenuContext } from '../context/MenuContext';
-import { AuthContext } from '../context/AuthContext';
+import { UserContext } from '../context/UserContext';
 import styled from 'styled-components';
 
 function NavBar() {
     const { gameState, gamemodeDispatch } = useContext(GamemodeContext);
     const { menuDispatch } = useContext(MenuContext);
-    const { loggedin } = useContext(AuthContext);
+    const { loggedin } = useContext(UserContext);
 
     const handleLogoClick = () => {
         gamemodeDispatch({type: 'RESET_GAME'})

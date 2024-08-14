@@ -30,22 +30,22 @@ const initialState = {
 };
 
 // Context Creation
-export const AuthContext = createContext();
+export const UserContext = createContext();
 
 // Provider Component
 //  -   Components using this context are required to be wrapped in this component to receive the context state
-export const AuthProvider = ({ children }) => {
-    const [state, authDispatch] = useReducer(Reducer, initialState);
+export const UserProvider = ({ children }) => {
+    const [state, userDispatch] = useReducer(Reducer, initialState);
 
     return (
-        <AuthContext.Provider
+        <UserContext.Provider
             value={{
                 loggedin: state.loggedin,
                 username: state.username,
-                authDispatch
+                userDispatch
             }}
         >
             {children}
-        </AuthContext.Provider>
+        </UserContext.Provider>
     );
 }

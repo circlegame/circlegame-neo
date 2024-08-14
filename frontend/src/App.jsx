@@ -7,13 +7,13 @@ import PostGame from './components/PostGame';
 import Popup from './components/Popup';
 import Footer from './components/Footer';
 import { MenuContext } from './context/MenuContext';
-import { AuthContext } from './context/AuthContext';
+import { UserContext } from './context/UserContext';
 import { authRefresh } from './api';
 
 
 
 function App() {
-    const authContext = useContext(AuthContext);
+    const userContext = useContext(UserContext);
     const menuContext = useContext(MenuContext);
 
     // On app mounted, use refresh token
@@ -24,7 +24,7 @@ function App() {
                 const response = await authRefresh();
 
                 // If here, successful, log user in
-                authContext.authDispatch({
+                userContext.userDispatch({
                     type: 'LOGIN',
                     payload: response.data.usernameDisplay
                 });

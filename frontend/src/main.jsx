@@ -4,12 +4,12 @@ import App from './App.jsx'
 import './index.css'
 import { GamemodeProvider } from './context/GamemodeContext';
 import { MenuProvider } from './context/MenuContext';
-import { AuthProvider } from './context/AuthContext';
+import { UserProvider } from './context/UserContext';
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
-    <GamemodeProvider><MenuProvider><AuthProvider>
+    <GamemodeProvider><MenuProvider><UserProvider>
       <App />
-    </AuthProvider></MenuProvider></GamemodeProvider>
+    </UserProvider></MenuProvider></GamemodeProvider>
   </React.StrictMode>,
 )
