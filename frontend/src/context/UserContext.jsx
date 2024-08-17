@@ -17,7 +17,15 @@ export const Reducer = (state, action) => {
                 loggedin: false,
                 username: undefined
             }
-            
+        
+        case 'UPDATE_SETTING':
+            return{
+                ...state,
+                settings: {
+                    ...state.settings,
+                    [action.settingName]: action.payload
+                }
+            }
         default:
             return state;
     }
@@ -26,7 +34,10 @@ export const Reducer = (state, action) => {
 // Initial State
 const initialState = {
     loggedin: false,
-    username: undefined
+    username: undefined,
+    settings: {
+        hitSound: 'plop.wav',
+    }
 };
 
 // Context Creation
@@ -42,6 +53,7 @@ export const UserProvider = ({ children }) => {
             value={{
                 loggedin: state.loggedin,
                 username: state.username,
+                settings: state.settings,
                 userDispatch
             }}
         >
