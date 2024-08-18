@@ -1,9 +1,11 @@
 import React, { useRef, useEffect, useContext } from 'react';
 import { GamemodeContext } from '../context/GamemodeContext';
+import { UserContext } from '../context/UserContext';
 import { MenuContext } from '../context/MenuContext';
 import styled from 'styled-components';
 
 import p5 from 'p5';
+
 import { Circlefall } from './../p5/Circlefall';
 import { Gridshot } from './../p5/Gridshot';
 import { CirclefallWave } from '../p5/CirclefallWave';
@@ -12,6 +14,7 @@ import { GridshotWave } from '../p5/GridshotWave';
 const P5Wrapper = () => {
   // Use context to get all variables from the sketch and menu
   const gameContext = useContext(GamemodeContext);
+  const userContext = useContext(UserContext);
   const { popup } = useContext(MenuContext);
 
   // Create a ref to store the DOM node for the p5.js sketch
@@ -52,7 +55,12 @@ const P5Wrapper = () => {
     sketch = type.sketch;
     gamemodeDataFilePath = type.filePath;
 
-    const p5Instance = new p5((p) => sketch(p, gamemodeDataFilePath, {dispatch: gameContext.gamemodeDispatch, popupVisible: popup.visible}), sketchRef.current);
+    const p5Instance = new p5((p) => sketch(p, gamemodeDataFilePath,
+      {
+        dispatch: gameContext.gamemodeDispatch, 
+        popupVisible: popup.visible, 
+        hitSound: userContext.settings.hitSound
+      }), sketchRef.current);
 
     // Cleanup the p5.js instance when the component unmounts
     return () => {

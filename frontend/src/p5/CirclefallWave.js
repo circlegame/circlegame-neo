@@ -1,6 +1,7 @@
 import { Circle } from './p5components/Circle.js'
 import { DataCollector } from './p5components/DataCollector.js';
 import { submitScore } from '../api.js';
+import { Howl } from 'howler';
 
 export const CirclefallWave = (p, gamemode, context) => {
     // Sketch variables
@@ -15,6 +16,7 @@ export const CirclefallWave = (p, gamemode, context) => {
     let maxWaveCircles;
     let maxWaves;
     let lives;
+    let hitSound;
 
     // Stats variables
     let hits;
@@ -33,6 +35,11 @@ export const CirclefallWave = (p, gamemode, context) => {
         if (gamemode){
             gamemodeData = p.loadJSON("./gamemodeData/" + gamemode + ".json");
         } // Maybe raise error if this messes up or something
+        if (context.hitSound){
+            hitSound = new Howl({
+                src: ["./hitSounds/" + context.hitSound]
+            });
+        }
     }
 
     //--------------Setup-------------//
@@ -227,6 +234,10 @@ export const CirclefallWave = (p, gamemode, context) => {
                         hits++;
                         circleClickedId = circles[i].id;
                         circles.splice(i,1);
+                        
+                        if (hitSound) {
+                            hitSound.play();
+                        }
                         break;
                     }
                 }

@@ -2,6 +2,7 @@ import { Circle } from './p5components/Circle.js'
 import { Grid } from './p5components/Grid.js';
 import { DataCollector } from './p5components/DataCollector.js';
 import { submitScore } from '../api.js';
+import { Howl } from 'howler';
 
 export const GridshotWave = (p, gamemode, context) => {
     // Sketch variables
@@ -14,6 +15,7 @@ export const GridshotWave = (p, gamemode, context) => {
     let totalCirclesSpawned;
     let waveNumber;
     let maxWaves;
+    let hitSound;
 
     // Stats Variables
     let totalClicks;
@@ -30,13 +32,18 @@ export const GridshotWave = (p, gamemode, context) => {
     let numCircles;
     let circleRadius;
 
-    
+
     //-----------Preload-----------//
     let gamemodeData;
     p.preload = () => {
         if (gamemode){
             gamemodeData = p.loadJSON("./gamemodeData/" + gamemode + ".json");
         } // Maybe raise error if this messes up or something
+        if (context.hitSound){
+            hitSound = new Howl({
+                src: ["./hitSounds/" + context.hitSound]
+            });
+        }
     }
     
     //-------------Setup------------//
@@ -172,7 +179,11 @@ export const GridshotWave = (p, gamemode, context) => {
 
                         circleClickedId = circles[i][0].id;
                         dataCollector.addCircleDeath(circleClickedId, p.frameCount);
-        
+
+                        if (hitSound) {
+                            hitSound.play();
+                        }
+                        
                         // Remove circle from list
                         circles.splice(i,1);
         
