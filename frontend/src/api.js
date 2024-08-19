@@ -46,7 +46,7 @@ export const submitScore = (gamemode, score, hits, misses, misclicks) => API.pos
 )
 
 // Get scores by username
-export const getScoreByUsername = (username) => API.get('/scores/username/' + username);
+export const getScoresByUsername = (username) => API.get('/scores/username/' + username);
 
 // Get leaderboard
 export const getLeaderboard = (gamemode) => API.get('/leaderboard/gamemode/' + gamemode);
@@ -59,3 +59,6 @@ export const updateSettingAPI = (settingName, settingValue) => API.post(
         settingValue: settingValue
     } 
 );
+
+// Get settings by username
+export const getSettingsByUsername = (username) => API.get('settings/username/' + username);

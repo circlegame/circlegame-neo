@@ -26,7 +26,7 @@ exports.submitScore = async (req, res) => {
     }
 }
 
-exports.getScoreByUsername = async (req, res) => {
+exports.getScoresByUsername = async (req, res) => {
     try{
         const { username } = req.params;
 
