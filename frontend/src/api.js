@@ -50,3 +50,12 @@ export const getScoreByUsername = (username) => API.get('/scores/username/' + us
 
 // Get leaderboard
 export const getLeaderboard = (gamemode) => API.get('/leaderboard/gamemode/' + gamemode);
+
+// Update Setting
+export const updateSettingAPI = (settingName, settingValue) => API.post(
+    '/settings/update',
+    {
+        settingName: settingName,
+        settingValue: settingValue
+    } 
+);

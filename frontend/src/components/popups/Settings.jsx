@@ -1,6 +1,8 @@
 import React, { useContext } from 'react';
 import styled from 'styled-components';
 import { UserContext } from '../../context/UserContext';
+import { MenuContext } from '../../context/MenuContext';
+import { updateSettingAPI } from '../../api'; 
 
 // Define the hitSounds object
 const hitSounds = {
@@ -25,14 +27,29 @@ const hitSounds = {
 // Main component
 function Settings() {
 
-    const userContext = useContext(UserContext)
+    const userContext = useContext(UserContext);
+    const menuContext = useContext(MenuContext);
 
-    const updateSetting = (settingName, settingValue) => {
+    const updateSetting = async (settingName, settingValue) => {
         userContext.userDispatch({
             type: 'UPDATE_SETTING',
             settingName: settingName,
             payload: settingValue
         });
+        if (userContext.username){
+            try{
+                const response = await updateSettingAPI(settingName, settingValue);
+            } catch(error){
+                menuContext.menuDispatch({
+                    type: 'SHOW_ALERT',
+                    payload: {
+                        type: 'error',
+                        message: error.response.data.message 
+                    }
+                });
+            }
+            
+        }
     }
     return (
         <div>
