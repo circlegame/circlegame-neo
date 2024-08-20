@@ -8,7 +8,9 @@ export const Reducer = (state, action) => {
             return {
                 ...state,
                 loggedin: true,
-                username: action.payload
+                username: action.payload.username,
+                settings: action.payload.settings,
+                scores: action.payload.scores
             }
 
         case 'LOGOUT':
@@ -37,7 +39,8 @@ const initialState = {
     username: undefined,
     settings: {
         hitSound: 'plop.wav',
-    }
+    },
+    scores: []
 };
 
 // Context Creation

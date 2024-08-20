@@ -53,7 +53,7 @@ function Settings() {
     }
     return (
         <div>
-            <h1>Settings</h1>
+            <h1>settings</h1>
             <SoundsContainer>
                 <h2>Hit Sounds:</h2>
                 <SoundsGrid>
@@ -92,7 +92,7 @@ const SoundsGrid = styled.div`
 `;
 
 const SoundsButton = styled.div`
-    background-color: ${props => props.isActive ? '#ffcc00' : '#aaaaaa'};
+    background-color: ${props => props.isActive ? '#ffcc00' : '#444'};
     border: 1px solid ${props => props.isActive ? '#999900' : '#ccc'};
     border-radius: 0px;
     padding: 10px;
@@ -101,6 +101,6 @@ const SoundsButton = styled.div`
     transition: background-color 0.3s, border-color 0.3s;
 
     &:hover {
-        background-color: ${props => props.isActive ? '#ffcc00' : '#ddd'};
+        background-color: ${props => props.isActive ? '#ffcc00' : '#666'};
     }
 `;

@@ -7,9 +7,10 @@ exports.updateSetting = async (req, res) => {
 
         const updateUser = await User.findByIdAndUpdate(
             userId,
-            { $set: { [settingName]: settingValue} },
+            { $set: { [`settings.${settingName}`]: settingValue} },
             { new: true }
         );
+
         res.status(200).json({ message: 'Settings Update Success'});
     } catch(err){
         res.status(500).json({ message: 'Settings Update Failed'});
