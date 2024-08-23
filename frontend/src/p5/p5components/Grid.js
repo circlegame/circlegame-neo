@@ -16,7 +16,7 @@ class Grid {
     
     //------Utility------//
     isPointOccupied(row, col){
-        return this.grid[row][col].occupied;
+        return this.grid?.[row]?.[col]?.occupied ?? false;
     }
     setPointOccupied(row, col){
         this.grid[row][col].occupied = true;
