@@ -64,7 +64,7 @@ const P5Wrapper = () => {
   useEffect(() => {
     // Function to handle keypresses
     const handleKeyDown = (event) => {
-      if (event.key === 'Tab'){
+      if (event.key === 'Tab' && !popup.visible){
         event.preventDefault();
         handleReset();
       }
@@ -74,7 +74,7 @@ const P5Wrapper = () => {
     return () => {
       window.removeEventListener('keydown', handleKeyDown); // Remove listener
     };
-  }, []);
+  }, [popup.visible]);
 
   // Render a div that will be used as the container for the p5.js canvas
   return (
