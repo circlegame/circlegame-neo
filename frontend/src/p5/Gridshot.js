@@ -18,8 +18,9 @@ export const Gridshot = (p, gamemode, context) => {
     // Stats Variables
     let totalClicks;
     let hits;
+    let score;
 
-    // Gamemode Data Variables
+    // General Gamemode Data Variables
     let numRows;
     let numCols;
     let xMin;
@@ -28,6 +29,12 @@ export const Gridshot = (p, gamemode, context) => {
     let yMax;
     let numCircles;
     let circleRadius;
+    let taxicabRadius;
+
+    // Scoring Gamemode Data Variables
+    let scorePerHit;
+    let scorePerMiss;
+    let precisionBonus;
 
     
     //-----------Preload-----------//
@@ -55,6 +62,12 @@ export const Gridshot = (p, gamemode, context) => {
         yMax = gamemodeData["yMax"];
         numCircles = gamemodeData["numCircles"];
         circleRadius = gamemodeData["circleRadius"];
+        taxicabRadius = gamemodeData["taxicabRadius"];
+
+        let scoringData = gamemodeData["scoring"];
+        scorePerHit = scoringData["scorePerHit"];
+        scorePerMiss = scoringData["scorePerMiss"];
+        precisionBonus = scoringData["precisionBonus"];
 
         // Initialize Grid
         grid = new Grid(numRows, numCols, xMin, xMax, yMin, yMax);
@@ -70,6 +83,7 @@ export const Gridshot = (p, gamemode, context) => {
 
         totalClicks = 0;
         hits = 0;
+        score = 0;
         totalCirclesSpawned = 0;
 
         p.textAlign(p.CENTER);
@@ -128,7 +142,7 @@ export const Gridshot = (p, gamemode, context) => {
                         payload: gameState 
                     });
                     try{
-                        let response = submitScore(gamemode, hits-(totalClicks-hits), hits, 0, totalClicks-hits);
+                        let response = submitScore(gamemode, p.int(score), hits, 0, totalClicks-hits);
                         // if (!response.ok){
                         //     throw new Error(`HTTP error! Status: ${response.status}`);
                         // }
@@ -180,6 +194,8 @@ export const Gridshot = (p, gamemode, context) => {
 //
             case "ingame":
                 let circleClickedId = null;
+                let circleX;
+                let circleY;
                 for(let i = circles.length-1; i >= 0; i--){
                     if (circles[i][0].isMouseHovering(p.mouseX, p.mouseY)){
                         // Set grid value to unoccupied
@@ -192,19 +208,28 @@ export const Gridshot = (p, gamemode, context) => {
                         if (hitSound) {
                             hitSound.play();
                         }
+                      
+                        circleX = circles[i][0].x;
+                        circleY = circles[i][0].y;
         
                         // Remove circle from list
                         circles.splice(i,1);
         
                         // Add new circle to grid
                         addNewCircle();
-                        grid.setPointNotOccupied(row, col)
+                        grid.setPointNotOccupied(row, col);
                         hits++;
                         break;
                     }
                 }
                 totalClicks++;
                 dataCollector.addFrameMousePressed(p.frameCount, circleClickedId);
+                if (circleClickedId){
+                    score += scorePerHit;
+                    score += calculatePrecisionBonus(p.mouseX, p.mouseY, circleX, circleY);
+                } else{
+                    score += scorePerMiss;
+                }
                 updateGameStats();
                 break;
         }
@@ -216,7 +241,7 @@ export const Gridshot = (p, gamemode, context) => {
     function addNewCircle(){
         let row = p.int(p.random(0, numRows));
         let col = p.int(p.random(0, numCols));
-        while(grid.isPointOccupied(row, col)){
+        while(!isValidSpawnPoint(row, col)){
             row = p.int(p.random(0, numRows));
             col = p.int(p.random(0, numCols));
         }
@@ -255,9 +280,26 @@ export const Gridshot = (p, gamemode, context) => {
                 hits: hits, 
                 misses: 0, 
                 misclicks: totalClicks - hits,
-                score: hits - (totalClicks - hits)
+                score: p.int(score)
             }
         });
+    }
+
+    function calculatePrecisionBonus(mouseX, mouseY, circleX, circleY){
+        let distFromCenter = Math.sqrt(Math.pow((circleX - mouseX), 2) + Math.pow((circleY - mouseY), 2));
+        return ((circleRadius-distFromCenter)/circleRadius) * precisionBonus;
+    }
+
+    function isValidSpawnPoint(row, col){
+        for (let i = row - taxicabRadius; i <= row + taxicabRadius; i++){
+            let rowsFromCenter = Math.abs(i - row);
+            for (let j = col - taxicabRadius + rowsFromCenter; j <= col + taxicabRadius - rowsFromCenter; j++){
+                if (grid.isPointOccupied(i, j)){
+                    return false;
+                }
+            }
+        }
+        return true;
     }
 }
 
