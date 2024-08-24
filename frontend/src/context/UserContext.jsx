@@ -39,6 +39,8 @@ const initialState = {
     username: undefined,
     settings: {
         hitSound: 'plop.wav',
+        masterVolume: 100,
+        hitSoundVolume: 50,
     },
     scores: []
 };

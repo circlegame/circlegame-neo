@@ -1,8 +1,10 @@
-import React, { useContext } from 'react';
+import React, { useContext, useCallback, useState } from 'react';
 import styled from 'styled-components';
+import ReactSlider from 'react-slider';
+import debounce from 'lodash.debounce';
 import { UserContext } from '../../context/UserContext';
 import { MenuContext } from '../../context/MenuContext';
-import { updateSettingAPI } from '../../api'; 
+import { updateSettingAPI } from '../../api';
 
 // Define the hitSounds object
 const hitSounds = {
@@ -30,6 +32,10 @@ function Settings() {
     const userContext = useContext(UserContext);
     const menuContext = useContext(MenuContext);
 
+    // For volume sliders, use intermediate state for better rendering (lodash.debounce lags ui, do that in background)
+    const [masterVolume, setMasterVolume] = useState(userContext.settings.masterVolume);
+    const [hitSoundVolume, setHitSoundVolume] = useState(userContext.settings.hitSoundVolume);
+
     const updateSetting = async (settingName, settingValue) => {
         userContext.userDispatch({
             type: 'UPDATE_SETTING',
@@ -51,9 +57,48 @@ function Settings() {
             
         }
     }
+
+    const debouncedUpdateSetting = useCallback(debounce(async (settingName, settingValue) => {
+        await updateSetting(settingName, settingValue);
+    }, 250), [userContext, menuContext]);
+
+
     return (
         <div>
             <h1>settings</h1>
+
+            <SliderContainer>
+                <label>Master Volume: {masterVolume}%</label>
+                <StyledSlider
+                    value={masterVolume}
+                    onChange={(value) => {
+                        setMasterVolume(value);
+                        debouncedUpdateSetting('masterVolume', value);
+                    }}
+                    min={0}
+                    max={100}
+                    thumbClassName="thumb"
+                    trackClassName="track"
+                />
+            </SliderContainer>
+
+            <SliderContainer>
+                <label>Hit Sound Volume: {hitSoundVolume}%</label>
+                <StyledSlider
+                    value={hitSoundVolume}
+                    onChange={(value) => {
+                        setHitSoundVolume(value);
+                        debouncedUpdateSetting('hitSoundVolume', value);
+                    }}
+                    min={0}
+                    max={100}
+                    thumbClassName="thumb"
+                    trackClassName="track"
+                />
+            </SliderContainer>
+            
+
+
             <SoundsContainer>
                 <h2>Hit Sounds:</h2>
                 <SoundsGrid>
@@ -102,5 +147,27 @@ const SoundsButton = styled.div`
 
     &:hover {
         background-color: ${props => props.isActive ? '#ffcc00' : '#666'};
+    }
+`;
+
+const SliderContainer = styled.div`
+    margin: 50px 50px;
+
+`;
+
+const StyledSlider = styled(ReactSlider)`
+    .track {
+        background: #ddd;
+        height: 4px;
+        margin-top: 10px;
+    }
+
+    .thumb {
+        background: #888;
+        height: 16px;
+        width: 16px;
+        border-radius: 50%;
+        cursor: grab;
+        margin-top: 4px;
     }
 `;
