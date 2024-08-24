@@ -25,6 +25,18 @@ const SettingsSchema = new mongoose.Schema({
         enum: validHitSounds,
         default: "plop.wav"
     },
+    masterVolume: {
+        type: Number,
+        default: 100,
+        min: 0,
+        max: 100
+    },
+    hitSoundVolume: {
+        type: Number,
+        default: 50,
+        min: 0,
+        max: 100
+    },
 });
 
 module.exports = SettingsSchema;

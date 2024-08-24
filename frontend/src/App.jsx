@@ -34,7 +34,7 @@ function App() {
                         settings: settingsResponse.data,
                         scores: scoresRepsonse.data
                     }
-                });;
+                });
 
                 // Show successful login alert popup
                 menuContext.menuDispatch({
