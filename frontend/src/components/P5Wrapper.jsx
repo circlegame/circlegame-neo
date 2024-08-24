@@ -59,7 +59,8 @@ const P5Wrapper = () => {
       {
         dispatch: gameContext.gamemodeDispatch, 
         popupVisible: popup.visible, 
-        hitSound: userContext.settings.hitSound
+        hitSound: userContext.settings.hitSound,
+        hitSoundVolume: (userContext.settings.masterVolume/100) * (userContext.settings.hitSoundVolume/100)
       }), sketchRef.current);
 
     // Cleanup the p5.js instance when the component unmounts
