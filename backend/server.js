@@ -30,6 +30,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use('/api/auth', require('./routes/authRoutes'));
 app.use('/api/scores', require('./routes/scoreRoutes'));
 app.use('/api/leaderboard', require('./routes/leaderboardRoutes'));
+app.use('/api/settings', require('./routes/settingsRoutes'));
 
 
 

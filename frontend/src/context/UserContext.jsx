@@ -8,7 +8,9 @@ export const Reducer = (state, action) => {
             return {
                 ...state,
                 loggedin: true,
-                username: action.payload
+                username: action.payload.username,
+                settings: action.payload.settings,
+                scores: action.payload.scores
             }
 
         case 'LOGOUT':
@@ -17,7 +19,15 @@ export const Reducer = (state, action) => {
                 loggedin: false,
                 username: undefined
             }
-            
+        
+        case 'UPDATE_SETTING':
+            return{
+                ...state,
+                settings: {
+                    ...state.settings,
+                    [action.settingName]: action.payload
+                }
+            }
         default:
             return state;
     }
@@ -26,26 +36,31 @@ export const Reducer = (state, action) => {
 // Initial State
 const initialState = {
     loggedin: false,
-    username: undefined
+    username: undefined,
+    settings: {
+        hitSound: 'plop.wav',
+    },
+    scores: []
 };
 
 // Context Creation
-export const AuthContext = createContext();
+export const UserContext = createContext();
 
 // Provider Component
 //  -   Components using this context are required to be wrapped in this component to receive the context state
-export const AuthProvider = ({ children }) => {
-    const [state, authDispatch] = useReducer(Reducer, initialState);
+export const UserProvider = ({ children }) => {
+    const [state, userDispatch] = useReducer(Reducer, initialState);
 
     return (
-        <AuthContext.Provider
+        <UserContext.Provider
             value={{
                 loggedin: state.loggedin,
                 username: state.username,
-                authDispatch
+                settings: state.settings,
+                userDispatch
             }}
         >
             {children}
-        </AuthContext.Provider>
+        </UserContext.Provider>
     );
 }

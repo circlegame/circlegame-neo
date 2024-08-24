@@ -1,11 +1,11 @@
 import React, { useState, useContext } from 'react';
-import { login } from '../../api';
+import { login, getScoresByUsername, getSettingsByUsername } from '../../api';
 import { MenuContext } from '../../context/MenuContext';
-import { AuthContext } from '../../context/AuthContext';
+import { UserContext } from '../../context/UserContext';
 import styled from 'styled-components';
 
 function Login() {
-    const { authDispatch } = useContext(AuthContext);
+    const { userDispatch } = useContext(UserContext);
     const { menuDispatch } = useContext(MenuContext);
 
     const [loginFormData, setLoginFormData] = useState({
@@ -30,11 +30,22 @@ function Login() {
     const handleLogin = async (e) => {
         e.preventDefault();
         try {
-            const response = await login(loginFormData.identifier, loginFormData.password);
-            authDispatch({
+            // Try to log user in
+            const loginResponse = await login(loginFormData.identifier, loginFormData.password);
+            // If here, log in successful
+            // Load user's scores and settings
+            const settingsResponse = await getSettingsByUsername(loginResponse.data.usernameDisplay.toLowerCase());
+            const scoresRepsonse = await getScoresByUsername(loginResponse.data.usernameDisplay.toLowerCase());
+
+            userDispatch({
                 type: 'LOGIN',
-                payload: response.data.usernameDisplay
+                payload: {
+                    username: loginResponse.data.usernameDisplay,
+                    settings: settingsResponse.data,
+                    scores: scoresRepsonse.data
+                }
             });
+            // Close popup 
             menuDispatch({
                 type: 'CLOSE_POPUP'
             });
@@ -45,12 +56,13 @@ function Login() {
                     message: 'Login Successful!' 
                 }
             });
+
         } catch (error) {
             menuDispatch({
                 type: 'SHOW_ALERT',
                 payload: {
                     type: 'error',
-                    message: error.response.data.message 
+                    message: error?.response?.data?.message 
                 }
             });
         }

@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const SettingsSchema = require('./Settings');
 
 const userSchema = new mongoose.Schema({
     username: {
@@ -19,7 +20,11 @@ const userSchema = new mongoose.Schema({
     password: {
         type: String,
         required: true
-    }
+    },
+    settings: {
+        type: SettingsSchema,
+        default: () => ({})
+    },
 });
 
 module.exports = mongoose.model('User', userSchema);
