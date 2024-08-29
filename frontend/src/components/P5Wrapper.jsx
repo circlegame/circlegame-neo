@@ -1,16 +1,20 @@
 import React, { useRef, useEffect, useContext } from 'react';
 import { GamemodeContext } from '../context/GamemodeContext';
+import { UserContext } from '../context/UserContext';
 import { MenuContext } from '../context/MenuContext';
 import styled from 'styled-components';
 
 import p5 from 'p5';
+
 import { Circlefall } from './../p5/Circlefall';
 import { Gridshot } from './../p5/Gridshot';
 import { CirclefallWave } from '../p5/CirclefallWave';
+import { GridshotWave } from '../p5/GridshotWave';
 
 const P5Wrapper = () => {
   // Use context to get all variables from the sketch and menu
   const gameContext = useContext(GamemodeContext);
+  const userContext = useContext(UserContext);
   const { popup } = useContext(MenuContext);
 
   // Create a ref to store the DOM node for the p5.js sketch
@@ -39,6 +43,7 @@ const P5Wrapper = () => {
       Gridshot: {
           Classic: { sketch: Gridshot, filePath: "GridshotClassic" },
           Mini: { sketch: Gridshot, filePath: "GridshotMini" },
+          Wave: { sketch: GridshotWave, filePath: "GridshotWave" },
           default: { sketch: Gridshot, filePath: "GridshotClassic" }
       },
       default: { sketch: Circlefall, filePath: "CirclefallNormal" }
@@ -50,7 +55,13 @@ const P5Wrapper = () => {
     sketch = type.sketch;
     gamemodeDataFilePath = type.filePath;
 
-    const p5Instance = new p5((p) => sketch(p, gamemodeDataFilePath, {dispatch: gameContext.gamemodeDispatch, popupVisible: popup.visible}), sketchRef.current);
+    const p5Instance = new p5((p) => sketch(p, gamemodeDataFilePath,
+      {
+        dispatch: gameContext.gamemodeDispatch, 
+        popupVisible: popup.visible, 
+        hitSound: userContext.settings.hitSound,
+        hitSoundVolume: (userContext.settings.masterVolume/100) * (userContext.settings.hitSoundVolume/100)
+      }), sketchRef.current);
 
     // Cleanup the p5.js instance when the component unmounts
     return () => {
@@ -62,7 +73,7 @@ const P5Wrapper = () => {
   useEffect(() => {
     // Function to handle keypresses
     const handleKeyDown = (event) => {
-      if (event.key === 'Tab'){
+      if (event.key === 'Tab' && !popup.visible){
         event.preventDefault();
         handleReset();
       }
@@ -72,7 +83,7 @@ const P5Wrapper = () => {
     return () => {
       window.removeEventListener('keydown', handleKeyDown); // Remove listener
     };
-  }, []);
+  }, [popup.visible]);
 
   // Render a div that will be used as the container for the p5.js canvas
   return (
@@ -83,7 +94,7 @@ const P5Wrapper = () => {
      
         {gameContext.gameState === 'ingame' ? (
           <StatsOverlay>
-            Score {gameContext.hits - gameContext.misses - gameContext.misclicks}
+            Score {gameContext.score}
             &emsp;
             Hit {gameContext.hits}
             &emsp;

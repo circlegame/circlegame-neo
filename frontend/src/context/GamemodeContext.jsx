@@ -30,9 +30,14 @@ export const Reducer = (state, action) => {
                 ...state,
                 hits: action.payload.hits,
                 misses: action.payload.misses,
-                misclicks: action.payload.misclicks
+                misclicks: action.payload.misclicks,
+                score: action.payload.score
             }
-
+        case 'SET_SCORE':
+            return {
+                ...state,
+                score: action.payload 
+            }
         case 'RESET_GAME':
             if (state.timerId) {
                 clearInterval(state.timerId);
@@ -65,6 +70,7 @@ const initialState = {
     hits: 0,
     misses: 0,
     misclicks: 0,
+    score: 0,
 };
 
 // Context Creation
@@ -85,6 +91,7 @@ export const GamemodeProvider = ({ children }) => {
                 hits: state.hits,
                 misses: state.misses,
                 misclicks: state.misclicks,
+                score: state.score,
                 gamemodeDispatch
             }}
         >

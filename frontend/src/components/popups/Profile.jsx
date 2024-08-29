@@ -1,10 +1,10 @@
 import React, { useContext } from 'react';
-import { AuthContext } from '../../context/AuthContext';
+import { UserContext } from '../../context/UserContext';
 import { MenuContext } from '../../context/MenuContext';
 import { logout } from '../../api';
 
 function Profile() {
-    const { username, authDispatch } = useContext(AuthContext);
+    const { username, userDispatch } = useContext(UserContext);
     const { menuDispatch } = useContext(MenuContext);
 
     // Logout
@@ -12,7 +12,7 @@ function Profile() {
         e.preventDefault();
         try {
             const response = await logout();
-            authDispatch({
+            userDispatch({
                 type: 'LOGOUT'
             })
             menuDispatch({
