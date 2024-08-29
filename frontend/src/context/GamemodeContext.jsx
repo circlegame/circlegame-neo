@@ -50,6 +50,7 @@ export const Reducer = (state, action) => {
                 hits: 0,
                 misses: 0,
                 misclicks: 0,
+                score: 0,
             }
             
         default:
