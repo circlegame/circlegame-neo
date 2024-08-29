@@ -41,7 +41,8 @@ export const GridshotWave = (p, gamemode, context) => {
         } // Maybe raise error if this messes up or something
         if (context.hitSound){
             hitSound = new Howl({
-                src: ["./hitSounds/" + context.hitSound]
+                src: ["./hitSounds/" + context.hitSound],
+                volume: context.hitSoundVolume
             });
         }
     }
