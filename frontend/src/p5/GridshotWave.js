@@ -267,7 +267,7 @@ export const GridshotWave = (p, gamemode, context) => {
         let ySpeed = 0;
         let color = p.color(255, 40, 40);
         let stroke = p.color(43);
-        let newCircle = new Circle(p, totalCirclesSpawned, x, y, xSpeed, ySpeed, circleRadius, color, stroke);
+        let newCircle = new Circle(p, totalCirclesSpawned+1, x, y, xSpeed, ySpeed, circleRadius, color, stroke);
         circles.push([newCircle, row, col]);
         dataCollector.addCircle(newCircle, p.frameCount);
         totalCirclesSpawned++;
