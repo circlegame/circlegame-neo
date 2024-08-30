@@ -52,7 +52,7 @@ function Signup() {
                 ...registerFormData,
                 new_password: '',
                 confirm_password: ''
-            })
+            });
             menuDispatch({
                 type: 'SHOW_ALERT',
                 payload: {
