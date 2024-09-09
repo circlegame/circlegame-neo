@@ -4,15 +4,15 @@ import { MenuContext } from '../../context/MenuContext';
 import { logout } from '../../api';
 
 function Profile() {
-    const { username, userDispatch } = useContext(UserContext);
+    const userContext = useContext(UserContext);
     const { menuDispatch } = useContext(MenuContext);
-
+    
     // Logout
     const handleLogout = async (e) => {
         e.preventDefault();
         try {
             const response = await logout();
-            userDispatch({
+            userContext.userDispatch({
                 type: 'LOGOUT'
             })
             menuDispatch({
@@ -36,7 +36,7 @@ function Profile() {
     return (
         <>
             <h1>profile</h1>
-            <p>{username}</p>
+            <p>{userContext.username}</p>
             <button onClick={handleLogout}>logout</button>
         </>
     );

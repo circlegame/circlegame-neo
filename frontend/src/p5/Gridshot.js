@@ -136,21 +136,28 @@ export const Gridshot = (p, gamemode, context) => {
                 
                 if (timer <= 0) {
                     gameState = "endgame";
-                    clearInterval(timerId)
+                    clearInterval(timerId);
                     // Update game state in context
                     context.dispatch({ 
                         type: 'SET_GAMESTATE',
                         payload: gameState 
                     });
-                    try{
-                        let response = submitScore(gamemode, p.int(score), hits, 0, totalClicks-hits);
-                        // if (!response.ok){
-                        //     throw new Error(`HTTP error! Status: ${response.status}`);
-                        // }
-                        // console.log("Submit Score Successful");
-                    }catch (error){
-                        console.log("Submit Score Failed:", error);
-                    }
+                    submitScore(gamemode, p.int(score), hits, 0, totalClicks-hits)
+                            .then(response => {
+                                context.userDispatch({
+                                    type: 'ADD_SCORE',
+                                    payload: {
+                                        hits: hits,
+                                        misses: 0,
+                                        misclicks: totalClicks-hits,
+                                        score: p.int(score), 
+                                        gamemode: gamemode,
+                                    }
+                                });
+                            })
+                            .catch(error => {
+                                console.log("Submit Score Failed");
+                            });
                 }
 
                 break;

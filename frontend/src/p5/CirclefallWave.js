@@ -179,15 +179,22 @@ export const CirclefallWave = (p, gamemode, context) => {
                         type: 'SET_GAMESTATE',
                         payload: gameState
                     });
-                    try{
-                        let response = submitScore(gamemode, hits-misses-(totalClicks-hits), hits, misses, totalClicks - hits);
-                        // if (!response.ok){
-                        //     throw new Error(`HTTP error! Status: ${response.status}`);
-                        // }
-                        // console.log("Submit Score Successful");
-                    }catch (error){
-                        console.log("Submit Score Failed:", error);
-                    }
+                    submitScore(gamemode, hits-misses-(totalClicks-hits), hits, misses, totalClicks - hits)
+                    .then(response => {
+                        context.userDispatch({
+                            type: 'ADD_SCORE',
+                            payload: {
+                                hits: hits,
+                                misses: misses,
+                                misclicks: totalClicks-hits,
+                                score: hits-misses-(totalClicks-hits), 
+                                gamemode: gamemode,
+                            }
+                        });
+                    })
+                    .catch(error => {
+                        console.log("Submit Score Failed");
+                    });   
                     
                 }
                 break;
