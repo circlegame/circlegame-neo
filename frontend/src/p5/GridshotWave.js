@@ -73,7 +73,7 @@ export const GridshotWave = (p, gamemode, context) => {
 
         gameState = "pregame";
         // Initialize game state in context
-        context.dispatch({
+        context.gamemodeDispatch({
             type: 'SET_GAMESTATE',
             payload: gameState
         });
@@ -104,7 +104,7 @@ export const GridshotWave = (p, gamemode, context) => {
                 if (timer <= 0) {
                     gameState = "ingame";
                     // Update game state in context
-                    context.dispatch({
+                    context.gamemodeDispatch({
                         type: 'SET_GAMESTATE',
                         payload: gameState
                     });
@@ -117,7 +117,7 @@ export const GridshotWave = (p, gamemode, context) => {
 
                 // Update score 10 times/s
                 if (p.frameCount % 6 === 0){
-                    context.dispatch({
+                    context.gamemodeDispatch({
                         type: 'SET_SCORE',
                         payload: score
                     });
@@ -149,7 +149,7 @@ export const GridshotWave = (p, gamemode, context) => {
                     // Initialize timer
                     timer = 3;
                     timerId = setInterval(handleTimer, 1000);
-                    context.dispatch({  
+                    context.gamemodeDispatch({  
                         type: 'SET_TIMER', 
                         payload: {
                             timer: timer, 
@@ -159,7 +159,10 @@ export const GridshotWave = (p, gamemode, context) => {
 
                     // Update game state
                     gameState = "countdown";
-                    context.dispatch({ type: 'SET_GAMESTATE', payload: gameState }); // Update game state in context
+                    context.gamemodeDispatch({  // Update game state in context
+                        type: 'SET_GAMESTATE', 
+                        payload: gameState 
+                    });
 
                     // Initialize circles
                     for(let i = 0; i < numCircles; i++){ 
@@ -228,7 +231,7 @@ export const GridshotWave = (p, gamemode, context) => {
                         gameState = "endgame";
                         clearInterval(timerId);
                         // Update game state in context
-                        context.dispatch({ 
+                        context.gamemodeDispatch({ 
                             type: 'SET_GAMESTATE',
                             payload: gameState 
                         });
@@ -284,7 +287,7 @@ export const GridshotWave = (p, gamemode, context) => {
     function handleTimer(){
         if (timer > 0) {
             timer--;
-            context.dispatch({
+            context.gamemodeDispatch({
                 type: 'SET_TIMER',
                 payload: {
                     timer: timer, 
@@ -296,7 +299,7 @@ export const GridshotWave = (p, gamemode, context) => {
 
     function updateGameStats(){
         // Update ingame stats
-        context.dispatch({
+        context.gamemodeDispatch({
             type: 'SET_INGAME_STATS', 
             payload: {
                 hits: hits, 

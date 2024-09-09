@@ -57,7 +57,7 @@ const P5Wrapper = () => {
 
     const p5Instance = new p5((p) => sketch(p, gamemodeDataFilePath,
       {
-        dispatch: gameContext.gamemodeDispatch,
+        gamemodeDispatch: gameContext.gamemodeDispatch,
         userDispatch: userContext.userDispatch, 
         popupVisible: popup.visible, 
         hitSound: userContext.settings.hitSound,
