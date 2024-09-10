@@ -21,6 +21,14 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: true
     },
+    dateJoined: {
+        type: Date,
+        default: Date.now
+    },
+    dateLastLoggedIn: {
+        type: Date,
+        default: null
+    },
     settings: {
         type: SettingsSchema,
         default: () => ({})
