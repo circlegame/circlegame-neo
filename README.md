@@ -1,9 +1,9 @@
-[![image](https://github.com/user-attachments/assets/365c3574-201b-434a-bc35-f15facf51e07)](https://www.circlegame.net/)
+[![image](https://github.com/user-attachments/assets/6cee2ecc-31cf-4b6a-bd36-77b4a2e16b0d)](https://www.circlegame.net/)
 <br />
 
 # About
 
-circlegame is a minimalistic 2D aim trainer. 
+A minimalistic, reflex-precision benchmark.
 
 # Bug report or Feature request
 
