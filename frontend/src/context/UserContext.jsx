@@ -17,7 +17,8 @@ export const Reducer = (state, action) => {
             return {
                 ...state,
                 loggedin: false,
-                username: undefined
+                username: undefined,
+                scores: [],
             }
         
         case 'UPDATE_SETTING':
@@ -27,6 +28,25 @@ export const Reducer = (state, action) => {
                     ...state.settings,
                     [action.settingName]: action.payload
                 }
+            }
+        case 'ADD_SCORE':
+            return{
+                ...state,
+                scores: [
+                    ...state.scores,
+                    {
+                        stats: {
+                            hits: action.payload.hits,
+                            misses: action.payload.misses,
+                            misclicks: action.payload.misclicks,
+                        },
+                        gamemode: action.payload.gamemode,
+                        score: action.payload.score,
+                        date: new Date().toISOString(),
+
+                    }
+                ]
+
             }
         default:
             return state;
@@ -59,6 +79,7 @@ export const UserProvider = ({ children }) => {
                 loggedin: state.loggedin,
                 username: state.username,
                 settings: state.settings,
+                scores: state.scores,
                 userDispatch
             }}
         >

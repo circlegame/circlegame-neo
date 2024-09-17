@@ -48,7 +48,7 @@ export const CirclefallWave = (p, gamemode, context) => {
         p.createCanvas(800, 600);
 
         gameState = "pregame";
-        context.dispatch({
+        context.gamemodeDispatch({
             type: 'SET_GAMESTATE',
             payload: gameState
         });
@@ -94,7 +94,7 @@ export const CirclefallWave = (p, gamemode, context) => {
                     circlesPerSecond = waveInfo["circlesPerSecond"];
 
                     gameState = "ingame";
-                    context.dispatch({
+                    context.gamemodeDispatch({
                         type: 'SET_GAMESTATE',
                         payload: gameState
                     });
@@ -139,7 +139,7 @@ export const CirclefallWave = (p, gamemode, context) => {
                 if (waveCirclesSpawned >= maxWaveCircles && circles.length === 0){
                     if (waveNumber >= maxWaves){
                         gameState = "endgame";
-                        context.dispatch({
+                        context.gamemodeDispatch({
                             type: 'SET_GAMESTATE',
                             payload: gameState
                         });
@@ -156,13 +156,13 @@ export const CirclefallWave = (p, gamemode, context) => {
                     else{
                         waveNumber++;
                         gameState = "countdown";
-                        context.dispatch({
+                        context.gamemodeDispatch({
                             type: 'SET_GAMESTATE',
                             payload: gameState
                         });
                         timer = 3;
                         timerId = setInterval(handleTimer, 1000);
-                        context.dispatch({
+                        context.gamemodeDispatch({
                             type: 'SET_TIMER',
                             payload: {
                                 timer: timer,
@@ -175,19 +175,26 @@ export const CirclefallWave = (p, gamemode, context) => {
 
                 if (misses >= lives){
                     gameState = "endgame";
-                    context.dispatch({
+                    context.gamemodeDispatch({
                         type: 'SET_GAMESTATE',
                         payload: gameState
                     });
-                    try{
-                        let response = submitScore(gamemode, hits-misses-(totalClicks-hits), hits, misses, totalClicks - hits);
-                        // if (!response.ok){
-                        //     throw new Error(`HTTP error! Status: ${response.status}`);
-                        // }
-                        // console.log("Submit Score Successful");
-                    }catch (error){
-                        console.log("Submit Score Failed:", error);
-                    }
+                    submitScore(gamemode, hits-misses-(totalClicks-hits), hits, misses, totalClicks - hits)
+                    .then(response => {
+                        context.userDispatch({
+                            type: 'ADD_SCORE',
+                            payload: {
+                                hits: hits,
+                                misses: misses,
+                                misclicks: totalClicks-hits,
+                                score: hits-misses-(totalClicks-hits), 
+                                gamemode: gamemode,
+                            }
+                        });
+                    })
+                    .catch(error => {
+                        console.log("Submit Score Failed");
+                    });   
                     
                 }
                 break;
@@ -210,7 +217,7 @@ export const CirclefallWave = (p, gamemode, context) => {
                 if (!(context.popupVisible) && p.mouseX > 0 && p.mouseX < 800 && p.mouseY > 0 && p.mouseY < 600){
                     timer = 3;
                     timerId = setInterval(handleTimer, 1000);
-                    context.dispatch({
+                    context.gamemodeDispatch({
                         type: 'SET_TIMER',
                         payload: {
                             timer: timer,
@@ -219,7 +226,7 @@ export const CirclefallWave = (p, gamemode, context) => {
                     });
 
                     gameState = "countdown";
-                    context.dispatch({
+                    context.gamemodeDispatch({
                         type: 'SET_GAMESTATE',
                         payload: gameState
                     });
@@ -254,7 +261,7 @@ export const CirclefallWave = (p, gamemode, context) => {
     function handleTimer(){
         if (timer > 0) {
             timer--;
-            context.dispatch({
+            context.gamemodeDispatch({
                 type: 'SET_TIMER',
                 payload: {
                     timer: timer,
@@ -266,7 +273,7 @@ export const CirclefallWave = (p, gamemode, context) => {
 
     function updateGameStats(){
         // Update ingame stats
-        context.dispatch({
+        context.gamemodeDispatch({
             type: 'SET_INGAME_STATS', 
             payload: {
                 hits: hits, 

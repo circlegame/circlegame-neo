@@ -77,7 +77,7 @@ export const Gridshot = (p, gamemode, context) => {
 
         gameState = "pregame";
         // Initialize game state in context
-        context.dispatch({
+        context.gamemodeDispatch({
             type: 'SET_GAMESTATE',
             payload: gameState
         });
@@ -107,7 +107,7 @@ export const Gridshot = (p, gamemode, context) => {
 
                 if (timer <= 0) {
                     timer = 30;
-                    context.dispatch({
+                    context.gamemodeDispatch({
                         type: 'SET_TIMER',
                         payload: {
                             timer: timer, 
@@ -117,7 +117,7 @@ export const Gridshot = (p, gamemode, context) => {
 
                     gameState = "ingame";
                     // Update game state in context
-                    context.dispatch({
+                    context.gamemodeDispatch({
                         type: 'SET_GAMESTATE',
                         payload: gameState
                     });
@@ -136,21 +136,28 @@ export const Gridshot = (p, gamemode, context) => {
                 
                 if (timer <= 0) {
                     gameState = "endgame";
-                    clearInterval(timerId)
+                    clearInterval(timerId);
                     // Update game state in context
-                    context.dispatch({ 
+                    context.gamemodeDispatch({ 
                         type: 'SET_GAMESTATE',
                         payload: gameState 
                     });
-                    try{
-                        let response = submitScore(gamemode, p.int(score), hits, 0, totalClicks-hits);
-                        // if (!response.ok){
-                        //     throw new Error(`HTTP error! Status: ${response.status}`);
-                        // }
-                        // console.log("Submit Score Successful");
-                    }catch (error){
-                        console.log("Submit Score Failed:", error);
-                    }
+                    submitScore(gamemode, p.int(score), hits, 0, totalClicks-hits)
+                            .then(response => {
+                                context.userDispatch({
+                                    type: 'ADD_SCORE',
+                                    payload: {
+                                        hits: hits,
+                                        misses: 0,
+                                        misclicks: totalClicks-hits,
+                                        score: p.int(score), 
+                                        gamemode: gamemode,
+                                    }
+                                });
+                            })
+                            .catch(error => {
+                                console.log("Submit Score Failed");
+                            });
                 }
 
                 break;
@@ -172,7 +179,7 @@ export const Gridshot = (p, gamemode, context) => {
                     // Initialize timer
                     timer = 3;
                     timerId = setInterval(handleTimer, 1000);
-                    context.dispatch({  
+                    context.gamemodeDispatch({  
                         type: 'SET_TIMER', 
                         payload: {
                             timer: timer, 
@@ -182,7 +189,10 @@ export const Gridshot = (p, gamemode, context) => {
 
                     // Update game state
                     gameState = "countdown";
-                    context.dispatch({ type: 'SET_GAMESTATE', payload: gameState }); // Update game state in context
+                    context.gamemodeDispatch({ // Update game state in context
+                        type: 'SET_GAMESTATE', 
+                        payload: gameState 
+                    }); 
 
                     // Initialize circles
                     for(let i = 0; i < numCircles; i++){ 
@@ -263,7 +273,7 @@ export const Gridshot = (p, gamemode, context) => {
     function handleTimer(){
         if (timer > 0) {
             timer--;
-            context.dispatch({
+            context.gamemodeDispatch({
                 type: 'SET_TIMER',
                 payload: {
                     timer: timer, 
@@ -275,7 +285,7 @@ export const Gridshot = (p, gamemode, context) => {
 
     function updateGameStats(){
         // Update ingame stats
-        context.dispatch({
+        context.gamemodeDispatch({
             type: 'SET_INGAME_STATS', 
             payload: {
                 hits: hits, 

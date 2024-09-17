@@ -31,7 +31,7 @@ exports.getScoresByUsername = async (req, res) => {
         const { username } = req.params;
 
         // Find scores by username
-        const scores = await Score.find({ username: username });
+        const scores = await Score.find({ username: username }).select('-_id -__v -username -usernameDisplay');
 
         res.status(200).json(scores);
     } catch (err) {

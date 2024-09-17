@@ -43,7 +43,7 @@ export const submitScore = (gamemode, score, hits, misses, misclicks) => API.pos
             misclicks: misclicks
         }
     }
-)
+);
 
 // Get scores by username
 export const getScoresByUsername = (username) => API.get('/scores/username/' + username);
