@@ -9,35 +9,59 @@ function Signup() {
     const [registerFormData, setRegisterFormData] = useState({
         username: '',
         email: '',
-        new_password: ''
-    })
+        new_password: '',
+        confirm_password: ''
+    });
 
     const handleInputChange = (e) => {
         const { id, value } = e.target;
-        setRegisterFormData({ ...registerFormData, [id]:value });
+        setRegisterFormData({
+            ...registerFormData, 
+            [id]:value 
+        });
     };
 
     // Register submition
     const handleRegister = async (e) => {
         e.preventDefault();
-        try {
-            const response = await register(registerFormData.email, registerFormData.username, registerFormData.new_password);
-            menuDispatch({
-                type: 'OPEN_POPUP',
-                payload: 'login'
-            })
+        if (registerFormData.new_password === registerFormData.confirm_password){
+            try {
+                const response = await register(registerFormData.email, registerFormData.username, registerFormData.new_password);
+                menuDispatch({
+                    type: 'OPEN_POPUP',
+                    payload: 'login'
+                });
+                menuDispatch({
+                    type: 'SHOW_ALERT',
+                    payload: {
+                        type: 'success',
+                        message: 'Registration Successful!' 
+                    }
+                });
+            } catch (error) {
+                menuDispatch({
+                    type: 'SHOW_ALERT',
+                    payload: {
+                        type: 'error',
+                        message: error.response.data.message 
+                    }
+                });
+            }   
+        } else {
+            setRegisterFormData({
+                ...registerFormData,
+                new_password: '',
+                confirm_password: ''
+            });
             menuDispatch({
                 type: 'SHOW_ALERT',
-                payload: {type: 'success',
-                          message: 'Registration Successful!' }
-            })
-        } catch (error) {
-            menuDispatch({
-                type: 'SHOW_ALERT',
-                payload: {type: 'error',
-                          message: error.response.data.message }
-            })
+                payload: {
+                    type: 'error',
+                    message: 'Passwords do not match, please try again'
+                }
+            });
         }
+        
     }
 
     // Switch between login/signup popups
@@ -45,7 +69,7 @@ function Signup() {
         menuDispatch({
             type: 'OPEN_POPUP',
             payload: 'login'
-        })
+        });
     }
 
     return (
@@ -81,7 +105,9 @@ function Signup() {
                 />
                 <RegisterFormInput
                     type="password"
-                    id="confirm-password"
+                    id="confirm_password"
+                    value={registerFormData.confirm_password}
+                    onChange={handleInputChange}
                     placeholder='confirm password'
                     autoComplete="off"
                     required
