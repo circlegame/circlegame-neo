@@ -91,6 +91,10 @@ exports.login = async (req, res) => {
         if (!isMatch) {
             return res.status(400).json({ message: 'Invalid credentials' });
         }
+
+        // Update the dateLastLoggedIn field to the current date and time
+        user.dateLastLoggedIn = new Date();
+        await user.save();
         
         // Create and return authorization token
         const accessToken = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, { expiresIn: '1d' });
@@ -134,6 +138,10 @@ exports.refresh = async (req, res) => {
         if (!user){
             return res.status(401).json({ message: 'User not found' });
         }
+
+        // Update the dateLastLoggedIn field to the current date and time
+        user.dateLastLoggedIn = new Date();
+        await user.save();
 
         // Create new access token
         const newAccessToken = jwt.sign({ userId: decoded.userId }, process.env.JWT_SECRET, { expiresIn: '1d' });
