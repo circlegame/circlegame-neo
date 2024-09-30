@@ -16,6 +16,12 @@ const isValidUsername = (username) => {
     return usernameRegex.test(username);
 };
 
+const isValidPassword = (password) => {
+    // Between 6 and 64 characters, must contain at least one letter, one number, and allow special characters
+    const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d!@#$%^&*()]{6,64}$/;
+    return passwordRegex.test(password);
+};
+
 
 exports.register = async (req, res) => {
     try {
@@ -32,6 +38,10 @@ exports.register = async (req, res) => {
             return res.status(400).json({ message: 'Invalid email format' });
         }
 
+        if (!isValidPassword(password)){
+            return res.status(400).json({ message: 'Invalid password: Must be 6-64 characters long, contain at least one letter and one number, and may include letters, numbers, and special characters (!@#$%^&*()).' });
+        }
+        
         // Check if username already exists
         const existingUserByUsername = await User.findOne({ username: username.toLowerCase() });
         if (existingUserByUsername){

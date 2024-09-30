@@ -50,7 +50,7 @@ const AlertContainer = styled.div`
     outline-width: 2px;
     max-width: 300px;
     position: absolute;
-    top: 90vh;
+    bottom: 10vh;
     left: 50%;
     transform: translateX(-50%);
     z-index: 1001;
